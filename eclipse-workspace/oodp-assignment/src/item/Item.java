@@ -2,76 +2,104 @@ package item;
 
 import java.io.Serializable;
 
-public class Item implements Serializable{
-	
-	private int id;
-	private String name;
-	private String description;
-	private float price;
-	
+public class Item implements Serializable {
+
+	private int itemID;
+	private String itemName;
+	private String itemDescription;
+	private float itemPrice;
+
 	/**
-	 * @param id
-	 * @param name
-	 * @param description
-	 * @param price
+	 * default constructor
 	 */
-	public Item(int id, String name, String description, float price) {
+	public Item() {
 		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.price = price;
 	}
 
 	/**
-	 * @return the id
+	 * @param itemName
+	 * @param itemDescription
+	 * @param itemPrice
 	 */
-	public int getId() {
-		return id;
+	public Item(String itemName, String itemDescription, float itemPrice) {
+		super();
+		this.itemName = itemName;
+		this.itemDescription = itemDescription;
+		this.itemPrice = itemPrice;
 	}
 
 	/**
-	 * @param id the id to set
+	 * @param itemID
+	 * @param itemName
+	 * @param itemDescription
+	 * @param itemPrice
 	 */
-	public void setId(int id) {
-		this.id = id;
+	public Item(int itemID, String itemName, String itemDescription, float itemPrice) {
+		super();
+		this.itemID = itemID;
+		this.itemName = itemName;
+		this.itemDescription = itemDescription;
+		this.itemPrice = itemPrice;
 	}
 
 	/**
-	 * @return the name
+	 * @return the itemID
 	 */
-	public String getName() {
-		return name;
+	public int getItemID() {
+		return itemID;
 	}
+
 	/**
-	 * @param name the name to set
+	 * @param itemID
+	 *            the itemID to set
 	 */
-	public void setName(String name) {
-		this.name = name;
+	public void setItemID(int itemID) {
+		this.itemID = itemID;
 	}
+
 	/**
-	 * @return the description
+	 * @return the itemName
 	 */
-	public String getDescription() {
-		return description;
+	public String getItemName() {
+		return itemName;
 	}
+
 	/**
-	 * @param description the description to set
+	 * @param itemName
+	 *            the itemName to set
 	 */
-	public void setDescription(String description) {
-		this.description = description;
+	public void setItemName(String itemName) {
+		this.itemName = itemName;
 	}
+
 	/**
-	 * @return the price
+	 * @return the itemDescription
 	 */
-	public float getPrice() {
-		return price;
+	public String getItemDescription() {
+		return itemDescription;
 	}
+
 	/**
-	 * @param price the price to set
+	 * @param itemDescription
+	 *            the itemDescription to set
 	 */
-	public void setPrice(float price) {
-		this.price = price;
+	public void setItemDescription(String itemDescription) {
+		this.itemDescription = itemDescription;
+	}
+
+	/**
+	 * @return the itemPrice
+	 */
+	public float getItemPrice() {
+		return itemPrice;
+	}
+
+	/**
+	 * @param itemPrice
+	 *            the itemPrice to set
+	 */
+	public void setItemPrice(float itemPrice) {
+		this.itemPrice = itemPrice;
 	}
 
 	/**
@@ -80,7 +108,14 @@ public class Item implements Serializable{
 	@Override
 	public int hashCode() {
 		// TODO Auto-generated method stub
-		return this.id;
+		return this.itemID;
+	}
+
+	/**
+	 * @return true if id is the same
+	 */
+	public boolean equals(int itemID) {
+		return (itemID == hashCode());
 	}
 
 	/**
@@ -89,9 +124,9 @@ public class Item implements Serializable{
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if(obj instanceof Item)
-			return ((Item) obj).name.equalsIgnoreCase(this.name);
-		
+		if (obj instanceof Item)
+			return (((Item) obj).getItemName().equalsIgnoreCase(this.itemName));
+
 		else
 			return false;
 	}
@@ -102,9 +137,7 @@ public class Item implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return this.id+". "+this.name+"\n   Price:"+this.price;
+		return this.itemID + ". " + this.itemName + "\n   Price:" + this.itemPrice;
 	}
-	
-	
 
 }
