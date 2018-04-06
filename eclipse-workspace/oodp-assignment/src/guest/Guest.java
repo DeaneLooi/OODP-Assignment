@@ -99,6 +99,6 @@ public class Guest implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\n Gender: " + this.gender + "\n Passport: " + this.passport + "\n Address: " + this.address + "\n Phone No: " + this.phoneNo;
+		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\nGender: " + this.gender + "\nPassport: " + this.passport + "\nAddress: " + this.address + "\nPhone No: " + this.phoneNo;
 	}
 }
