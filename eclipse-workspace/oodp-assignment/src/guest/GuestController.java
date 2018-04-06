@@ -7,6 +7,7 @@ import utils.Constants;
 import utils.Serialization;
 
 public class GuestController {
+	private static List<Guest> guestList = retrieveGuestList();
 	public static List<Guest> retrieveGuestList() {
 
 		List<Guest> guestList = null;
@@ -21,11 +22,7 @@ public class GuestController {
 	}
 	public static boolean updateGuestList(Guest guest) {
 
-		List<Guest> guestList = retrieveGuestList();
-
 		if (guestList != null) {
-			if (guest.getPassport() == 0)
-				guest.setPassport(guestList.size() + 1);
 
 			if (guestList.contains(guest)) {
 				int i = 0;
@@ -53,7 +50,6 @@ public class GuestController {
 	}
 
 	public static boolean removeGuest(Guest guest) {
-		List<Guest> guestList = retrieveGuestList();
 		if (guestList != null) {
 			if (guestList.remove(guest)) {
 				try {
@@ -68,5 +64,37 @@ public class GuestController {
 		}
 		else
 			return false;
+	}
+	
+	public static Guest getGuestByPassport(String passport) {
+		Guest checkGuest = new Guest();
+		checkGuest.setPassport(passport);
+		
+		int i=0;
+		
+		if(guestList != null) {
+			if(guestList.contains(checkGuest)) {
+				for(i = 0; i < guestList.size(); i++) {
+					if(guestList.get(i).getPassport() == passport) {
+						return guestList.get(i);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	public static Guest search(String keyword) {
+		int i = 0;
+		
+		if(guestList != null) {
+			for(i = 0; i < guestList.size(); i++) {
+				if(((String)(guestList.get(i).getName())).indexOf(keyword) != -1) {	
+					return guestList.get(i);
+				}
+			}
+		}
+		
+		return null;
 	}
 }
