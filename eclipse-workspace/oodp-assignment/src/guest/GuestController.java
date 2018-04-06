@@ -75,7 +75,7 @@ public class GuestController {
 		if(guestList != null) {
 			if(guestList.contains(checkGuest)) {
 				for(i = 0; i < guestList.size(); i++) {
-					if(guestList.get(i).getPassport() == passport) {
+					if(guestList.get(i).equals(checkGuest)) {
 						return guestList.get(i);
 					}
 				}
@@ -84,15 +84,17 @@ public class GuestController {
 		return null;
 	}
 	
-	public static Guest search(String keyword) {
+	public static List<Guest> searchByKeyword(String keyword) {
 		int i = 0;
 		
 		if(guestList != null) {
+			List<Guest> guestList2 = new ArrayList();
 			for(i = 0; i < guestList.size(); i++) {
 				if(((String)(guestList.get(i).getName())).indexOf(keyword) != -1) {	
-					return guestList.get(i);
+					guestList2.add(guestList.get(i));
 				}
 			}
+			return guestList2;
 		}
 		
 		return null;
