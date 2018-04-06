@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 public class Item implements Serializable {
 
-	private int itemID;
 	private String itemName;
 	private String itemDescription;
 	private float itemPrice;
@@ -26,35 +25,6 @@ public class Item implements Serializable {
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
 		this.itemPrice = itemPrice;
-	}
-
-	/**
-	 * @param itemID
-	 * @param itemName
-	 * @param itemDescription
-	 * @param itemPrice
-	 */
-	public Item(int itemID, String itemName, String itemDescription, float itemPrice) {
-		super();
-		this.itemID = itemID;
-		this.itemName = itemName;
-		this.itemDescription = itemDescription;
-		this.itemPrice = itemPrice;
-	}
-
-	/**
-	 * @return the itemID
-	 */
-	public int getItemID() {
-		return itemID;
-	}
-
-	/**
-	 * @param itemID
-	 *            the itemID to set
-	 */
-	public void setItemID(int itemID) {
-		this.itemID = itemID;
 	}
 
 	/**
@@ -102,21 +72,6 @@ public class Item implements Serializable {
 		this.itemPrice = itemPrice;
 	}
 
-	/**
-	 * @return the id
-	 */
-	@Override
-	public int hashCode() {
-		// TODO Auto-generated method stub
-		return this.itemID;
-	}
-
-	/**
-	 * @return true if id is the same
-	 */
-	public boolean equals(int itemID) {
-		return (itemID == hashCode());
-	}
 
 	/**
 	 * @return true if name is same else false
@@ -137,7 +92,7 @@ public class Item implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return this.itemID + ". " + this.itemName + "\n   Price:" + this.itemPrice;
+		return  this.itemName + "\n   Price:" + this.itemPrice;
 	}
 
 }
