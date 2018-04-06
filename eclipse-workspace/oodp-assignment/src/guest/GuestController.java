@@ -24,8 +24,8 @@ public class GuestController {
 		List<Guest> guestList = retrieveGuestList();
 
 		if (guestList != null) {
-			if (guest.getGuestID() == 0)
-				guest.setGuestID(guestList.size() + 1);
+			if (guest.getPassport() == 0)
+				guest.setPassport(guestList.size() + 1);
 
 			if (guestList.contains(guest)) {
 				int i = 0;
@@ -40,7 +40,6 @@ public class GuestController {
 				guestList.add(guest);
 		}
 		else {
-			guest.setGuestID(1);
 			guestList = new ArrayList();
 			guestList.add(guest);
 		}
@@ -69,19 +68,5 @@ public class GuestController {
 		}
 		else
 			return false;
-	}
-
-	public static List<Guest> getGuestsFromReservationNo(int reservationNo) {
-		List<Guest> guestList = retrieveGuestList();
-		if (guestList != null) {
-				List<Guest> reservationGuests = new ArrayList();
-				for (int i = 0; i < guestList.size(); i++) {
-					if (reservationNo==(guestList.get(i).getReservationNo()))
-						reservationGuests.add(guestList.get(i));
-				}
-				return reservationGuests;
-		}
-		else
-			return null;
 	}
 }
