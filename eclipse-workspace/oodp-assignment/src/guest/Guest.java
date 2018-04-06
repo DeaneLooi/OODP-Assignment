@@ -6,72 +6,83 @@ public class Guest implements Serializable{
 	private String name;
 	private String email;
 	private String country;
-	private boolean gender;
+	private String gender;
 	private String passport;
-	private static final String man = "Man";
-	private static final String woman = "Woman";
+	private String address;
+	private String phoneNo;
 
-	public Guest(String name, String email, String country, boolean gender, String passport) {
-    super();
-    this.name = name;
+	public Guest() {
+		super();
+	}
+
+	public Guest(String name, String email, String country, String gender, String passport, String address,
+			String phoneNo) {
+		super();
+		this.name = name;
 		this.email = email;
 		this.country = country;
 		this.gender = gender;
 		this.passport = passport;
+		this.address = address;
+		this.phoneNo = phoneNo;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public String getCountry() {
-		return country;
-	}
-
-	public boolean getGender() {
-		return gender;
-	}
-
-	public String getPassport() {
-		return passport;
-	}
-
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
 	}
 
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
+	public String getCountry() {
+		return country;
+	}
+
 	public void setCountry(String country) {
 		this.country = country;
 	}
 
-	public void setGender(boolean gender) {
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
 		this.gender = gender;
+	}
+
+	public String getPassport() {
+		return passport;
 	}
 
 	public void setPassport(String passport) {
 		this.passport = passport;
 	}
 
-	@Override
-	public String hashCode() {
-		// TODO Auto-generated method stub
-		return this.passport;
+	public String getAddress() {
+		return address;
 	}
 
-	/**
-	 * @return true if passport is the same
-	 */
-	public boolean equals(String passport) {
-		return (passport.equals(this.passport));
+	public void setAddress(String address) {
+		this.address = address;
 	}
+
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
+	
 
 	/**
 	 * @return true if guest entity is same else false
@@ -81,13 +92,13 @@ public class Guest implements Serializable{
 		// TODO Auto-generated method stub
 		return (obj instanceof Guest) ? (((Guest) obj).getPassport().equalsIgnoreCase(this.passport)) : false;
 	}
-
+	
 	/**
 	 * @return string
 	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Name: %s\nGender: %s\nCountry: %s\nEmail: %s\nPassport: %s", name, gender ? man : woman, country, email, passport);
+		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\n Gender: " + this.gender + "\n Passport: " + this.passport + "\n Address: " + this.address + "\n Phone No: " + this.phoneNo;
 	}
 }
