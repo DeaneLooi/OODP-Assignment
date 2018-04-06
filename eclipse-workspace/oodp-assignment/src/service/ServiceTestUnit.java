@@ -15,7 +15,7 @@ class ServiceTestUnit {
 	void testServiceCreation() {
 
 		// create service object
-		Service service = new Service(24,10002,1,new Date(),"NO cucumber",Constants.STATUS_CONFIRMED);
+		Service service = new Service(15,10003,"Chicken Noodle",new Date(),"NIL",Constants.STATUS_CONFIRMED);
 		boolean result = ServiceController.updateServiceList(service);
 		System.out.println("Service creation result: " + result);
 	}

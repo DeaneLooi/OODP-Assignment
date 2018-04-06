@@ -8,7 +8,7 @@ public class Service implements Serializable {
 	private int serviceID;
 	private int roomNo;
 	private int reservationNo;
-	private int itemID;
+	private String itemName;
 	private Date dateTime;
 	private String remarks;
 	private String status;
@@ -24,17 +24,17 @@ public class Service implements Serializable {
 	/**
 	 * @param roomNo
 	 * @param guestDetails
-	 * @param itemID
+	 * @param itemName
 	 * @param dateTime
 	 * @param remarks
 	 * @param status
 	 */
-	public Service(int roomNo, int reservationNo, int itemID, Date dateTime, String remarks,
+	public Service(int roomNo, int reservationNo, String itemName, Date dateTime, String remarks,
 			String status) {
 		super();
 		this.roomNo = roomNo;
 		this.reservationNo = reservationNo;
-		this.itemID = itemID;
+		this.itemName = itemName;
 		this.dateTime = dateTime;
 		this.remarks = remarks;
 		this.status = status;
@@ -44,18 +44,18 @@ public class Service implements Serializable {
 	 * @param serviceID
 	 * @param roomNo
 	 * @param guestDetails
-	 * @param itemID
+	 * @param itemName
 	 * @param dateTime
 	 * @param remarks
 	 * @param status
 	 */
-	public Service(int serviceID, int roomNo, int reservationNo, int itemID, Date dateTime, String remarks,
+	public Service(int serviceID, int roomNo, int reservationNo, String itemName, Date dateTime, String remarks,
 			String status) {
 		super();
 		this.serviceID = serviceID;
 		this.roomNo = roomNo;
 		this.reservationNo = reservationNo;
-		this.itemID = itemID;
+		this.itemName = itemName;
 		this.dateTime = dateTime;
 		this.remarks = remarks;
 		this.status = status;
@@ -108,16 +108,16 @@ public class Service implements Serializable {
 	/**
 	 * @return the itemID
 	 */
-	public int getItemID() {
-		return itemID;
+	public String getItemID() {
+		return itemName;
 	}
 
 	/**
 	 * @param itemID
 	 *            the itemID to set
 	 */
-	public void setItemID(int itemID) {
-		this.itemID = itemID;
+	public void setItemID(String itemName) {
+		this.itemName = itemName;
 	}
 
 	/**

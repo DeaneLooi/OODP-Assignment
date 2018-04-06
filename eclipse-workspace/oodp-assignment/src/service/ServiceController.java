@@ -11,9 +11,11 @@ import utils.Serialization;
 
 public class ServiceController {
 
+	private static List<Service> serviceList = retrieveServiceList();
+	
+	
 	public static List<Service> retrieveServiceList() {
 
-		List<Service> serviceList = null;
 		serviceList = (List<Service>) Serialization.readSerializedObject(Constants.SERVICE_DATA);
 
 		if (serviceList != null)
@@ -27,7 +29,6 @@ public class ServiceController {
 
 	public static boolean updateServiceList(Service service) {
 
-		List<Service> serviceList = retrieveServiceList();
 
 		if (serviceList != null) {
 			
@@ -69,7 +70,6 @@ public class ServiceController {
 
 	public static boolean removeService(Service service) {
 
-		List<Service> serviceList = retrieveServiceList();
 
 		if (serviceList != null) {
 			if (serviceList.remove(service)) {
@@ -92,7 +92,6 @@ public class ServiceController {
 
 	public static List<Service> getServicesFromReservationNo(int reservationNo) {
 
-		List<Service> serviceList = retrieveServiceList();
 		if (serviceList != null) {
 			
 				List<Service> reservationServices = new ArrayList();

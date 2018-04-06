@@ -9,15 +9,17 @@ import utils.Serialization;
 
 public class ItemController {
 
+	
+	private static List<Item> itemList = retrieveItemList();
+	
 	private static List<Item> retrieveItemList() {
 
-		List<Item> itemList = null;
 		itemList = (List<Item>) Serialization.readSerializedObject(Constants.ITEM_DATA);
 
 		if (itemList != null)
 			return itemList;
 		else {
-			System.out.println("No data");
+			System.err.println("No data");
 			return null;
 		}
 
@@ -25,14 +27,7 @@ public class ItemController {
 
 	public static boolean updateItemList(Item item) {
 
-		List<Item> itemList = retrieveItemList();
-
-
 		if (itemList != null) {
-			
-
-			if (item.getItemID() == 0)
-				item.setItemID(itemList.size() + 1);
 			
 			if (itemList.contains(item)) {
 				int i = 0;
@@ -50,7 +45,6 @@ public class ItemController {
 		}
 
 		else {
-			item.setItemID(1);
 			itemList = new ArrayList();
 			itemList.add(item);
 		}
@@ -67,11 +61,10 @@ public class ItemController {
 	}
 
 	public static String getMenu() {
-		List<Item> itemList = null;
-		itemList = (List<Item>) Serialization.readSerializedObject(Constants.ITEM_DATA);
+
 		String menuList = "";
 		for (int i = 0; i < itemList.size(); i++) {
-			menuList += itemList.get(i).toString() + "\n";
+			menuList += (i+1)+". "+itemList.get(i).toString() + "\n";
 		}
 
 		return menuList;
@@ -80,7 +73,6 @@ public class ItemController {
 
 	public static boolean removeItem(Item item) {
 
-		List<Item> itemList = retrieveItemList();
 
 		if (itemList != null) {
 			if (itemList.remove(item)) {
@@ -103,7 +95,6 @@ public class ItemController {
 
 	public static Item getItemFromName(String itemName) {
 
-		List<Item> itemList = retrieveItemList();
 		Item checkName = new Item();
 		checkName.setItemName(itemName);
 		int i = 0;
@@ -115,6 +106,9 @@ public class ItemController {
 						break;
 				}
 			}
+			
+			else
+				return null;
 
 			return itemList.get(i);
 		}
