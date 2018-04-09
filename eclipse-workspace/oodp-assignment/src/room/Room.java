@@ -6,12 +6,12 @@ public class Room implements Serializable{
 	private String roomNo;
 	private String roomType;
 	private String bedType;
-	private boolean wifi;
+	private String wifi;
 	private String view;
-	private boolean smoking;
+	private String smoking;
 	private String status;
 	
-	public Room(String roomNo, String roomType, String bedType, boolean wifi, String view, boolean smoking, String status) {
+	public Room(String roomNo, String roomType, String bedType, String wifi, String view, String smoking, String status) {
 		super();
 		this.roomType = roomType;
 		this.roomNo = roomNo;
@@ -34,7 +34,7 @@ public class Room implements Serializable{
 		return bedType;
 	}
 
-	public boolean getWifi() {
+	public String getWifi() {
 		return wifi;
 	}
 
@@ -42,7 +42,7 @@ public class Room implements Serializable{
 		return view;
 	}
 	
-	public boolean getSmoking() {
+	public String getSmoking() {
 		return smoking;
 	}
 	
@@ -62,7 +62,7 @@ public class Room implements Serializable{
 		this.bedType = bedType;
 	}
 	
-	public void setWifi(boolean wifi) {
+	public void setWifi(String wifi) {
 		this.wifi = wifi;
 	}
 	
@@ -70,7 +70,7 @@ public class Room implements Serializable{
 		this.view = view;
 	}
 	
-	public void setSmoking(boolean smoking) {
+	public void setSmoking(String smoking) {
 		this.smoking = smoking;
 	}
 	
@@ -106,6 +106,6 @@ public class Room implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Room number: %s\nRoom type: %s\nBed type: %s\nWifi: %s\nView: %s\nSmoking: %s\nStatus: %s", roomNo, roomType, bedType, wifi ? "yes" : "no", view, smoking ? "allowed" : "not allowed", status);
+		return String.format("Room number: %s\nRoom type: %s\nBed type: %s\nWifi: %s\nView: %s\nSmoking: %s\nStatus: %s", roomNo, roomType, bedType, wifi, view, smoking, status);
 	}
 }
