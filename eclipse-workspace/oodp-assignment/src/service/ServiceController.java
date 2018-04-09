@@ -90,14 +90,14 @@ public class ServiceController {
 			return false;
 	}
 
-	public static List<Service> getServicesFromReservationNo(int reservationNo) {
+	public static List<Service> getServicesFromReservationNo(String reservationNo) {
 
 		if (serviceList != null) {
 			
 				List<Service> reservationServices = new ArrayList();
 
 				for (int i = 0; i < serviceList.size(); i++) {
-					if (reservationNo==(serviceList.get(i).getReservationNo()))
+					if (reservationNo.equals((serviceList.get(i).getReservationCode())))
 						reservationServices.add(serviceList.get(i));
 				}
 				

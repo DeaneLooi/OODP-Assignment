@@ -15,7 +15,7 @@ class ServiceTestUnit {
 	void testServiceCreation() {
 
 		// create service object
-		Service service = new Service(15,10003,"Chicken Noodle",new Date(),"NIL",Constants.STATUS_CONFIRMED);
+		Service service = new Service("15","10003","Chicken Noodle",new Date(),"NIL",Constants.STATUS_CONFIRMED);
 		boolean result = ServiceController.updateServiceList(service);
 		System.out.println("Service creation result: " + result);
 	}
@@ -36,7 +36,7 @@ class ServiceTestUnit {
 	@Test
 	void testGetServiceListFromReservationNo()
 	{
-		List<Service> serviceList = ServiceController.getServicesFromReservationNo(10001);
+		List<Service> serviceList = ServiceController.getServicesFromReservationNo("10001");
 		
 		for(int i=0; i<serviceList.size();i++)
 		{
