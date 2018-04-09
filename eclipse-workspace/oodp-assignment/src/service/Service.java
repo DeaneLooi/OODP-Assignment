@@ -6,8 +6,8 @@ import java.util.Date;
 public class Service implements Serializable {
 
 	private int serviceID;
-	private int roomNo;
-	private int reservationNo;
+	private String roomNo;
+	private String reservationCode;
 	private String itemName;
 	private Date dateTime;
 	private String remarks;
@@ -23,17 +23,17 @@ public class Service implements Serializable {
 	}
 	/**
 	 * @param roomNo
-	 * @param guestDetails
+	 * @param reservationCode
 	 * @param itemName
 	 * @param dateTime
 	 * @param remarks
 	 * @param status
 	 */
-	public Service(int roomNo, int reservationNo, String itemName, Date dateTime, String remarks,
+	public Service(String roomNo, String reservationCode, String itemName, Date dateTime, String remarks,
 			String status) {
 		super();
 		this.roomNo = roomNo;
-		this.reservationNo = reservationNo;
+		this.reservationCode = reservationCode;
 		this.itemName = itemName;
 		this.dateTime = dateTime;
 		this.remarks = remarks;
@@ -43,18 +43,18 @@ public class Service implements Serializable {
 	/**
 	 * @param serviceID
 	 * @param roomNo
-	 * @param guestDetails
+	 * @param reservationCode
 	 * @param itemName
 	 * @param dateTime
 	 * @param remarks
 	 * @param status
 	 */
-	public Service(int serviceID, int roomNo, int reservationNo, String itemName, Date dateTime, String remarks,
+	public Service(int serviceID, String roomNo, String reservationCode, String itemName, Date dateTime, String remarks,
 			String status) {
 		super();
 		this.serviceID = serviceID;
 		this.roomNo = roomNo;
-		this.reservationNo = reservationNo;
+		this.reservationCode = reservationCode;
 		this.itemName = itemName;
 		this.dateTime = dateTime;
 		this.remarks = remarks;
@@ -80,29 +80,29 @@ public class Service implements Serializable {
 	/**
 	 * @return the roomNo
 	 */
-	public int getRoomNo() {
+	public String getRoomNo() {
 		return roomNo;
 	}
 
 	/**
 	 * @param roomNo the roomNo to set
 	 */
-	public void setRoomNo(int roomNo) {
+	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
 	}
 
 	/**
 	 * @return the guestDetails
 	 */
-	public int getReservationNo() {
-		return reservationNo;
+	public String getReservationCode() {
+		return reservationCode;
 	}
 
 	/**
 	 * @param guestDetails the guestDetails to set
 	 */
-	public void setReservationNo(int reservationNo) {
-		this.reservationNo = reservationNo;
+	public void setReservationCode(String reservationCode) {
+		this.reservationCode = reservationCode;
 	}
 	
 	/**
@@ -177,18 +177,16 @@ public class Service implements Serializable {
 
 
 	/**
-	 * @return true if reservation number and room number are the same
+	 * @return true if serviceID is same
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		if(obj instanceof Service)
-		{
-			if(((Service) obj).hashCode() == this.hashCode())
-				return true;
-		}
+			return ((Service) obj).hashCode() == this.hashCode();
 		
-		return false;
+		else
+			return false;
 	}
 
 
