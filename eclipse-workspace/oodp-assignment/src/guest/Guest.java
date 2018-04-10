@@ -10,13 +10,14 @@ public class Guest implements Serializable{
 	private String passport;
 	private String address;
 	private String phoneNo;
+	private String creditCardNo;
 
 	public Guest() {
 		super();
 	}
 
 	public Guest(String name, String email, String country, String gender, String passport, String address,
-			String phoneNo) {
+			String phoneNo, String creditCardNo) {
 		super();
 		this.name = name;
 		this.email = email;
@@ -25,6 +26,7 @@ public class Guest implements Serializable{
 		this.passport = passport;
 		this.address = address;
 		this.phoneNo = phoneNo;
+		this.creditCardNo = creditCardNo;
 	}
 
 	public String getName() {
@@ -83,6 +85,14 @@ public class Guest implements Serializable{
 		this.phoneNo = phoneNo;
 	}
 	
+	public String getCreditCardNo() {
+		return creditCardNo;
+	}
+
+	public void setCreditCardNo(String creditCardNo) {
+		this.creditCardNo = creditCardNo;
+	}
+	
 
 	/**
 	 * @return true if guest entity is same else false
@@ -99,6 +109,6 @@ public class Guest implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\nGender: " + this.gender + "\nPassport: " + this.passport + "\nAddress: " + this.address + "\nPhone No: " + this.phoneNo;
+		return "Name: " + this.name + " Email: " + this.email + " Country: " + this.country + " Gender: " + this.gender + " Passport: " + this.passport + " Address: " + this.address + " Phone No: " + this.phoneNo + " Credit Card No: " + this.creditCardNo;
 	}
 }
