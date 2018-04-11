@@ -167,7 +167,7 @@ public class PaymentController {
 		System.out.println("No. of weekends/ public holidays: " + weekends + "days");
 		
 		// get from service
-		List<Service> OrderList = ServiceController.getServicesFromReservationNo(payment.getReservationCode());
+		List<Service> OrderList = ServiceController.getServicesFromReservationCode(payment.getReservationCode());
 		System.out.println("Room Service Order Items");
 		System.out.println("------------------------");
 		System.out.println("S/No. \t Name \t Price");

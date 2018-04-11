@@ -36,7 +36,7 @@ class ServiceTestUnit {
 	@Test
 	void testGetServiceListFromReservationNo()
 	{
-		List<Service> serviceList = ServiceController.getServicesFromReservationNo("10001");
+		List<Service> serviceList = ServiceController.getServicesFromReservationCode("10001");
 		
 		for(int i=0; i<serviceList.size();i++)
 		{
