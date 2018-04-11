@@ -2,6 +2,7 @@ package room;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class Room implements Serializable{
 	private String roomNo;
 	private String roomType;
@@ -76,12 +77,6 @@ public class Room implements Serializable{
 	
 	public void setStatus(String status) {
 		this.status = status;
-	}
-
-	@Override
-	public String hashCode() {
-		// TODO Auto-generated method stub
-		return this.roomNo;
 	}
 
 	/**
