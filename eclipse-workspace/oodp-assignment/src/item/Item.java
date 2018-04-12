@@ -2,23 +2,51 @@ package item;
 
 import java.io.Serializable;
 
+
+/**
+* <h1>Menu Item Entity</h1>
+*
+* <p>Represents a item in a menu. </p>
+* <p>Item object contains itemName, itemDescription and itemPrice.</p>
+*
+*
+* @author  Deane Looi
+* @version 1.0
+* @since   2018-04-12
+*/
+
 public class Item implements Serializable {
 
+	/**
+	 * Primary Key of Item Entity<p>
+	 * Name of Item Entity
+	 */
 	private String itemName;
+	
+	/**
+	 * Description of Item Entity
+	 */
 	private String itemDescription;
+	
+	/**
+	 * Price of Item Entity
+	 */
 	private double itemPrice;
 
 	/**
-	 * default constructor
+	 * Default constructor
 	 */
 	public Item() {
 		super();
 	}
 
 	/**
-	 * @param itemName
-	 * @param itemDescription
-	 * @param itemPrice
+	 * 
+	 * Creates a new Item Entity object with the name, description and price
+	 * 
+	 * @param itemName Name of Item
+	 * @param itemDescription Description of Item
+	 * @param itemPrice Price of Item
 	 */
 	public Item(String itemName, String itemDescription, double itemPrice) {
 		super();
@@ -36,7 +64,7 @@ public class Item implements Serializable {
 
 	/**
 	 * @param itemName
-	 *            the itemName to set
+	 *             itemName to set
 	 */
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
@@ -74,7 +102,9 @@ public class Item implements Serializable {
 
 
 	/**
-	 * @return true if name is same else false
+	 *Used to compare between two Item Entity objects
+	 * 
+	 * @return Returns true if itemName is the same between two objects, else returns false
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -87,7 +117,9 @@ public class Item implements Serializable {
 	}
 
 	/**
-	 * @return string
+	 * Returns a string value of this Item Entity object to be displayed in a Menu
+	 * 
+	 * @return Returns string value of item object
 	 */
 	@Override
 	public String toString() {

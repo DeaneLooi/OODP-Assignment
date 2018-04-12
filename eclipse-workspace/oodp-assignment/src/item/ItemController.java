@@ -3,15 +3,32 @@ package item;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 import utils.Constants;
 import utils.Serialization;
 
+/**
+* <h1>Menu Item Controller</h1>
+*
+* This controller class makes use of Item Entity class to do simple CRUD operations.
+*
+*
+* @author  Deane Looi
+* @version 1.0
+* @since   2018-04-12
+*/
 public class ItemController {
 
-	
+	/**
+	 * The list of Item Entity objects in the data file
+	 */
 	private static List<Item> itemList = retrieveItemList();
 	
+	
+	/**
+	 * Reads the item data file and returns it in a list format
+	 * 
+	 * @return Returns the list of Item Entity objects in the data file
+	 */
 	public static List<Item> retrieveItemList() {
 
 		itemList = (List<Item>) Serialization.readSerializedObject(Constants.ITEM_DATA);
@@ -25,6 +42,13 @@ public class ItemController {
 
 	}
 
+	/**
+	 * 
+	 * Creates or updates the item object into the data file
+	 * 
+	 * @param item Item object to be created or updated
+	 * @return Returns true if item object is updated, else returns false
+	 */
 	public static boolean updateItemList(Item item) {
 
 		if (itemList != null) {
@@ -60,6 +84,12 @@ public class ItemController {
 		return true;
 	}
 
+	/**
+	 * 
+	 * Displays the menu
+	 * 
+	 * @return Returns the menu in a String format
+	 */
 	public static String getMenu() {
 
 		String menuList = "";
@@ -71,6 +101,13 @@ public class ItemController {
 
 	}
 
+	/**
+	 * 
+	 * Removes the item object from the data file
+	 * 
+	 * @param item Item object to be removed
+	 * @return Returns true if item object is removed from data file, else returns false
+	 */
 	public static boolean removeItem(Item item) {
 
 
@@ -93,6 +130,13 @@ public class ItemController {
 			return false;
 	}
 
+	/**
+	 * 
+	 * Returns item object using the primary key of Item Entity, itemName
+	 * 
+	 * @param itemName The primary key of item object
+	 * @return Returns the item object from itemName
+	 */
 	public static Item getItemFromName(String itemName) {
 
 		Item checkName = new Item();
