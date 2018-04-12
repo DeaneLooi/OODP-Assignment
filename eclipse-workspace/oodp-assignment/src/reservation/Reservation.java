@@ -109,7 +109,7 @@ public class Reservation implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Reservation: "+reservationCode+" "+roomNo+" "+guestPassport+" status: "+status;
+		return "Reservation Code: "+this.reservationCode+" Room Number: "+this.roomNo+" GuestPassport: "+this.guestPassport+" Check In Date: "+this.checkInDate+" Check Out Date: "+this.checkOutDate+" status: "+this.status+" No. of Adults: "+this.noAdults+" No. of Children: "+this.noChildren;
 	}
 	
 	

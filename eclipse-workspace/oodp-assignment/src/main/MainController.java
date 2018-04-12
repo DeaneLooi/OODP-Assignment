@@ -1,7 +1,10 @@
 package main;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Scanner;
 
 import guest.Guest;
 import guest.GuestController;
@@ -9,6 +12,11 @@ import item.Item;
 import item.ItemController;
 import reservation.Reservation;
 import reservation.ReservationController;
+import room.Room;
+import room.RoomController;
+import service.Service;
+import service.ServiceController;
+import utils.Constants;
 
 public class MainController {
 	static Scanner input = new Scanner(System.in);
@@ -205,11 +213,11 @@ public class MainController {
 		}
 	}
 	
-	public void updateReservation() {
+	public static void updateReservation() {
 		
 	}
 	
-	public void removeReservation() {
+	public static  void removeReservation() {
 		String reservationCode;
 		Reservation reservation;
 		
@@ -224,7 +232,7 @@ public class MainController {
 		}
 	}
 	
-	public void printReservation() {
+	public static void printReservation() {
 		List<Reservation> reservationList;
 		reservationList = ReservationController.retrieveReservationList();
 		for(i=0; i< reservationList.size(); i++) {
@@ -232,29 +240,44 @@ public class MainController {
 		}
 	}
 	
-	public void createRoom() {
+	public static void createRoom() {
 		
 	}
 	
-	public void checkRoomAvailability() {
+	public static void checkRoomAvailability() {
+		
+		String roomNo;
+		Room room;
+		System.out.println("Enter room number: ");
+		roomNo = input.next();
+		room = RoomController.getRoom(roomNo);
+		
+		if(room!=null)
+		{
+			System.out.println("Room "+room.getRoomNo()+" is "+room.getStatus());
+		}
+		
+		else
+			System.out.println("Room not found");
+			
 		
 	}
 	
-	public void updateRoom() {
+	public static void updateRoom() {
 		
 	}
 	
-	public void printReportByRoomType() {
+	public static void printReportByRoomType() {
 		
 	}
 	
-	public void printReportByAvailability() {
+	public static void printReportByAvailability() {
 		
 	}
 	
-	public void createMenuItem() {
+	public static void createMenuItem() {
 		String itemName, description;
-		float price;
+		double price;
 		Item item;
 		
 		System.out.println("Enter the item name: ");
@@ -268,7 +291,7 @@ public class MainController {
 			description = input.next();
 			
 			System.out.println("Enter price: S$");
-			price = input.nextFloat();
+			price = input.nextDouble();
 			
 			item = new Item(itemName, description, price);
 			result = ItemController.updateItemList(item);
@@ -281,9 +304,9 @@ public class MainController {
 		}
 	}
 	
-	public void updateMenuItem() {
+	public static void updateMenuItem() {
 		String itemName, description;
-		float price;
+		double price;
 		Item item;
 		
 		System.out.println("Enter the item name: ");
@@ -306,7 +329,7 @@ public class MainController {
 							item.setItemDescription(description);
 							break;
 					case 2: System.out.print("Enter new price: "); // to do validate email
-							price = input.nextFloat();
+							price = input.nextDouble();
 							item.setItemPrice(price);
 							break;
 					case 3: break;
@@ -326,7 +349,7 @@ public class MainController {
 		}
 	}
 	
-	public void removeMenuItem() {
+	public static void removeMenuItem() {
 		String itemName;
 		Item item;
 		
@@ -341,23 +364,137 @@ public class MainController {
 		}
 	}
 	
-	public void checkIn() {
+	public static void checkIn() {
+		
+		String guestPassport, choice, roomNo;
+		System.out.println("Enter passport details: ");
+		guestPassport = input.next();
+		
+		Reservation reservation = ReservationController.getReservationByGuestPassport(guestPassport);
+		
+		
+		if(reservation!=null)
+		{
+			
+			reservation.setStatus(Constants.STATUS_CHECKED_IN);
+
+			if(reservation.getStatus().equals(Constants.STATUS_CONFIRMED))
+			{
+				System.out.println("Proceed to check in!");
+				if(ReservationController.updateReservationList(reservation))
+					System.out.println("Room Number : "+reservation.getRoomNo());			}
+			
+			else if(reservation.getStatus().equals(Constants.STATUS_EXPIRED))
+				System.out.println("Sorry, your reservation has expired because you were late for more than 1 hour!");
+			
+			else if(reservation.getStatus().equals(Constants.STATUS_WAITLIST))
+			{
+				Room room = RoomController.getRoom(reservation.getRoomNo());
+				if(room.getStatus().equals(Constants.STATUS_VACANT)) {
+					System.out.println("Your room is vacant, proceed to check in!");
+					if(ReservationController.updateReservationList(reservation))
+						System.out.println("Room Number : "+reservation.getRoomNo());
+			}
+				
+				else if(room.getStatus().equals(Constants.STATUS_OCCUPIED)||room.getStatus().equals(Constants.STATUS_UNDER_MAINTAINENCE))
+				{
+					System.out.println("Your room is currently occupied, would you like to change your room(Y/N)");
+					choice = input.next();
+					
+					if(choice.equalsIgnoreCase("Y"))
+					{
+						printReportByAvailability();
+						System.out.println("Enter room number: ");
+						roomNo = input.next();
+						reservation.setRoomNo(roomNo);
+						if(ReservationController.updateReservationList(reservation))
+							System.out.println("Room Number : "+reservation.getRoomNo());
+					}
+					
+					else if(choice.equalsIgnoreCase("N"))
+						System.out.println("Have a nice day!");
+					
+				}
+				
+				
+			}
+			
+
+		}
+		else
+		{
+			createReservation();
+			reservation = ReservationController.getReservationByGuestPassport(guestPassport);
+			reservation.setStatus(Constants.STATUS_CHECKED_IN);
+			if(reservation.getStatus().equals(Constants.STATUS_CONFIRMED))
+			{
+				System.out.println("Proceed to check in!");
+
+				if(ReservationController.updateReservationList(reservation))
+					System.out.println("Room Number : "+reservation.getRoomNo());
+			}
+		}
 		
 	}
 	
-	public void checkOut() {
+	public static void checkOut() {
 		
 	}
 	
-	public void createRoomServiceOrder() {
+	public static void createRoomServiceOrder() {
+		String roomNo,remarks;
+		Reservation reservation;
+		List<Item> itemList = ItemController.retrieveItemList();
+		
+		
+		System.out.println("Enter room number: ");
+		roomNo = input.next();
+		reservation = (Reservation) ReservationController.getReservationByRoomNo(roomNo);
+		displayMenu();
+		int choice = 1;
+		do {
+			System.out.println("Choose item from menu(enter 0 to confirm)");
+			choice = input.nextInt();
+			
+			System.out.println("Input any Remarks: ");
+			remarks = input.next();
+			
+			Service service= new Service(roomNo,reservation.getReservationCode(),itemList.get(choice-1).getItemName(),new Date(),remarks,Constants.STATUS_CONFIRMED);
+			
+			ServiceController.updateServiceList(service);
+			
+		}while(choice>0 && choice <itemList.size());
+		
 		
 	}
 	
-	public void updateRoomServiceOrder() {
+	public static void updateRoomServiceOrder() {
 		
 	}
 	
-	public void removeRoomServiceOrder() {
+	public static void removeRoomServiceOrder() {
+		String roomNo;
+		int serviceID;
 		
+		System.out.println("Enter room number:");
+		roomNo = input.next();
+		
+		Reservation r = ReservationController.getReservationByRoomNo(roomNo, Constants.STATUS_CHECKED_IN);
+		
+		List<Service> serviceList = ServiceController.getServicesFromReservationCode(r.getReservationCode());
+		
+		for(int i=0; i<serviceList.size();i++) {
+			System.out.println(serviceList.get(i).toString());
+		}
+		
+		System.out.println("Enter serviceID to remove: ");
+		serviceID = input.nextInt();
+		
+		ServiceController.removeService(ServiceController.getServiceFromServiceID(serviceID));
+		
+	}
+	
+	public static void displayMenu() {
+		System.out.println(ItemController.getMenu());
 	}
 }

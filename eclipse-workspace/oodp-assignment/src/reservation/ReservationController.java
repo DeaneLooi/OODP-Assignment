@@ -165,7 +165,30 @@ private static List<Reservation> reservationList = retrieveReservationList();
 		
 		
 	}
+	
+public static Reservation getReservationByGuestPassport(String guestPassport) {
+		
+		int i = 0;
+	
 
+		if (reservationList != null) {
+			
+				for (i = 0; i < reservationList.size(); i++) {
+					if (reservationList.get(i).getGuestPassport().equalsIgnoreCase(guestPassport))
+						break;
+				}
+
+
+			return reservationList.get(i);
+		}
+
+		else
+			return null;
+		
+		
+	}
+
+	
 
 
 }

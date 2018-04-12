@@ -16,5 +16,10 @@ public final class Constants {
 	public static final String STATUS_CHECKED_OUT = "Checked Out";
 	public static final String STATUS_PREPARING ="Preparing";
 	public static final String STATUS_DELIVERED = "Delivered";
+	public static final String STATUS_VACANT = "Vacant";
+	public static final String STATUS_OCCUPIED = "Occupied";
+	public static final String STATUS_UNDER_MAINTAINENCE = "Under Maintenance";
+	public static final String STATUS_RESERVED = "Reserved";
+
 
 }

@@ -12,7 +12,7 @@ public class ItemController {
 	
 	private static List<Item> itemList = retrieveItemList();
 	
-	private static List<Item> retrieveItemList() {
+	public static List<Item> retrieveItemList() {
 
 		itemList = (List<Item>) Serialization.readSerializedObject(Constants.ITEM_DATA);
 

@@ -47,13 +47,13 @@ public class Main {
 					switch (choice2) {
 
 					case 1:
-						createGuest();
+						MainController.createGuest();
 						break;
 					case 2:
-						updateGuest();
+						MainController.updateGuest();
 						break;
 					case 3:
-						searchGuest();
+						MainController.searchGuest();
 						break;
 
 					}
@@ -75,16 +75,16 @@ public class Main {
 					switch (choice2) {
 
 					case 1:
-						createReservation();
+						MainController.createReservation();
 						break;
 					case 2:
-						updateReservation();
+						MainController.updateReservation();
 						break;
 					case 3:
-						removeReservation();
+						MainController.removeReservation();
 						break;
 					case 4:
-						printReservation();
+						MainController.printReservation();
 						break;
 					}
 
@@ -108,19 +108,19 @@ public class Main {
 					switch (choice2) {
 
 					case 1:
-						createRoom();
+						MainController.createRoom();
 						break;
 					case 2:
-						updateRoom();
+						MainController.updateRoom();
 						break;
 					case 3:
-						checkRoomAvailability();
+						MainController.checkRoomAvailability();
 						break;
 					case 4:
-						printReportByRoomType();
+						MainController.printReportByRoomType();
 						break;
 					case 5:
-						printReportByAvailability();
+						MainController.printReportByAvailability();
 						break;
 
 					}
@@ -146,25 +146,25 @@ public class Main {
 					switch (choice2) {
 
 					case 1:
-						createRoomOrderService();
+						MainController.createRoomServiceOrder();
 						break;
 					case 2:
-						updateRoomOrderService();
+						MainController.updateRoomServiceOrder();
 						break;
 					case 3:
-						removeRoomOrderService();
+						MainController.removeRoomServiceOrder();
 						break;
 					case 4:
-						createMenuItem();
+						MainController.createMenuItem();
 						break;
 					case 5:
-						updateMenuItem();
+						MainController.updateMenuItem();
 						break;
 					case 6:
-						removeMenuItem();
+						MainController.removeMenuItem();
 						break;
 					case 7:
-						displayMenu();
+						MainController.displayMenu();
 					}
 
 				}
@@ -174,10 +174,10 @@ public class Main {
 
 				break;
 			case 5:
-				checkIn();
+				MainController.checkIn();
 				break;
 			case 6:
-				checkOut();
+				MainController.checkOut();
 				break;
 			case 7:
 				System.out.println("Exiting application..");
