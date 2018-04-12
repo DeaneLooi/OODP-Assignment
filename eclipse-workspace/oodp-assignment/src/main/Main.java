@@ -38,9 +38,9 @@ public class Main {
 
 			case 1:
 				System.out.println("Choose one");
-				System.out.println("1.Create guest detail");
-				System.out.println("2.Update guest detail");
-				System.out.println("3.Search guest detail");
+				System.out.println("1.Create Guest Detail");
+				System.out.println("2.Update Guest Detail");
+				System.out.println("3.Search Guest Detail");
 				System.out.println("4. Main Menu");
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
@@ -140,6 +140,7 @@ public class Main {
 				System.out.println("4.Create Menu Item");
 				System.out.println("5.Update Menu Item");
 				System.out.println("6.Remove Menu Item");
+				System.out.println("7. Display Menu");
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
 					switch (choice2) {
@@ -162,6 +163,8 @@ public class Main {
 					case 6:
 						removeMenuItem();
 						break;
+					case 7:
+						displayMenu();
 					}
 
 				}
