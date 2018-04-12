@@ -6,7 +6,7 @@ public class Item implements Serializable {
 
 	private String itemName;
 	private String itemDescription;
-	private float itemPrice;
+	private double itemPrice;
 
 	/**
 	 * default constructor
@@ -60,7 +60,7 @@ public class Item implements Serializable {
 	/**
 	 * @return the itemPrice
 	 */
-	public float getItemPrice() {
+	public double getItemPrice() {
 		return itemPrice;
 	}
 
@@ -68,7 +68,7 @@ public class Item implements Serializable {
 	 * @param itemPrice
 	 *            the itemPrice to set
 	 */
-	public void setItemPrice(float itemPrice) {
+	public void setItemPrice(double itemPrice) {
 		this.itemPrice = itemPrice;
 	}
 
