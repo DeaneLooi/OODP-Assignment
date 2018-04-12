@@ -20,7 +20,7 @@ public class Item implements Serializable {
 	 * @param itemDescription
 	 * @param itemPrice
 	 */
-	public Item(String itemName, String itemDescription, float itemPrice) {
+	public Item(String itemName, String itemDescription, double itemPrice) {
 		super();
 		this.itemName = itemName;
 		this.itemDescription = itemDescription;
@@ -92,7 +92,7 @@ public class Item implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return  this.itemName + "\n   Price:" + this.itemPrice;
+		return  this.itemName + "\n   Price: " + this.itemPrice+"   Description: "+this.itemDescription;
 	}
 
 }

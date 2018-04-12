@@ -196,7 +196,7 @@ public class Service implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Service:"+this.serviceID+" "+this.roomNo+" "+this.getItemID()+" "+this.getRemarks()+" "+this.getStatus();
+		return "ServiceID: "+this.serviceID+" Room Number: "+this.roomNo+" Reservation Code: "+this.reservationCode+" Item ID: "+this.getItemID()+" Date: "+this.dateTime+" Remarks: "+this.getRemarks()+" Status: "+this.getStatus();
 	}
 	
 	

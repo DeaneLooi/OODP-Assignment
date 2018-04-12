@@ -111,5 +111,28 @@ public class ServiceController {
 			return null;
 
 	}
+	
+	public static Service getServiceFromServiceID(int serviceID) {
+		Service service = new Service();
+		service.setServiceID(serviceID);
+		int i;
+		if(serviceList!=null) {
+			if(serviceList.contains(service))
+			for(i=0; i<serviceList.size();i++) {
+				if(serviceList.get(i).equals(service))
+					break;
+			}
+			
+			else
+				return null;
+			
+			
+			return serviceList.get(i);
+			
+		}
+		
+		return null;
+		
+	}
 
 }
