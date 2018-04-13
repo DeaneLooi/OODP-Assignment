@@ -11,8 +11,6 @@ import utils.Serialization;
 *
 * This controller class makes use of Item Entity class to do simple CRUD operations.
 *
-*
-* @author  Deane Looi
 * @version 1.0
 * @since   2018-04-12
 */
@@ -47,7 +45,7 @@ public class ItemController {
 	 * Creates or updates the item object into the data file
 	 * 
 	 * @param item Item object to be created or updated
-	 * @return Returns true if item object is updated, else returns false
+	 * @return Returns true if data file is updated, else returns false
 	 */
 	public static boolean updateItemList(Item item) {
 
@@ -73,15 +71,10 @@ public class ItemController {
 			itemList.add(item);
 		}
 
-		try {
-			Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
+		
+			return Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
 
-		return true;
 	}
 
 	/**
@@ -113,15 +106,9 @@ public class ItemController {
 
 		if (itemList != null) {
 			if (itemList.remove(item)) {
-				try {
-					Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
+				
+				return Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
 
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
-
-				return true;
 			} else
 				return false;
 		}
@@ -134,7 +121,7 @@ public class ItemController {
 	 * 
 	 * Returns item object using the primary key of Item Entity, itemName
 	 * 
-	 * @param itemName The primary key of item object
+	 * @param itemName The primary key of item entity
 	 * @return Returns the item object from itemName
 	 */
 	public static Item getItemFromName(String itemName) {

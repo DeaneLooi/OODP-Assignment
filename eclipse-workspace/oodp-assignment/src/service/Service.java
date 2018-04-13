@@ -3,25 +3,57 @@ package service;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * <h1>Room Service Entity</h1>
+ *
+ * Represents a room service that a Guest can order
+ * <p>
+ * Contains Menu Item Entity object
+ *
+ */
 public class Service implements Serializable {
 
+	/**
+	 * Primary Key of Room Service Entity<p>
+	 * ID
+	 */
 	private int serviceID;
+	/**
+	 * Room number of Room Service Entity
+	 */
 	private String roomNo;
+	/**
+	 * Reservation Code of Room Service Entity
+	 */
 	private String reservationCode;
+	/**
+	 * Item Name of Room Service Entity
+	 */
 	private String itemName;
+	/**
+	 * Current datetime of Room Service Entity
+	 */
 	private Date dateTime;
+	/**
+	 * Remarks for Room Service Entity
+	 */
 	private String remarks;
+	/**
+	 * Status of Room Service Entity
+	 */
 	private String status;
 
-
 	/**
-	 * default constructor
+	 * Default constructor
 	 */
-	public Service()
-	{
+	public Service() {
 		super();
 	}
+
 	/**
+	 * 
+	 * Creates a new Room Service Entity object with the roomNo, reservationCode, itemName, dateTime, remarks and status
+	 * 
 	 * @param roomNo
 	 * @param reservationCode
 	 * @param itemName
@@ -39,8 +71,11 @@ public class Service implements Serializable {
 		this.remarks = remarks;
 		this.status = status;
 	}
-	
+
 	/**
+	 * 
+	 * Creates a new Room Service Entity object with serviceID, roomNo, reservationCode, itemName, dateTime, remarks and status
+	 * 
 	 * @param serviceID
 	 * @param roomNo
 	 * @param reservationCode
@@ -60,7 +95,6 @@ public class Service implements Serializable {
 		this.remarks = remarks;
 		this.status = status;
 	}
-
 
 	/**
 	 * @return the serviceID
@@ -85,7 +119,8 @@ public class Service implements Serializable {
 	}
 
 	/**
-	 * @param roomNo the roomNo to set
+	 * @param roomNo
+	 *            the roomNo to set
 	 */
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
@@ -99,12 +134,13 @@ public class Service implements Serializable {
 	}
 
 	/**
-	 * @param guestDetails the guestDetails to set
+	 * @param guestDetails
+	 *            the guestDetails to set
 	 */
 	public void setReservationCode(String reservationCode) {
 		this.reservationCode = reservationCode;
 	}
-	
+
 	/**
 	 * @return the itemID
 	 */
@@ -165,9 +201,11 @@ public class Service implements Serializable {
 		this.status = status;
 	}
 
-
 	/**
-	 * @return the serviceid
+	 * 
+	 * Returns primary key of Room Service object
+	 * 
+	 * @return Returns the serviceID
 	 */
 	@Override
 	public int hashCode() {
@@ -175,30 +213,33 @@ public class Service implements Serializable {
 		return this.serviceID;
 	}
 
-
 	/**
-	 * @return true if serviceID is same
+	 * Used to compare between two Room Service Entity objects
+	 * 
+	 * @param obj Object to compare with
+	 * @return Returns true if serviceID is the same between two objects, else returns false
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if(obj instanceof Service)
+		if (obj instanceof Service)
 			return ((Service) obj).hashCode() == this.hashCode();
-		
+
 		else
 			return false;
 	}
 
-
 	/**
-	 * @return the string
+	 * Returns a string value of this Room Service Entity object to be displayed
+	 * 
+	 * @return Returns string value of service object
 	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "ServiceID: "+this.serviceID+" Room Number: "+this.roomNo+" Reservation Code: "+this.reservationCode+" Item ID: "+this.getItemID()+" Date: "+this.dateTime+" Remarks: "+this.getRemarks()+" Status: "+this.getStatus();
+		return "ServiceID: " + this.serviceID + " Room Number: " + this.roomNo + " Reservation Code: "
+				+ this.reservationCode + " Item ID: " + this.getItemID() + " Date: " + this.dateTime + " Remarks: "
+				+ this.getRemarks() + " Status: " + this.getStatus();
 	}
-	
-	
 
 }

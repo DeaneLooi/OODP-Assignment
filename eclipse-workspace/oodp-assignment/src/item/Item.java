@@ -9,8 +9,6 @@ import java.io.Serializable;
 * <p>Represents a item in a menu. </p>
 * <p>Item object contains itemName, itemDescription and itemPrice.</p>
 *
-*
-* @author  Deane Looi
 * @version 1.0
 * @since   2018-04-12
 */
@@ -104,6 +102,7 @@ public class Item implements Serializable {
 	/**
 	 *Used to compare between two Item Entity objects
 	 * 
+	 * @param obj Object to compare with
 	 * @return Returns true if itemName is the same between two objects, else returns false
 	 */
 	@Override

@@ -9,11 +9,26 @@ import service.Service;
 import utils.Constants;
 import utils.Serialization;
 
+/**
+ * 
+ * <h1>Room Service Controller</h1>
+ * 
+ * This controller class makes use of Room Service Entity class to do simple CRUD operations.
+ *
+ */
 public class ServiceController {
 
+	/**
+	 * The list of Room Service Entity objects in the data file
+	 */
 	private static List<Service> serviceList = retrieveServiceList();
-	
-	
+
+	/**
+	 * 
+	 * Reads the service data file and returns it in a list format
+	 * 
+	 * @return Returns the list of Room Service Entity objects in the data file
+	 */
 	public static List<Service> retrieveServiceList() {
 
 		serviceList = (List<Service>) Serialization.readSerializedObject(Constants.SERVICE_DATA);
@@ -27,11 +42,16 @@ public class ServiceController {
 
 	}
 
+	/**
+	 * 
+	 * Creates or updates the service object into the data file
+	 * 
+	 * @param service Room Service object to be created or updated
+	 * @return Returns true if data file is updated, else returns false
+	 */
 	public static boolean updateServiceList(Service service) {
 
-
 		if (serviceList != null) {
-			
 
 			if (service.getServiceID() == 0)
 				service.setServiceID(serviceList.size() + 1);
@@ -57,31 +77,24 @@ public class ServiceController {
 			serviceList.add(service);
 		}
 
-		try {
-			Serialization.writeSerializedObject(Constants.SERVICE_DATA, serviceList);
+		return Serialization.writeSerializedObject(Constants.SERVICE_DATA, serviceList);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-
-		return true;
 	}
 
+	/**
+	 * 
+	 * Removes the service object from the data file
+	 * 
+	 * @param service Room Service object to be removed
+	 * @return Returns true if service object is removed from data file, else returns false
+	 */
 	public static boolean removeService(Service service) {
-
 
 		if (serviceList != null) {
 			if (serviceList.remove(service)) {
-				try {
-					Serialization.writeSerializedObject(Constants.SERVICE_DATA, serviceList);
 
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
+				return Serialization.writeSerializedObject(Constants.SERVICE_DATA, serviceList);
 
-				return true;
 			} else
 				return false;
 		}
@@ -90,20 +103,25 @@ public class ServiceController {
 			return false;
 	}
 
+	/**
+	 * 
+	 * Returns a list of service objects using reservationCode
+	 * 
+	 * @param reservationCode Reservation code to search services
+	 * @return Returns a list of service objects from reservationCode
+	 */
 	public static List<Service> getServicesFromReservationCode(String reservationCode) {
 
 		if (serviceList != null) {
-			
-				List<Service> reservationServices = new ArrayList();
 
-				for (int i = 0; i < serviceList.size(); i++) {
-					if (reservationCode.equals((serviceList.get(i).getReservationCode())))
-						reservationServices.add(serviceList.get(i));
-				}
-				
-				return reservationServices;
-			
-			
+			List<Service> reservationServices = new ArrayList();
+
+			for (int i = 0; i < serviceList.size(); i++) {
+				if (reservationCode.equals((serviceList.get(i).getReservationCode())))
+					reservationServices.add(serviceList.get(i));
+			}
+
+			return reservationServices;
 
 		}
 
@@ -111,28 +129,34 @@ public class ServiceController {
 			return null;
 
 	}
-	
+
+	/**
+	 * 
+	 * Returns service object using the primary key of Room Service Entity, serviceID
+	 * 
+	 * @param serviceID The primary key of Room Service Entity
+	 * @return Returns the service object from serviceID
+	 */
 	public static Service getServiceFromServiceID(int serviceID) {
 		Service service = new Service();
 		service.setServiceID(serviceID);
 		int i;
-		if(serviceList!=null) {
-			if(serviceList.contains(service))
-			for(i=0; i<serviceList.size();i++) {
-				if(serviceList.get(i).equals(service))
-					break;
-			}
-			
+		if (serviceList != null) {
+			if (serviceList.contains(service))
+				for (i = 0; i < serviceList.size(); i++) {
+					if (serviceList.get(i).equals(service))
+						break;
+				}
+
 			else
 				return null;
-			
-			
+
 			return serviceList.get(i);
-			
+
 		}
-		
+
 		return null;
-		
+
 	}
 
 }

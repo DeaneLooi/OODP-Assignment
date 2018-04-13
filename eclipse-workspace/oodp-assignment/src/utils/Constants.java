@@ -10,7 +10,7 @@ public final class Constants {
 	public static final String ROOM_DATA = DATA_STORE+"room.dat";
 	public static final String SERVICE_DATA = DATA_STORE+"service.dat";
 	public static final String STATUS_CONFIRMED = "Confirmed";
-	public static final String STATUS_WAITLIST = "In Waitlist";
+	public static final String STATUS_WAITLIST = "In Wait List";
 	public static final String STATUS_CHECKED_IN = "Checked In";
 	public static final String STATUS_EXPIRED = "Expired";
 	public static final String STATUS_CHECKED_OUT = "Checked Out";
