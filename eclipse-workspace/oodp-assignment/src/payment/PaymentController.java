@@ -17,9 +17,26 @@ import utils.Constants;
 import utils.Prices;
 import utils.Serialization;
 
+/**
+ * Payment Controller
+ * Basically make use of the Payment entity class and manipulate the data
+ * Hence, it role is to include of logics that involves the Payment entity class
+ * 
+ * @author Low Shu En
+ * @version 1.0
+ * @since 13/4/2017
+ *
+ */
 public class PaymentController {
+	/**
+	 * Stores the list of all payment objects created
+	 * by calling the retrievePaymentList() method
+	 */
 	private static List<Payment> paymentList = retrievePaymentList();
 	
+	/**
+	 * @return the list containing all guest objects
+	 */
 	public static List<Payment> retrievePaymentList(){
 		List<Payment> paymentList = null;
 		paymentList = (List<Payment>) Serialization.readSerializedObject(Constants.PAYMENT_DATA);
@@ -33,6 +50,19 @@ public class PaymentController {
 		}
 	}
 	
+	/**
+	 * This method basically create or update the particular Payment object
+	 * that is being passed into the parameter
+	 * 
+	 * It checks if the payment object exist or not, if exists, it is being override (updated)
+	 * else it creates the payment into the data file
+	 * 
+	 * payment list is being updated accordingly
+	 * 
+	 * @param payment
+	 * @return true if payment is updated / created successfully
+	 * else @return false if updating or creating of payment is unsuccessful
+	 */
 	public static boolean updatePaymentList(Payment payment) {
 		if (paymentList != null) {
 
@@ -74,6 +104,14 @@ public class PaymentController {
 		return true;
 	}
 	
+	/**
+	 * This method basically remove that particular payment that is being passed into the 
+	 * parameter from the payment list & data file
+	 * 
+	 * @param payment
+	 * @return true if payment is removed successfully
+	 * else @return false if the removal is unsuccessful
+	 */
 	public static boolean removePayment(Payment payment) {
 		if(paymentList != null) {
 			if(paymentList.remove(payment)){
@@ -91,6 +129,12 @@ public class PaymentController {
 			return false;
 	}
 	
+	/**
+	 * Search by payment id only returns one payment object as payment id is a primary key
+	 * @param payment id
+	 * @return the payment object that contains the payment id that is being passed in
+	 * else @return null if no such payment id exist
+	 */
 	public static Payment getPaymentByPaymentId(String paymentId) {
 		Payment checkPayment = new Payment();
 		checkPayment.setPaymentId(paymentId);
@@ -108,9 +152,16 @@ public class PaymentController {
 		return null;
 	}
 	
-	public static double computeRoomChargesByRoomTypes(Payment payment, int weekdays, int weekends) {
-		String roomNo = payment.getRoomNo();
-		String roomType = RoomController.getRoom(roomNo).getRoomType();
+	/**
+	 * This method basically compute the room charges
+	 * based on room type, weekdays and weekends
+	 * 
+	 * @param roomType
+	 * @param weekdays
+	 * @param weekends
+	 * @return room charges
+	 */
+	public static double computeRoomChargesByRoomTypes(String roomType, int weekdays, int weekends) {
 		if(roomType == "Single") {
 			return (weekdays*Prices.SROOM_PRICE_WEEKDAY)+(weekends*Prices.SROOM_PRICE_WEEKEND);
 		}
@@ -125,6 +176,14 @@ public class PaymentController {
 		}
 	}
 	
+	/**
+	 * This method calculate the days of stay (week day) based on check in 
+	 * and check out date
+	 * 
+	 * @param CheckInDate
+	 * @param CheckOutDate
+	 * @return
+	 */
 	public static int computeNoOfWeekDays(Date CheckInDate, Date CheckOutDate) {
 		// take check in and check out dates from reservation class
 		Calendar startCal = Calendar.getInstance();
@@ -149,6 +208,10 @@ public class PaymentController {
 		return workDays;
 	}
 	
+	/**
+	 * This method prints the bill invoice for that payment object
+	 * @param payment
+	 */
 	public static void printBillInvoice(Payment payment) {
 		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); // to get from reservation class
 		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate(); // to get from reservation class
@@ -156,7 +219,11 @@ public class PaymentController {
 		int weekdays = computeNoOfWeekDays(checkInDate, checkOutDate);
 		int weekends = checkOutDate.compareTo(checkInDate)-weekdays;
 		String itemName;
+		String roomNo = payment.getRoomNo();
+		String roomType = RoomController.getRoom(roomNo).getRoomType();
 		double itemPrice, roomCharges, totalItemPrice = 0;
+		
+		
 		System.out.println("Bill Invoice");
 		System.out.println("============");
 		
@@ -182,7 +249,8 @@ public class PaymentController {
 		System.out.println("Total for room service orders: " + totalItemPrice);
 		
 		// get from pricing class
-		roomCharges = computeRoomChargesByRoomTypes(payment, weekdays, weekends);
+		
+		roomCharges = computeRoomChargesByRoomTypes(roomType, weekdays, weekends);
 		payment.setDiscount(Prices.DISCOUNT * (roomCharges + totalItemPrice));
 		payment.setTax(Prices.TAX * (roomCharges + totalItemPrice - payment.getDiscount()));
 		payment.setTotalBill(payment.getTax() + roomCharges + totalItemPrice - payment.getDiscount());
