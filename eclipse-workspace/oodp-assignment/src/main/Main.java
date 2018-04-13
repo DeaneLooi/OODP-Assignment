@@ -6,8 +6,21 @@ import java.util.Timer;
 
 import reservation.ReservationTimer;
 
+/**
+ * <h1>Main Application</h1>
+ * 
+ * <p>Boundary class of the application</p>
+ * <p>Mainly input and output, with little control</p> 
+ *
+ */
 public class Main {
 
+	/**
+	 * 
+	 * Boundary layer of the application
+	 * 
+	 * @param args None
+	 */
 	public static void main(String args[]) {
 		int choice = 0;
 		Scanner sc = new Scanner(System.in);
