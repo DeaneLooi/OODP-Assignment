@@ -7,11 +7,21 @@ import java.util.List;
 import utils.Constants;
 import utils.Serialization;
 
+/**
+ * 
+ *
+ */
 public class RoomController {
-	
+
+	/**
+	 * 
+	 */
 	private static List<Room> roomList = retrieveRoomList();
-	
-//	@SuppressWarnings("unchecked")
+
+	/**
+	 * 
+	 * @return
+	 */
 	@SuppressWarnings("unchecked")
 	private static List<Room> retrieveRoomList() {
 
@@ -25,7 +35,12 @@ public class RoomController {
 			return null;
 		}
 	}
-	
+
+	/**
+	 * 
+	 * @param roomNo
+	 * @return
+	 */
 	public static Room getRoom(String roomNo) {
 		if (roomList != null) {
 			for (int i = 0; i < roomList.size(); i++) {
@@ -41,45 +56,51 @@ public class RoomController {
 		System.out.println("Invalid room number.");
 		return null;
 	}
-	
-//	public static boolean updateRoomDetails(String roomNo, String attr, String new_value) {
-//
-//		if (roomList != null) {
-//			for (int i = 0; i < roomList.size(); i++) {
-//				Room room = roomList.get(i);
-//				if (roomNo.equals(room.getRoomNo())) {
-//					if (attr.equals("bedType")) {
-//						room.setBedType(new_value);
-//					} else if (attr.equals("roomType")) {
-//						room.setRoomType(new_value);
-//					} else if (attr.equals("wifi")) {
-//						room.setWifi(new_value);
-//					} else if (attr.equals("view")) {
-//						room.setView(new_value);
-//					} else if (attr.equals("smoking")) {
-//						room.setSmoking(new_value);
-//					} else if (attr.equals("status")) {
-//						room.setStatus(new_value);
-//					}
-//					roomList.set(i, room);
-//					break;
-//				}
-//			}
-//		}
-//		else {
-//			System.out.println("No data.");
-//			return false;
-//		}
-//		try {
-//			Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//		roomList = retrieveRoomList();
-//		return true;
-//	}
-	
+
+	// public static boolean updateRoomDetails(String roomNo, String attr, String
+	// new_value) {
+	//
+	// if (roomList != null) {
+	// for (int i = 0; i < roomList.size(); i++) {
+	// Room room = roomList.get(i);
+	// if (roomNo.equals(room.getRoomNo())) {
+	// if (attr.equals("bedType")) {
+	// room.setBedType(new_value);
+	// } else if (attr.equals("roomType")) {
+	// room.setRoomType(new_value);
+	// } else if (attr.equals("wifi")) {
+	// room.setWifi(new_value);
+	// } else if (attr.equals("view")) {
+	// room.setView(new_value);
+	// } else if (attr.equals("smoking")) {
+	// room.setSmoking(new_value);
+	// } else if (attr.equals("status")) {
+	// room.setStatus(new_value);
+	// }
+	// roomList.set(i, room);
+	// break;
+	// }
+	// }
+	// }
+	// else {
+	// System.out.println("No data.");
+	// return false;
+	// }
+	// try {
+	// Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
+	// } catch (IOException e) {
+	// e.printStackTrace();
+	// return false;
+	// }
+	// roomList = retrieveRoomList();
+	// return true;
+	// }
+
+	/**
+	 * 
+	 * @param room
+	 * @return
+	 */
 	public static boolean updateRoomList(Room room) {
 		if (roomList != null) {
 			for (int i = 0; i < roomList.size(); i++) {
@@ -87,75 +108,78 @@ public class RoomController {
 					roomList.set(i, room);
 					break;
 				}
-				if (i+1 == roomList.size()) {
+				if (i + 1 == roomList.size()) {
 					roomList.add(room);
 				}
 			}
-		}
-		else {
+		} else {
 			roomList = new ArrayList<Room>();
 			roomList.add(room);
 		}
-		try {
-			Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+
+		return Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
+
 	}
-	
+
+	/**
+	 * 
+	 * @param room
+	 * @return
+	 */
 	public static boolean removeRoom(Room room) {
 		if (roomList != null) {
 			if (roomList.remove(room)) {
-				try {
-					Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
 
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
+				return Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
 
-				return true;
 			} else
 				return false;
 		}
 		System.out.println("No data.");
 		return false;
 	}
-	
+
+	/**
+	 * 
+	 * @param filters
+	 * @return
+	 */
 	public static List<String> findSuitableRoom(String[] filters) {
 		/*
 		 * @param: String[] filters = [roomType, bedType, wifi, view, smoking]
+		 * 
 		 * @return: String[] array of room numbers / null
-		 * @description: This method is important if we want the customer to be able to choose their
-		 * room's feature properly(if not then just use method printReport but will not be able to
-		 * choose other features apart from room type or room status)
+		 * 
+		 * @description: This method is important if we want the customer to be able to
+		 * choose their room's feature properly(if not then just use method printReport
+		 * but will not be able to choose other features apart from room type or room
+		 * status)
 		 */
 		List<String> roomNoList = new ArrayList<String>();
 		if (roomList != null) {
 			for (int i = 0; i < roomList.size(); i++) {
 				Room room = roomList.get(i);
-				
-				if (room.getRoomType().equals(filters[0]) 
-				 && room.getBedType().equals(filters[1])
-				 && room.getWifi().equals(filters[2])
-				 && room.getView().equals(filters[3])
-				 && room.getSmoking().equals(filters[4])
-				 && room.getStatus().equals("Vacant")) {
+
+				if (room.getRoomType().equals(filters[0]) && room.getBedType().equals(filters[1])
+						&& room.getWifi().equals(filters[2]) && room.getView().equals(filters[3])
+						&& room.getSmoking().equals(filters[4]) && room.getStatus().equals("Vacant")) {
 					roomNoList.add(room.getRoomNo());
-				}					
+				}
 			}
-		}
-		else {
+		} else {
 			System.out.println("No data.");
 		}
 		return roomNoList;
 	}
-	
+
+	/**
+	 * 
+	 * @param attr
+	 * @return
+	 */
 	@SuppressWarnings("static-access")
 	public static boolean printReport(String attr) {
-		
+
 		if (roomList != null) {
 			if (attr.equals("roomType")) {
 				int Single = 0;
@@ -178,36 +202,44 @@ public class RoomController {
 						Single++;
 						if (status.equals("Vacant")) {
 							Single_vacant++;
-							singleRoomList = singleRoomList + ((Single_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+							singleRoomList = singleRoomList
+									+ ((Single_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
 						}
 					} else if (roomType.equals("Double")) {
 						Double++;
 						if (status.equals("Vacant")) {
 							Double_vacant++;
-							doubleRoomList = doubleRoomList + ((Double_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+							doubleRoomList = doubleRoomList
+									+ ((Double_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
 						}
 					} else if (roomType.equals("Deluxe")) {
 						Deluxe++;
 						if (status.equals("Vacant")) {
 							Deluxe_vacant++;
-							deluxeRoomList = deluxeRoomList + ((Deluxe_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+							deluxeRoomList = deluxeRoomList
+									+ ((Deluxe_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
 						}
 					} else if (roomType.equals("VIP Suite")) {
 						VIP++;
 						if (status.equals("Vacant")) {
 							VIP_vacant++;
-							vipSuiteRoomList = vipSuiteRoomList + ((VIP_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+							vipSuiteRoomList = vipSuiteRoomList
+									+ ((VIP_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
 						}
 					}
 				}
-				
-				System.out.printf("Single: Number: %d out of %d\n\t\tRooms: %s\n", Single_vacant, Single, singleRoomList);
-				System.out.printf("Double: Number: %d out of %d\n\t\tRooms: %s\n", Double_vacant, Double, doubleRoomList);
-				System.out.printf("Deluxe: Number: %d out of %d\n\t\tRooms: %s\n", Deluxe_vacant, Deluxe, deluxeRoomList);
-				System.out.printf("VIP Suite: Number: %d out of %d\n\t\tRooms: %s\n", VIP_vacant, VIP, vipSuiteRoomList);
-				
+
+				System.out.printf("Single: Number: %d out of %d\n\t\tRooms: %s\n", Single_vacant, Single,
+						singleRoomList);
+				System.out.printf("Double: Number: %d out of %d\n\t\tRooms: %s\n", Double_vacant, Double,
+						doubleRoomList);
+				System.out.printf("Deluxe: Number: %d out of %d\n\t\tRooms: %s\n", Deluxe_vacant, Deluxe,
+						deluxeRoomList);
+				System.out.printf("VIP Suite: Number: %d out of %d\n\t\tRooms: %s\n", VIP_vacant, VIP,
+						vipSuiteRoomList);
+
 			} else if (attr.equals("status")) {
-				
+
 				String vacantRoomList = "";
 				String occupiedRoomList = "";
 				String reservedRoomList = "";
@@ -216,22 +248,26 @@ public class RoomController {
 					Room room = roomList.get(i);
 					String status = room.getStatus();
 					if (status.equals("Vacant")) {
-						vacantRoomList = vacantRoomList + ((!vacantRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
+						vacantRoomList = vacantRoomList
+								+ ((!vacantRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
 					} else if (status.equals("Occupied")) {
-						occupiedRoomList = occupiedRoomList + ((!occupiedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
+						occupiedRoomList = occupiedRoomList
+								+ ((!occupiedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
 					} else if (status.equals("Reserved")) {
-						reservedRoomList = reservedRoomList + ((!reservedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
+						reservedRoomList = reservedRoomList
+								+ ((!reservedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
 					} else if (status.equals("Under Maintenance")) {
-						underMaintenanceRoomList = underMaintenanceRoomList + ((!underMaintenanceRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
+						underMaintenanceRoomList = underMaintenanceRoomList
+								+ ((!underMaintenanceRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
 					}
 				}
-				
+
 				System.out.printf("Vacant:\n\t\tRooms: %s\n", vacantRoomList);
 				System.out.printf("Occupied:\n\t\tRooms: %s\n", occupiedRoomList);
 				System.out.printf("Reserved:\n\t\tRooms: %s\n", reservedRoomList);
 				System.out.printf("Under Maintenance:\n\t\tRooms: %s\n", underMaintenanceRoomList);
 			}
-			
+
 			return true;
 		} else {
 			System.out.println("No data.");

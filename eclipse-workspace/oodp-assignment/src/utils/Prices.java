@@ -1,5 +1,10 @@
 package utils;
 
+
+/**
+ * 
+ *
+ */
 public class Prices {
 	
 	public static double DISCOUNT = 0.00;

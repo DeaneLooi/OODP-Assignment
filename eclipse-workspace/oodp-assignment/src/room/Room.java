@@ -2,6 +2,10 @@ package room;
 
 import java.io.Serializable;
 
+/**
+ * 
+ *
+ */
 @SuppressWarnings("serial")
 public class Room implements Serializable{
 	private String roomNo;
@@ -12,6 +16,16 @@ public class Room implements Serializable{
 	private String smoking;
 	private String status;
 	
+	/**
+	 * 
+	 * @param roomNo
+	 * @param roomType
+	 * @param bedType
+	 * @param wifi
+	 * @param view
+	 * @param smoking
+	 * @param status
+	 */
 	public Room(String roomNo, String roomType, String bedType, String wifi, String view, String smoking, String status) {
 		super();
 		this.roomType = roomType;
@@ -23,67 +37,130 @@ public class Room implements Serializable{
 		this.status = status;
 	}
 	
-	public String getRoomType() {
-		return roomType;
-	}
 	
+
+	/**
+	 * @return the roomNo
+	 */
 	public String getRoomNo() {
 		return roomNo;
 	}
 
+
+
+	/**
+	 * @param roomNo the roomNo to set
+	 */
+	public void setRoomNo(String roomNo) {
+		this.roomNo = roomNo;
+	}
+
+
+
+	/**
+	 * @return the roomType
+	 */
+	public String getRoomType() {
+		return roomType;
+	}
+
+
+
+	/**
+	 * @param roomType the roomType to set
+	 */
+	public void setRoomType(String roomType) {
+		this.roomType = roomType;
+	}
+
+
+
+	/**
+	 * @return the bedType
+	 */
 	public String getBedType() {
 		return bedType;
 	}
 
+
+
+	/**
+	 * @param bedType the bedType to set
+	 */
+	public void setBedType(String bedType) {
+		this.bedType = bedType;
+	}
+
+
+
+	/**
+	 * @return the wifi
+	 */
 	public String getWifi() {
 		return wifi;
 	}
 
+
+
+	/**
+	 * @param wifi the wifi to set
+	 */
+	public void setWifi(String wifi) {
+		this.wifi = wifi;
+	}
+
+
+
+	/**
+	 * @return the view
+	 */
 	public String getView() {
 		return view;
 	}
-	
+
+
+
+	/**
+	 * @param view the view to set
+	 */
+	public void setView(String view) {
+		this.view = view;
+	}
+
+
+
+	/**
+	 * @return the smoking
+	 */
 	public String getSmoking() {
 		return smoking;
 	}
-	
+
+
+
+	/**
+	 * @param smoking the smoking to set
+	 */
+	public void setSmoking(String smoking) {
+		this.smoking = smoking;
+	}
+
+
+
+	/**
+	 * @return the status
+	 */
 	public String getStatus() {
 		return status;
 	}
 
-	public void setRoomType(String roomType) {
-		this.roomType = roomType;
-	}
-	
-	public void setRoomNo(String roomNo) {
-		this.roomNo = roomNo;
-	}
-	
-	public void setBedType(String bedType) {
-		this.bedType = bedType;
-	}
-	
-	public void setWifi(String wifi) {
-		this.wifi = wifi;
-	}
-	
-	public void setView(String view) {
-		this.view = view;
-	}
-	
-	public void setSmoking(String smoking) {
-		this.smoking = smoking;
-	}
-	
-	public void setStatus(String status) {
-		this.status = status;
-	}
+
 
 	/**
-	 * @return true if passport is the same
+	 * @param status the status to set
 	 */
-	public boolean equals(String roomNo) {
-		return (roomNo.equals(this.roomNo));
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 	/**

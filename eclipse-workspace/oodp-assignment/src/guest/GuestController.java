@@ -69,13 +69,9 @@ public class GuestController {
 			guestList = new ArrayList();
 			guestList.add(guest);
 		}
-		try {
-			Serialization.writeSerializedObject(Constants.GUEST_DATA, guestList);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
-		}
-		return true;
+		
+		return Serialization.writeSerializedObject(Constants.GUEST_DATA, guestList);
+
 	}
 
 	/**
@@ -89,13 +85,9 @@ public class GuestController {
 	public static boolean removeGuest(Guest guest) {
 		if (guestList != null) {
 			if (guestList.remove(guest)) {
-				try {
-					Serialization.writeSerializedObject(Constants.GUEST_DATA, guestList);
-				} catch (IOException e) {
-					e.printStackTrace();
-					return false;
-				}
-				return true;
+				
+				return Serialization.writeSerializedObject(Constants.GUEST_DATA, guestList);
+
 			} else
 				return false;
 		}
