@@ -11,6 +11,8 @@ import guest.Guest;
 import guest.GuestController;
 import item.Item;
 import item.ItemController;
+import payment.Payment;
+import payment.PaymentController;
 import reservation.Reservation;
 import reservation.ReservationController;
 import room.Room;
@@ -41,7 +43,7 @@ public class MainController {
 		Guest guest;
 
 		System.out.print("Passport No: ");
-		passport = input.next();// validation
+		passport = input.next();
 
 		if (GuestController.getGuestByPassport(passport) != null) {
 			System.out.println("Guest with passport number " + passport + " already exist.");
@@ -85,7 +87,7 @@ public class MainController {
 		Guest guest;
 
 		System.out.print("Enter the passport of the guest to update: ");
-		passport = input.next();// validation
+		passport = input.next();
 		guest = GuestController.getGuestByPassport(passport);
 
 		if (guest == null) {
@@ -102,7 +104,11 @@ public class MainController {
 			System.out.println("7. Credit Card Number");
 			System.out.println("8. Exit");
 			System.out.print("Option: ");
-			option = input.nextInt(); // check if input is int
+			while(!input.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				input.nextInt();
+			}
+			option = input.nextInt(); 
 			do {
 				switch (option) {
 				case 1:
@@ -275,6 +281,10 @@ public class MainController {
 			System.out.println("7. Update");
 			System.out.println("8. Cancel");
 			System.out.print("Option: ");
+			while(!input.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				input.nextInt();
+			}
 			option = input.nextInt();
 			do {
 				switch (option) {
@@ -458,10 +468,15 @@ public class MainController {
 		} else {
 			System.out.println("Enter description: ");
 			description = input.next();
-
+			
 			System.out.println("Enter price: S$");
+			while(!input.hasNextDouble() || input.nextDouble() <= 0) {
+				System.out.println("Invalid price");
+				System.out.println("Please re-enter price: S$");
+				input.nextDouble();
+			}
 			price = input.nextDouble();
-
+			
 			item = new Item(itemName, description, price);
 			result = ItemController.updateItemList(item);
 			if (result == true) {
@@ -491,7 +506,11 @@ public class MainController {
 			System.out.println("2. Price");
 			System.out.println("3. Exit");
 			System.out.print("Option: ");
-			option = input.nextInt(); // check if input is int
+			while(!input.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				input.nextInt();
+			}
+			option = input.nextInt();
 			do {
 				switch (option) {
 				case 1:
@@ -610,7 +629,79 @@ public class MainController {
 	 * 
 	 */
 	public static void checkOut() {
-
+		String rmNo;
+		List<Reservation> reservationList;
+		Reservation reservation = null;
+		Payment payment;
+		String creditCardNo;
+		char choice;
+		
+		System.out.println("Enter room number: ");
+		rmNo = input.next();
+		
+		reservationList = ReservationController.getReservationByRoomNo(rmNo);
+		if(reservationList == null) {
+			System.out.println("Invalid room number");
+			checkOut();
+		}
+		else {
+			for(i=0; i< reservationList.size(); i++) {
+				if(reservationList.get(i).getStatus() == Constants.STATUS_CHECKED_IN) {
+					reservation = reservationList.get(i);
+					break;
+				}
+			}
+			reservation.setStatus(Constants.STATUS_CHECKED_OUT);
+			ReservationController.updateRoom(reservation);
+			ReservationController.updateReservationList(reservation);
+			
+			payment = new Payment(reservation.getReservationCode(), rmNo, reservation.getGuestPassport());
+			PaymentController.updatePaymentList(payment); //validate
+			PaymentController.printBillInvoice(payment);
+			
+			System.out.println("Pay via: ");
+			System.out.println("1. Credit card");
+			System.out.println("2. Cash");
+			while(!input.hasNextInt()) {
+				System.out.println("Please enter a number!");
+				input.nextInt();
+			}
+			option = input.nextInt();
+			do {
+				switch(option) {
+					case 1: payment.setPaymentType(Constants.PAYMENT_TYPE_CASH);
+							PaymentController.updatePaymentList(payment); // validate
+							System.out.println("Payment completed");
+							break;
+					case 2: System.out.println("Pay via existing credit card number? (Y/N)");
+							choice = input.next().charAt(0);
+							if(choice == 'y' || choice == 'Y') {
+								creditCardNo = GuestController.getGuestByPassport(reservation.getGuestPassport()).getCreditCardNo();
+								payment.setCreditCard(creditCardNo);
+								PaymentController.updatePaymentList(payment); // validate
+								System.out.println("Payment completed");
+							}
+							else if(choice == 'n' || choice == 'N'){
+								System.out.println("Enter credit card number: ");
+								creditCardNo = input.next();
+								payment.setCreditCard(creditCardNo);
+								PaymentController.updatePaymentList(payment); // validate
+								System.out.println("Payment completed");
+							}
+							else {
+								System.out.println("Invalid option");
+								System.out.print("Re-enter your option: ");
+								choice = input.next().charAt(0);
+							}
+							break;
+		
+							
+					default: System.out.println("Invalid option");
+							 System.out.print("Re-enter your option: ");
+							 option = input.nextInt();
+				}
+			} while(option != 1 || option != 2);
+		}
 	}
 
 	/**
@@ -684,6 +775,10 @@ public class MainController {
 					System.out.println("4. Update");
 					System.out.println("5. Cancel");
 					System.out.print("Option: ");
+					while(!input.hasNextInt()) {
+						System.out.println("Please enter a number!");
+						input.nextInt();
+					}
 					option = input.nextInt();
 					do {
 						switch (option) {

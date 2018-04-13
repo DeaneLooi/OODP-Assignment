@@ -24,6 +24,8 @@ public final class Constants {
 	public static final String STATUS_OCCUPIED = "Occupied";
 	public static final String STATUS_UNDER_MAINTAINENCE = "Under Maintenance";
 	public static final String STATUS_RESERVED = "Reserved";
+	public static final String PAYMENT_TYPE_CASH = "Cash";
+	public static final String PAYMENT_TYPE_CREDITCARD ="Credit card";
 
 
 }

@@ -27,7 +27,7 @@ public class Payment implements Serializable{
 	/**
 	 * Guest name relating to the payment to be made
 	 */
-	private String guestName;
+	private String guestPassport;
 	/**
 	 * Tax in SGD for this payment
 	 */
@@ -63,11 +63,11 @@ public class Payment implements Serializable{
 	 * @param roomNo
 	 * @param guestName
 	 */
-	public Payment(String reservationCode, String roomNo, String guestName) {
+	public Payment(String reservationCode, String roomNo, String guestPassport) {
 		super();
 		this.reservationCode = reservationCode;
 		this.roomNo = roomNo;
-		this.guestName = guestName;
+		this.guestPassport = guestPassport;
 		this.tax = 0;
 		this.discount = 0;
 		this.totalBill = 0;
@@ -123,16 +123,16 @@ public class Payment implements Serializable{
 	/**
 	 * @return the guest name relating to this payment
 	 */
-	public String getGuestName() {
-		return guestName;
+	public String getGuestPassport() {
+		return guestPassport;
 	}
 
 	/**
 	 * @param guestName
 	 * updates the guest name
 	 */
-	public void setGuestName(String guestName) {
-		this.guestName = guestName;
+	public void setGuestPassport(String guestPassport) {
+		this.guestPassport = guestPassport;
 	}
 
 	/**
@@ -232,6 +232,6 @@ public class Payment implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Payment ID: " + this.paymentId + " Reservation No: " + this.reservationCode + " Room No: " + this.roomNo + " Guest Name " + this.guestName + " Tax: " + this.tax + " Discount: " + this.discount + " Total Bill: " + this.totalBill + " Payment Type: " + this.paymentType + " Credit Card: " + this.creditCard;
+		return "Payment ID: " + this.paymentId + " Reservation No: " + this.reservationCode + " Room No: " + this.roomNo + " Guest Passport " + this.guestPassport + " Tax: " + this.tax + " Discount: " + this.discount + " Total Bill: " + this.totalBill + " Payment Type: " + this.paymentType + " Credit Card: " + this.creditCard;
 	}
 }
