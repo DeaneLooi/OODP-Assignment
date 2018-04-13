@@ -201,34 +201,37 @@ public class PaymentController {
 	 * @param payment
 	 */
 	public static void printBillInvoice(Payment payment) {
-		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); // to
-																														// get
-																														// from
-																														// reservation
-																														// class
-		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate(); // to
-																														// get
-																														// from
-																														// reservation
-																														// class
 		int i;
+		
+		// for breakdown of days
+		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); 
+		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate(); 
 		int weekdays = computeNoOfWeekDays(checkInDate, checkOutDate);
 		int weekends = checkOutDate.compareTo(checkInDate) - weekdays;
+		
+		// for print order items
 		String itemName;
+		double itemPrice, totalItemPrice = 0;
+		
+		// for compute room price
 		String roomNo = payment.getRoomNo();
 		String roomType = RoomController.getRoom(roomNo).getRoomType();
-		double itemPrice, roomCharges, totalItemPrice = 0;
+		double roomCharges = computeRoomChargesByRoomTypes(roomType, weekdays, weekends);
+		
+		// for updating and computing bill 
+		payment.setDiscount(Prices.DISCOUNT * (roomCharges + totalItemPrice));
+		payment.setTax(Prices.TAX * (roomCharges + totalItemPrice - payment.getDiscount()));
+		payment.setTotalBill(payment.getTax() + roomCharges + totalItemPrice - payment.getDiscount());
+		updatePaymentList(payment);
 
 		System.out.println("Bill Invoice");
 		System.out.println("============");
-
-		// check in & check out dates for days of stay can take from reservation class
+		
 		System.out.println("Breakdown of Days of Stay");
 		System.out.println("-------------------------");
 		System.out.println("No. of weekdays: " + weekdays + "days");
 		System.out.println("No. of weekends/ public holidays: " + weekends + "days");
 
-		// get from service
 		List<Service> OrderList = ServiceController.getServicesFromReservationCode(payment.getReservationCode());
 		System.out.println("Room Service Order Items");
 		System.out.println("------------------------");
@@ -242,14 +245,7 @@ public class PaymentController {
 			totalItemPrice += itemPrice;
 		}
 		System.out.println("Total for room service orders: " + totalItemPrice);
-
-		// get from pricing class
-
-		roomCharges = computeRoomChargesByRoomTypes(roomType, weekdays, weekends);
-		payment.setDiscount(Prices.DISCOUNT * (roomCharges + totalItemPrice));
-		payment.setTax(Prices.TAX * (roomCharges + totalItemPrice - payment.getDiscount()));
-		payment.setTotalBill(payment.getTax() + roomCharges + totalItemPrice - payment.getDiscount());
-		updatePaymentList(payment);
+		
 		System.out.println("Room Charges: $" + roomCharges);
 		System.out.println("Discounts: $" + payment.getDiscount());
 		System.out.println("Tax: $" + payment.getTax());
