@@ -94,11 +94,11 @@ public class ReservationController {
 		Room room = RoomController.getRoom(reservation.getRoomNo());
 		boolean check = true;
 		if(reservation.getStatus().equals(Constants.STATUS_CONFIRMED))
-				room.setStatus(Constants.STATUS_RESERVED);
+				room.setStatus(Constants.ROOM_STATUS_RESERVED);
 		else if(reservation.getStatus().equals(Constants.STATUS_CHECKED_IN))
-				room.setStatus(Constants.STATUS_OCCUPIED);
+				room.setStatus(Constants.ROOM_STATUS_OCCUPIED);
 		else if(reservation.getStatus().equals(Constants.STATUS_CHECKED_OUT)) {
-				room.setStatus(Constants.STATUS_VACANT);
+				room.setStatus(Constants.ROOM_STATUS_VACANT);
 				check = removeReservation(reservation);
 		}
 		if(check)
