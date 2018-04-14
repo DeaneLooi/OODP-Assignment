@@ -28,7 +28,7 @@ class ServiceTestUnit {
 		if(serviceList!=null) {
 			service = serviceList.get(0);
 		}
-		service.setStatus(Constants.STATUS_DELIVERED);
+		service.setStatus(Constants.SERVICE_STATUS_DELIVERED);
 		ServiceController.updateServiceList(service);
 		
 	}
