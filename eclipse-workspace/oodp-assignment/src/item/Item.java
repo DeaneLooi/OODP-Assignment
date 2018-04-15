@@ -123,7 +123,7 @@ public class Item implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return  this.itemName + "\n   Price: " + this.itemPrice+"   Description: "+this.itemDescription;
+		return  this.itemName + "\nPrice: " + this.itemPrice+"   Description: "+this.itemDescription;
 	}
 
 }

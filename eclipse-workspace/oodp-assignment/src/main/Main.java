@@ -51,16 +51,20 @@ public class Main {
 			switch (choice) {
 
 			case 1:
-				System.out.println("Choose option:");
-				System.out.println("1.Create Guest Detail");
-				System.out.println("2.Update Guest Detail");
-				System.out.println("3.Search Guest Detail");
-				System.out.println("4. Main Menu");
-				System.out.print("Option:");
-				if (sc.hasNextInt()) {
+				do {
+					System.out.println("Choose option:");
+					System.out.println("1. Create Guest Detail");
+					System.out.println("2. Update Guest Detail");
+					System.out.println("3. Search Guest Detail");
+					System.out.println("4. Main Menu");
+					System.out.print("Option:");
+					while(!sc.hasNextInt()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					choice2 = sc.nextInt();
 					switch (choice2) {
-
+					
 					case 1:
 						MainController.createGuest();
 						break;
@@ -70,25 +74,28 @@ public class Main {
 					case 3:
 						MainController.searchGuest();
 						break;
-
+					case 4:
+						break;
+					default:
+						System.out.println("Please enter a number from 1 to 4");
 					}
-
-				}
-
-				else
-					sc.next();
-
-				break;
+				}while(choice2 < 1 || choice2 > 4);
+			break;
+				
 			case 2:
 				System.out.println("Choose option");
-				System.out.println("1.Create Reservation");
-				System.out.println("2.Update Reservation");
-				System.out.println("3.Remove Reservation");
-				System.out.println("4.Print Reservation");
+				System.out.println("1. Create Reservation");
+				System.out.println("2. Update Reservation");
+				System.out.println("3. Remove Reservation");
+				System.out.println("4. Print Reservation");
 				System.out.println("5. Main Menu");
 				System.out.print("Option:");
-				if (sc.hasNextInt()) {
-					choice2 = sc.nextInt();
+				while (!sc.hasNextInt()) {
+					System.out.println("Please enter a number!");
+					sc.next();
+				}
+				choice2 = sc.nextInt();
+				do {
 					switch (choice2) {
 
 					case 1:
@@ -103,26 +110,28 @@ public class Main {
 					case 4:
 						MainController.printReservation();
 						break;
+					case 5:
+						break;
+					default:
+						System.out.println("Please enter a number from 1 to 5");
 					}
+				}while(choice2 < 1 || choice2 > 5);
 
-				}
-
-				else
-					sc.next();
-
-				break;
+			break;
 			case 3:
-
-				System.out.println("Choose option");
-				System.out.println("1.Create Room");
-				System.out.println("2.Update Room");
-				System.out.println("3.Check Room Availability");
-				System.out.println("4.Print Room Status Statistic Report by Room Type");
-				System.out.println("5.Print Room Status Statistic Report by Availability");
-				System.out.println("6. Main Menu");
-				System.out.print("Option:");
-
-				if (sc.hasNextInt()) {
+				do {
+					System.out.println("Choose option");
+					System.out.println("1. Create Room");
+					System.out.println("2. Update Room");
+					System.out.println("3. Check Room Availability");
+					System.out.println("4. Print Room Status Statistic Report by Room Type");
+					System.out.println("5. Print Room Status Statistic Report by Availability");
+					System.out.println("6. Main Menu");
+					System.out.print("Option:");
+					while (!sc.hasNextInt()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					choice2 = sc.nextInt();
 					switch (choice2) {
 
@@ -141,28 +150,30 @@ public class Main {
 					case 5:
 						MainController.printReportByAvailability();
 						break;
-
+					case 6:
+						break;
+					default:
+						System.out.println("Please enter a number from 1 to 6");
 					}
-
-				}
-
-				else
-					sc.next();
-
+				}while(choice2 < 1 || choice2 > 6);
+				
 				break;
 			case 4:
-
-				System.out.println("Choose option");
-				System.out.println("1.Create Room Order Service");
-				System.out.println("2.Update Room Order Service");
-				System.out.println("3.Remove Room Order Service");
-				System.out.println("4.Create Menu Item");
-				System.out.println("5.Update Menu Item");
-				System.out.println("6.Remove Menu Item");
-				System.out.println("7. Display Menu");
-				System.out.println("8. Main Menu");
-				System.out.print("Option:");
-				if (sc.hasNextInt()) {
+				do {
+					System.out.println("Choose option");
+					System.out.println("1. Create Room Order Service");
+					System.out.println("2. Update Room Order Service");
+					System.out.println("3. Remove Room Order Service");
+					System.out.println("4. Create Menu Item");
+					System.out.println("5. Update Menu Item");
+					System.out.println("6. Remove Menu Item");
+					System.out.println("7. Display Menu");
+					System.out.println("8. Main Menu");
+					System.out.print("Option:");
+					while (!sc.hasNextInt()) {
+						System.out.println("Please enter a number!");
+						sc.next();
+					}
 					choice2 = sc.nextInt();
 					switch (choice2) {
 
@@ -186,12 +197,12 @@ public class Main {
 						break;
 					case 7:
 						MainController.displayMenu();
+					case 8:
+						break;
+					default:
+						System.out.println("Please enter a number from 1 to 8");
 					}
-
-				}
-
-				else
-					sc.next();
+				}while(choice2 < 1 || choice2 > 8);
 
 				break;
 			case 5:

@@ -223,7 +223,7 @@ public class Reservation implements Serializable {
 		// TODO Auto-generated method stub
 		return "Reservation Code: " + this.reservationCode + "\nRoom Number: " + this.roomNo + "\nGuestPassport: "
 				+ this.guestPassport + "\nCheck In Date: " + this.checkInDate + "\nCheck Out Date: " + this.checkOutDate
-				+ "\nstatus: " + this.status + "\nNo. of Adults: " + this.noAdults + "\nNo. of Children: "
+				+ "\nStatus: " + this.status + "\nNo. of Adults: " + this.noAdults + "\nNo. of Children: "
 				+ this.noChildren;
 	}
 
