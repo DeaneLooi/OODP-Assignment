@@ -35,7 +35,7 @@ public class ReservationController {
 		if (reservationList != null)
 			return reservationList;
 		else {
-			System.out.println("No data");
+			//System.out.println("No data");
 			return null;
 		}
 

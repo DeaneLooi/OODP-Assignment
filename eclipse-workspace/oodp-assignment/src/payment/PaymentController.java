@@ -44,7 +44,7 @@ public class PaymentController {
 		if (paymentList != null) {
 			return paymentList;
 		} else {
-			System.out.println("No data");
+			//System.out.println("No data");
 			return null;
 		}
 	}

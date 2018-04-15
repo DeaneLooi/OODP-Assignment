@@ -232,6 +232,6 @@ public class Payment implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Payment ID: " + this.paymentId + " Reservation No: " + this.reservationCode + " Room No: " + this.roomNo + " Guest Passport " + this.guestPassport + " Tax: " + this.tax + " Discount: " + this.discount + " Total Bill: " + this.totalBill + " Payment Type: " + this.paymentType + " Credit Card: " + this.creditCard;
+		return "Payment ID: " + this.paymentId + "\nReservation No: " + this.reservationCode + "\nRoom No: " + this.roomNo + "\nGuest Passport " + this.guestPassport + "\nTax: " + this.tax + "\nDiscount: " + this.discount + "\nTotal Bill: " + this.totalBill + "\nPayment Type: " + this.paymentType + "\nCredit Card: " + this.creditCard;
 	}
 }

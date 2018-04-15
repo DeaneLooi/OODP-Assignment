@@ -32,7 +32,7 @@ public class GuestController {
 		if (guestList != null)
 			return guestList;
 		else {
-			System.out.println("No data");
+			//System.out.println("No data");
 			return null;
 		}
 	}

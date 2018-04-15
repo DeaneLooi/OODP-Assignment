@@ -36,7 +36,7 @@ public class ServiceController {
 		if (serviceList != null)
 			return serviceList;
 		else {
-			System.out.println("No data");
+			//System.out.println("No data");
 			return null;
 		}
 

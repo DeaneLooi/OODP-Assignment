@@ -35,7 +35,7 @@ public class RoomController {
 		if (roomList != null)
 			return roomList;
 		else {
-			System.out.println("No data.");
+			//System.out.println("No data.");
 			return null;
 		}
 	}
@@ -55,10 +55,10 @@ public class RoomController {
 				}
 			}
 		} else {
-			System.out.println("No data.");
+			//System.out.println("No data.");
 			return null;
 		}
-		System.out.println("Invalid room number.");
+		//System.out.println("Invalid room number.");
 		return null;
 	}
 
@@ -119,6 +119,7 @@ public class RoomController {
 	 */
 	@SuppressWarnings("static-access")
 	public static boolean printReport(String attr) {
+		
 
 		if (roomList != null) {
 			if (attr.equals(Constants.PRINT_REPORT_BY_ROOM_TYPE)) {
@@ -141,8 +142,7 @@ public class RoomController {
 					String status = room.getStatus();
 //					System.out.println("roomType: "+roomType+"constant single: "+Constants.ROOM_TYPE_SINGLE);
 					if (roomType.equals(Constants.ROOM_TYPE_SINGLE)) {
-//						System.out.println("Single room");
-						Single++;;
+						Single++;
 						if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 							Single_vacant++;
 							singleRoomList = singleRoomList
@@ -216,7 +216,7 @@ public class RoomController {
 
 			return true;
 		} else {
-			System.out.println("No data.");
+			//System.out.println("No data.");
 			return false;
 		}
 	}

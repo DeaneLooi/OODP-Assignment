@@ -215,6 +215,6 @@ public class Guest implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Name: " + this.name + " Email: " + this.email + " Country: " + this.country + " Gender: " + this.gender + " Passport: " + this.passport + " Address: " + this.address + " Phone No: " + this.phoneNo + " Credit Card No: " + this.creditCardNo;
+		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\nGender: " + this.gender + "\nPassport: " + this.passport + "\nAddress: " + this.address + "\nPhone No: " + this.phoneNo + "\nCredit Card No: " + this.creditCardNo;
 	}
 }

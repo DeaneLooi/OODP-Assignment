@@ -34,7 +34,7 @@ public class ItemController {
 		if (itemList != null)
 			return itemList;
 		else {
-			System.err.println("No data");
+			//System.err.println("No data");
 			return null;
 		}
 

@@ -31,7 +31,7 @@ public class Main {
 		
 		do {
 
-			System.out.println("Choose one:");
+			System.out.println("Choose option:");
 			System.out.println("1. Guest");
 			System.out.println("2. Reservation");
 			System.out.println("3. Room");
@@ -39,6 +39,7 @@ public class Main {
 			System.out.println("5. Check-in");
 			System.out.println("6. Check-out");
 			System.out.println("7. Exit application");
+			System.out.print("Option:");
 			while (!sc.hasNextInt()) {
 				System.out.println("Please enter a number!");
 				sc.next();
@@ -50,11 +51,12 @@ public class Main {
 			switch (choice) {
 
 			case 1:
-				System.out.println("Choose one");
+				System.out.println("Choose option:");
 				System.out.println("1.Create Guest Detail");
 				System.out.println("2.Update Guest Detail");
 				System.out.println("3.Search Guest Detail");
 				System.out.println("4. Main Menu");
+				System.out.print("Option:");
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
 					switch (choice2) {
@@ -78,11 +80,13 @@ public class Main {
 
 				break;
 			case 2:
-				System.out.println("Choose one");
+				System.out.println("Choose option");
 				System.out.println("1.Create Reservation");
 				System.out.println("2.Update Reservation");
 				System.out.println("3.Remove Reservation");
 				System.out.println("4.Print Reservation");
+				System.out.println("5. Main Menu");
+				System.out.print("Option:");
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
 					switch (choice2) {
@@ -109,12 +113,14 @@ public class Main {
 				break;
 			case 3:
 
-				System.out.println("Choose one");
+				System.out.println("Choose option");
 				System.out.println("1.Create Room");
 				System.out.println("2.Update Room");
 				System.out.println("3.Check Room Availability");
 				System.out.println("4.Print Room Status Statistic Report by Room Type");
 				System.out.println("5.Print Room Status Statistic Report by Availability");
+				System.out.println("6. Main Menu");
+				System.out.print("Option:");
 
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
@@ -146,7 +152,7 @@ public class Main {
 				break;
 			case 4:
 
-				System.out.println("Choose one");
+				System.out.println("Choose option");
 				System.out.println("1.Create Room Order Service");
 				System.out.println("2.Update Room Order Service");
 				System.out.println("3.Remove Room Order Service");
@@ -154,6 +160,8 @@ public class Main {
 				System.out.println("5.Update Menu Item");
 				System.out.println("6.Remove Menu Item");
 				System.out.println("7. Display Menu");
+				System.out.println("8. Main Menu");
+				System.out.print("Option:");
 				if (sc.hasNextInt()) {
 					choice2 = sc.nextInt();
 					switch (choice2) {

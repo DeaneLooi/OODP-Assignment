@@ -21,9 +21,9 @@ public final class Constants {
 	public static final String STATUS_CHECKED_OUT = "Checked Out";
 	public static final String SERVICE_STATUS_PREPARING ="Preparing";
 	public static final String SERVICE_STATUS_DELIVERED = "Delivered";
-	public static final String ROOM_STATUS_VACANT = "Room Vacant";
-	public static final String ROOM_STATUS_OCCUPIED = "Room Occupied";
-	public static final String ROOM_STATUS_UNDER_MAINTAINENCE = "Room Under Maintenance";
+	public static final String ROOM_STATUS_VACANT = "Vacant";
+	public static final String ROOM_STATUS_OCCUPIED = "Occupied";
+	public static final String ROOM_STATUS_UNDER_MAINTAINENCE = "Under Maintenance";
 	public static final String ROOM_STATUS_RESERVED = "Reserved";
 	public static final String PAYMENT_TYPE_CASH = "Cash";
 	public static final String PAYMENT_TYPE_CREDITCARD ="Credit card";
@@ -41,8 +41,8 @@ public final class Constants {
 	public static final String WIFI_DISABLED = "Wifi Disabled";
 	public static final String SMOKING_ALLOWED = "Smoking Allowed";
 	public static final String SMOKING_PROHIBITED = "Smoking Prohibited";
-	public static final String PRINT_REPORT_BY_ROOM_TYPE = "roomType";
-	public static final String PRINT_REPORT_BY_STATUS = "status";
+	public static final String PRINT_REPORT_BY_ROOM_TYPE = "Room Type";
+	public static final String PRINT_REPORT_BY_STATUS = "Status";
 	
 
 

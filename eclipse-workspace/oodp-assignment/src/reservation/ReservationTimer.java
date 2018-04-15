@@ -67,7 +67,7 @@ public class ReservationTimer extends TimerTask{
 				
 				if(reservedDate.compareTo(currentDate)<0) {
 					
-					System.out.println("Reservation still valid");
+					//System.out.println("Reservation still valid");
 
 				}
 				
