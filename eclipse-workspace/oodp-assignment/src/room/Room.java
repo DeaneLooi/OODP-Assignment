@@ -3,20 +3,45 @@ package room;
 import java.io.Serializable;
 
 /**
- * 
+ * <h1> Room Entity </h1>
  *
+ * Represents a room object
  */
 @SuppressWarnings("serial")
 public class Room implements Serializable{
+	
+	/**
+	 * Primary Key of Room object<p>
+	 * ID
+	 */
 	private String roomNo;
+	/**
+	 * Room type of room object
+	 */
 	private String roomType;
+	/**
+	 * Bed type of room object
+	 */
 	private String bedType;
+	/**
+	 * Wifi access of room object
+	 */
 	private String wifi;
+	/**
+	 * View of room object
+	 */
 	private String view;
+	/**
+	 * Smoking permission of room object
+	 */
 	private String smoking;
+	/**
+	 * Status of room object
+	 */
 	private String status;
 	
 	/**
+	 * Create new Room object
 	 * 
 	 * @param roomNo
 	 * @param roomType
@@ -26,7 +51,11 @@ public class Room implements Serializable{
 	 * @param smoking
 	 * @param status
 	 */
-	public Room(String roomNo, String roomType, String bedType, String wifi, String view, String smoking, String status) {
+	public Room() {
+		super();
+	}
+	
+	public Room(String roomNo, String bedType, String roomType, String wifi, String view, String smoking, String status) {
 		super();
 		this.roomType = roomType;
 		this.roomNo = roomNo;
@@ -49,7 +78,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param roomNo the roomNo to set
+	 * @param roomNo
+	 * 			 the roomNo to set
 	 */
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
@@ -67,7 +97,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param roomType the roomType to set
+	 * @param roomType 
+	 * 				the roomType to set
 	 */
 	public void setRoomType(String roomType) {
 		this.roomType = roomType;
@@ -85,7 +116,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param bedType the bedType to set
+	 * @param bedType 
+	 * 				the bedType to set
 	 */
 	public void setBedType(String bedType) {
 		this.bedType = bedType;
@@ -103,7 +135,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param wifi the wifi to set
+	 * @param wifi
+	 * 			 the wifi to set
 	 */
 	public void setWifi(String wifi) {
 		this.wifi = wifi;
@@ -121,7 +154,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param view the view to set
+	 * @param view 
+	 * 			the view to set
 	 */
 	public void setView(String view) {
 		this.view = view;
@@ -139,7 +173,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param smoking the smoking to set
+	 * @param smoking 
+	 * 			the smoking to set
 	 */
 	public void setSmoking(String smoking) {
 		this.smoking = smoking;
@@ -157,7 +192,8 @@ public class Room implements Serializable{
 
 
 	/**
-	 * @param status the status to set
+	 * @param status 
+	 * 			the status to set
 	 */
 	public void setStatus(String status) {
 		this.status = status;
@@ -178,6 +214,6 @@ public class Room implements Serializable{
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return String.format("Room number: %s\nRoom type: %s\nBed type: %s\nWifi: %s\nView: %s\nSmoking: %s\nStatus: %s", roomNo, roomType, bedType, wifi, view, smoking, status);
+		return String.format("Room number: %s\nRoom type: %s\nBed type: %s\nWifi: %s\nView: %s\nSmoking: %s\nStatus: %s\n", roomNo, roomType, bedType, wifi, view, smoking, status);
 	}
 }

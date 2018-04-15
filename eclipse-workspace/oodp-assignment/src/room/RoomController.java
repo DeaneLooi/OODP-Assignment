@@ -8,22 +8,26 @@ import utils.Constants;
 import utils.Serialization;
 
 /**
+ * <h1> Room Controller </h1>
  * 
+ * This controller class access Room for CRUD operations and print room statistical report 
  *
  */
 public class RoomController {
 
 	/**
-	 * 
+	 * List of Room objects in data file
 	 */
 	private static List<Room> roomList = retrieveRoomList();
 
 	/**
 	 * 
-	 * @return
+	 * Reads room data file and retrieve a List of room objects
+	 * 
+	 * @return list of room objects
 	 */
 	@SuppressWarnings("unchecked")
-	private static List<Room> retrieveRoomList() {
+	public static List<Room> retrieveRoomList() {
 
 		List<Room> roomList = null;
 		roomList = (List<Room>) Serialization.readSerializedObject(Constants.ROOM_DATA);
@@ -37,9 +41,10 @@ public class RoomController {
 	}
 
 	/**
+	 * Iterate through List of room objects and retrieve the one with correct room number
 	 * 
 	 * @param roomNo
-	 * @return
+	 * @return Room object
 	 */
 	public static Room getRoom(String roomNo) {
 		if (roomList != null) {
@@ -57,49 +62,13 @@ public class RoomController {
 		return null;
 	}
 
-	// public static boolean updateRoomDetails(String roomNo, String attr, String
-	// new_value) {
-	//
-	// if (roomList != null) {
-	// for (int i = 0; i < roomList.size(); i++) {
-	// Room room = roomList.get(i);
-	// if (roomNo.equals(room.getRoomNo())) {
-	// if (attr.equals("bedType")) {
-	// room.setBedType(new_value);
-	// } else if (attr.equals("roomType")) {
-	// room.setRoomType(new_value);
-	// } else if (attr.equals("wifi")) {
-	// room.setWifi(new_value);
-	// } else if (attr.equals("view")) {
-	// room.setView(new_value);
-	// } else if (attr.equals("smoking")) {
-	// room.setSmoking(new_value);
-	// } else if (attr.equals("status")) {
-	// room.setStatus(new_value);
-	// }
-	// roomList.set(i, room);
-	// break;
-	// }
-	// }
-	// }
-	// else {
-	// System.out.println("No data.");
-	// return false;
-	// }
-	// try {
-	// Serialization.writeSerializedObject(Constants.ROOM_DATA, roomList);
-	// } catch (IOException e) {
-	// e.printStackTrace();
-	// return false;
-	// }
-	// roomList = retrieveRoomList();
-	// return true;
-	// }
 
 	/**
 	 * 
+	 * Create a new room object or update existing room details
+	 * 
 	 * @param room
-	 * @return
+	 * @return true if room data file is updated, otherwise return false
 	 */
 	public static boolean updateRoomList(Room room) {
 		if (roomList != null) {
@@ -123,8 +92,10 @@ public class RoomController {
 
 	/**
 	 * 
+	 * Remove room object from room list and update the data file
+	 * 
 	 * @param room
-	 * @return
+	 * @return true if room object removal and room data file update are successful, otherwise return false
 	 */
 	public static boolean removeRoom(Room room) {
 		if (roomList != null) {
@@ -141,47 +112,16 @@ public class RoomController {
 
 	/**
 	 * 
-	 * @param filters
-	 * @return
-	 */
-	public static List<String> findSuitableRoom(String[] filters) {
-		/*
-		 * @param: String[] filters = [roomType, bedType, wifi, view, smoking]
-		 * 
-		 * @return: String[] array of room numbers / null
-		 * 
-		 * @description: This method is important if we want the customer to be able to
-		 * choose their room's feature properly(if not then just use method printReport
-		 * but will not be able to choose other features apart from room type or room
-		 * status)
-		 */
-		List<String> roomNoList = new ArrayList<String>();
-		if (roomList != null) {
-			for (int i = 0; i < roomList.size(); i++) {
-				Room room = roomList.get(i);
-
-				if (room.getRoomType().equals(filters[0]) && room.getBedType().equals(filters[1])
-						&& room.getWifi().equals(filters[2]) && room.getView().equals(filters[3])
-						&& room.getSmoking().equals(filters[4]) && room.getStatus().equals("Vacant")) {
-					roomNoList.add(room.getRoomNo());
-				}
-			}
-		} else {
-			System.out.println("No data.");
-		}
-		return roomNoList;
-	}
-
-	/**
+	 * Print room report by room type or room status 
 	 * 
 	 * @param attr
-	 * @return
+	 * @return true if list of room is not null, otherwise return false
 	 */
 	@SuppressWarnings("static-access")
 	public static boolean printReport(String attr) {
 
 		if (roomList != null) {
-			if (attr.equals("roomType")) {
+			if (attr.equals(Constants.PRINT_REPORT_BY_ROOM_TYPE)) {
 				int Single = 0;
 				int Double = 0;
 				int Deluxe = 0;
@@ -195,36 +135,42 @@ public class RoomController {
 				String deluxeRoomList = "";
 				String vipSuiteRoomList = "";
 				for (int i = 0; i < roomList.size(); i++) {
+					
 					Room room = roomList.get(i);
 					String roomType = room.getRoomType();
 					String status = room.getStatus();
-					if (roomType.equals("Single")) {
-						Single++;
-						if (status.equals("Vacant")) {
+//					System.out.println("roomType: "+roomType+"constant single: "+Constants.ROOM_TYPE_SINGLE);
+					if (roomType.equals(Constants.ROOM_TYPE_SINGLE)) {
+//						System.out.println("Single room");
+						Single++;;
+						if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 							Single_vacant++;
 							singleRoomList = singleRoomList
-									+ ((Single_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+									+ ((singleRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
 						}
-					} else if (roomType.equals("Double")) {
+					} else if (roomType.equals(Constants.ROOM_TYPE_DOUBLE)) {
+//						System.out.println("Double room");
 						Double++;
-						if (status.equals("Vacant")) {
+						if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 							Double_vacant++;
 							doubleRoomList = doubleRoomList
-									+ ((Double_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+									+ ((doubleRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
 						}
-					} else if (roomType.equals("Deluxe")) {
+					} else if (roomType.equals(Constants.ROOM_TYPE_DELUXE)) {
+//						System.out.println("Deluxe room");
 						Deluxe++;
-						if (status.equals("Vacant")) {
+						if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 							Deluxe_vacant++;
 							deluxeRoomList = deluxeRoomList
-									+ ((Deluxe_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+									+ ((deluxeRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
 						}
-					} else if (roomType.equals("VIP Suite")) {
+					} else if (roomType.equals(Constants.ROOM_TYPE_VIP)) {
+//						System.out.println("VIP room");
 						VIP++;
-						if (status.equals("Vacant")) {
+						if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 							VIP_vacant++;
 							vipSuiteRoomList = vipSuiteRoomList
-									+ ((VIP_vacant > 1) ? ", %s" : "%s").format(room.getRoomNo());
+									+ ((vipSuiteRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
 						}
 					}
 				}
@@ -238,7 +184,7 @@ public class RoomController {
 				System.out.printf("VIP Suite: Number: %d out of %d\n\t\tRooms: %s\n", VIP_vacant, VIP,
 						vipSuiteRoomList);
 
-			} else if (attr.equals("status")) {
+			} else if (attr.equals(Constants.PRINT_REPORT_BY_STATUS)) {
 
 				String vacantRoomList = "";
 				String occupiedRoomList = "";
@@ -247,18 +193,18 @@ public class RoomController {
 				for (int i = 0; i < roomList.size(); i++) {
 					Room room = roomList.get(i);
 					String status = room.getStatus();
-					if (status.equals("Vacant")) {
+					if (status.equals(Constants.ROOM_STATUS_VACANT)) {
 						vacantRoomList = vacantRoomList
-								+ ((!vacantRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
-					} else if (status.equals("Occupied")) {
+								+ ((vacantRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
+					} else if (status.equals(Constants.ROOM_STATUS_OCCUPIED)) {
 						occupiedRoomList = occupiedRoomList
-								+ ((!occupiedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
-					} else if (status.equals("Reserved")) {
+								+ ((occupiedRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
+					} else if (status.equals(Constants.ROOM_STATUS_RESERVED)) {
 						reservedRoomList = reservedRoomList
-								+ ((!reservedRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
-					} else if (status.equals("Under Maintenance")) {
+								+ ((reservedRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
+					} else if (status.equals(Constants.ROOM_STATUS_UNDER_MAINTAINENCE)) {
 						underMaintenanceRoomList = underMaintenanceRoomList
-								+ ((!underMaintenanceRoomList.equals("")) ? ", %s" : "%s").format(room.getRoomNo());
+								+ ((underMaintenanceRoomList.length() > 0) ? (", " + room.getRoomNo()) : (room.getRoomNo()));
 					}
 				}
 
