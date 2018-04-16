@@ -207,8 +207,11 @@ public class ReservationController {
 					break;
 			}
 
-			if (reservationList.get(i).getRoomNo().equals(roomNo) && reservationList.get(i).getStatus().equals(status))
+
+			if(reservationList.get(i)!=null)
 				return reservationList.get(i);
+			else
+				return null;
 		}
 
 		return null;
