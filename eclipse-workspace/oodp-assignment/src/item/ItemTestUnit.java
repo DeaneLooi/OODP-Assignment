@@ -17,7 +17,7 @@ class ItemTestUnit {
 	@Test
 	void testGetMenu()
 	{
-		System.out.println(ItemController.getMenu());
+		//System.out.println(ItemController.getMenu());
 	}
 	
 	@Test

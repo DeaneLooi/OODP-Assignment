@@ -9,8 +9,12 @@ import reservation.ReservationTimer;
 /**
  * <h1>Main Application</h1>
  * 
- * <p>Boundary class of the application</p>
- * <p>Mainly input and output, with little control</p> 
+ * <p>
+ * Boundary class of the application
+ * </p>
+ * <p>
+ * Mainly input and output, with little control
+ * </p>
  *
  */
 public class Main {
@@ -42,12 +46,17 @@ public class Main {
 			System.out.print("Option:");
 			while (!sc.hasNextInt()) {
 				System.out.println("Please enter a number!");
+				System.out.print("Option:");
 				sc.next();
 			}
 			choice = sc.nextInt();
+			sc.nextLine();
 
 			int choice2;
+			int newChoice = 1;
 
+			
+			do {
 			switch (choice) {
 
 			case 1:
@@ -60,9 +69,11 @@ public class Main {
 					System.out.print("Option:");
 					while(!sc.hasNextInt()) {
 						System.out.println("Please enter a number!");
+						System.out.print("Option:");
 						sc.next();
 					}
 					choice2 = sc.nextInt();
+					sc.nextLine();
 					switch (choice2) {
 					
 					case 1:
@@ -80,9 +91,11 @@ public class Main {
 						System.out.println("Please enter a number from 1 to 4");
 					}
 				}while(choice2 < 1 || choice2 > 4);
+				newChoice = 0;
 			break;
 				
 			case 2:
+				do {
 				System.out.println("Choose option");
 				System.out.println("1. Create Reservation");
 				System.out.println("2. Update Reservation");
@@ -92,10 +105,11 @@ public class Main {
 				System.out.print("Option:");
 				while (!sc.hasNextInt()) {
 					System.out.println("Please enter a number!");
-					sc.next();
+					System.out.print("Option:");
+					sc.nextLine();
 				}
 				choice2 = sc.nextInt();
-				do {
+				sc.nextLine();
 					switch (choice2) {
 
 					case 1:
@@ -116,7 +130,7 @@ public class Main {
 						System.out.println("Please enter a number from 1 to 5");
 					}
 				}while(choice2 < 1 || choice2 > 5);
-
+				newChoice = 0;
 			break;
 			case 3:
 				do {
@@ -130,9 +144,11 @@ public class Main {
 					System.out.print("Option:");
 					while (!sc.hasNextInt()) {
 						System.out.println("Please enter a number!");
+						System.out.print("Option:");
 						sc.next();
 					}
 					choice2 = sc.nextInt();
+					sc.nextLine();
 					switch (choice2) {
 
 					case 1:
@@ -156,7 +172,7 @@ public class Main {
 						System.out.println("Please enter a number from 1 to 6");
 					}
 				}while(choice2 < 1 || choice2 > 6);
-				
+				newChoice = 0;
 				break;
 			case 4:
 				do {
@@ -172,9 +188,11 @@ public class Main {
 					System.out.print("Option:");
 					while (!sc.hasNextInt()) {
 						System.out.println("Please enter a number!");
+						System.out.print("Option:");
 						sc.next();
 					}
 					choice2 = sc.nextInt();
+					sc.nextLine();
 					switch (choice2) {
 
 					case 1:
@@ -203,28 +221,33 @@ public class Main {
 						System.out.println("Please enter a number from 1 to 8");
 					}
 				}while(choice2 < 1 || choice2 > 8);
-
+				newChoice = 0;
 				break;
 			case 5:
 				MainController.checkIn();
+				newChoice = 0;
 				break;
 			case 6:
 				MainController.checkOut();
+				newChoice = 0;
 				break;
 			case 7:
-				System.out.println("Exiting application..");
+				System.out.println("<< Exiting application..");
+				System.exit(0);
 				break;
 			default:
 				System.out.println("Please enter a number from 1 to 7");
-				sc.next();
-				if (sc.hasNext())
-					choice = sc.nextInt();
-				else
-					choice = 0;
-
+				System.out.print("Option: ");
+				while (!sc.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					sc.next();
+				}
+				newChoice = sc.nextInt();
+				sc.nextLine();
+				choice = newChoice;
 			}
-
-			System.out.println("\n\n");
+			}while(newChoice>=1 && newChoice<=7);
 
 		} while (choice != 7);
 

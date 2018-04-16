@@ -3,6 +3,7 @@ package utils;
 
 /**
  * 
+ * Contains all the prices needed to calculate the total bill
  *
  */
 public class Prices {

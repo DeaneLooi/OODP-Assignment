@@ -1,8 +1,8 @@
 package item;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.Constants;
 import utils.Serialization;
 
@@ -17,7 +17,7 @@ import utils.Serialization;
 public class ItemController {
 
 	/**
-	 * The list of Item Entity objects in the data file
+	 * The list of Item Entity objects in the data file	
 	 */
 	private static List<Item> itemList = retrieveItemList();
 	
@@ -67,7 +67,7 @@ public class ItemController {
 		}
 
 		else {
-			itemList = new ArrayList();
+			itemList = new ArrayList<Item>();
 			itemList.add(item);
 		}
 
@@ -81,16 +81,17 @@ public class ItemController {
 	 * 
 	 * Displays the menu
 	 * 
-	 * @return Returns the menu in a String format
 	 */
-	public static String getMenu() {
+	public static void getMenu() {
+		
+		String tableFormat = "%-10s %-20s %-10s %-40s\n";
 
-		String menuList = "";
+		System.out.format(tableFormat, "S/No.","Menu Item","Price","Description");
+		
 		for (int i = 0; i < itemList.size(); i++) {
-			menuList += (i+1)+". "+itemList.get(i).toString() + "\n";
+			Item item = itemList.get(i);
+			System.out.format(tableFormat,i+1,item.getItemName(),item.getItemPrice(),item.getItemDescription());
 		}
-
-		return menuList;
 
 	}
 

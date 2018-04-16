@@ -2,7 +2,6 @@ package main;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -48,6 +47,7 @@ public class MainController {
 		Guest guest;
 		char genderC;
 
+		System.out.println("<< Guest Creation");
 		System.out.print("Passport No: ");
 		while (!input.hasNext()) {
 			System.out.println("Wrong input");
@@ -64,7 +64,7 @@ public class MainController {
 				input.next();
 			}
 			name = input.nextLine();
-
+			input.next();
 			do {
 				System.out.print("Email: ");
 				while (!input.hasNext()) {
@@ -146,7 +146,7 @@ public class MainController {
 			} while (!creditCardNo.matches(RegexValidation.creditCardRegex));
 
 			guest = new Guest(name, email, country, gender, passport, address, phoneNo, creditCardNo);
-			System.out.println(guest.toString());
+			System.out.println("<< Guest Details:\n" + guest.toString() + "\n");
 
 			System.out.println("Choose option: ");
 			System.out.println("1. Confirm");
@@ -171,15 +171,20 @@ public class MainController {
 					break;
 				case 2:
 					System.out.println("<< Back");
-					break;
+					return;
 				default:
 					System.out.println("Invalid option");
 					System.out.print("Re-enter your option: ");
+					while (!input.hasNextInt()) {
+						System.out.println("Please enter a number");
+						System.out.print("Option:");
+						input.next();
+					}
 					option = input.nextInt();
 					input.nextLine();
 				}
 
-			} while (option < 1 || option > 2);
+			} while (option == 1 && option == 2);
 
 		}
 	}
@@ -195,13 +200,15 @@ public class MainController {
 		String name, email, country, gender = null, passport, address, phoneNo, creditCardNo;
 		Guest guest;
 		char genderC;
-		int updateOption;
+		int updateOption, newOption = 1;
 
-		if(GuestController.retrieveGuestList() == null) {
+		if (GuestController.retrieveGuestList() == null) {
 			System.out.println("No guests in database");
+			System.out.println("<< Back");
 		}
-		
+
 		else {
+			System.out.println("<< Update Guest Details");
 			System.out.print("Enter the passport of the guest to update: ");
 			passport = input.next();
 			input.nextLine();
@@ -210,7 +217,7 @@ public class MainController {
 			if (guest != null) {
 
 				do {
-					System.out.println("Updated guest details:\n" + guest.toString());
+					System.out.println("<< Updated guest details:\n" + guest.toString());
 					System.out.println("Enter the option that you would like to update");
 					System.out.println("1. Name");
 					System.out.println("2. Email");
@@ -229,135 +236,153 @@ public class MainController {
 					}
 					updateOption = input.nextInt();
 					input.nextLine();
-
-					switch (updateOption) {
-					case 1:
-						System.out.println("Enter new name: ");
-						while (!input.hasNext()) {
-							System.out.println("Wrong input");
-							input.next();
-						}
-						name = input.nextLine();
-						guest.setName(name);
-						break;
-					case 2:
-
-						do {
-
-							System.out.print("Enter new email: ");
+					do {
+						switch (updateOption) {
+						case 0:
+							break;
+						case 1:
+							System.out.println("Enter new name: ");
 							while (!input.hasNext()) {
 								System.out.println("Wrong input");
 								input.next();
 							}
-							email = input.next();
+							name = input.nextLine();
+							guest.setName(name);
+							newOption = 0;
+							break;
+						case 2:
+
+							do {
+
+								System.out.print("Enter new email: ");
+								while (!input.hasNext()) {
+									System.out.println("Wrong input");
+									input.next();
+								}
+								email = input.next();
+								input.nextLine();
+								if (!email.matches(RegexValidation.emailRegex))
+									System.out.println("Wrong email format");
+							} while (!email.matches(RegexValidation.emailRegex));
+							guest.setEmail(email);
+							newOption = 0;
+							break;
+						case 3:
+							System.out.print("Enter new country: ");
+							while (!input.hasNext()) {
+								System.out.println("Wrong input");
+								input.next();
+							}
+							country = input.nextLine();
+							guest.setCountry(country);
+							newOption = 0;
+							break;
+						case 4:
+							System.out.println("Enter new gender: ");
+							while (!input.hasNext()) {
+								System.out.println("Wrong input");
+								input.next();
+							}
+							genderC = input.next().charAt(0);
+							do {
+								switch (genderC) {
+								case 'm':
+								case 'M': {
+									gender = "Male";
+									break;
+								}
+
+								case 'f':
+								case 'F': {
+									gender = "Female";
+									break;
+								}
+
+								default:
+									System.out.println("Invalid input");
+									System.out.print("Re-enter Gender(M/F): ");
+									genderC = input.next().charAt(0);
+								}
+							} while (gender == null);
 							input.nextLine();
-							if (!email.matches(RegexValidation.emailRegex))
-								System.out.println("Wrong email format");
-						} while (!email.matches(RegexValidation.emailRegex));
-						guest.setEmail(email);
-						break;
-					case 3:
-						System.out.print("Enter new country: ");
-						while (!input.hasNext()) {
-							System.out.println("Wrong input");
-							input.next();
-						}
-						country = input.nextLine();
-						guest.setCountry(country);
-						break;
-					case 4:
-						System.out.println("Enter new gender: ");
-						while (!input.hasNext()) {
-							System.out.println("Wrong input");
-							input.next();
-						}
-						genderC = input.next().charAt(0);
-						do {
-							switch (genderC) {
-							case 'm':
-							case 'M': {
-								gender = "Male";
-								break;
-							}
-
-							case 'f':
-							case 'F': {
-								gender = "Female";
-								break;
-							}
-
-							default:
-								System.out.println("Invalid input");
-								System.out.print("Re-enter Gender(M/F): ");
-								genderC = input.next().charAt(0);
-							}
-						} while (gender == null);
-						input.nextLine();
-						guest.setGender(gender);
-						break;
-					case 5:
-						System.out.println("Enter new address: ");
-						while (!input.hasNext()) {
-							System.out.println("Wrong input");
-							input.next();
-						}
-						address = input.nextLine();
-						guest.setAddress(address);
-						break;
-					case 6:
-
-						do {
-							System.out.print("Enter new phone number: ");
+							guest.setGender(gender);
+							newOption = 0;
+							break;
+						case 5:
+							System.out.println("Enter new address: ");
 							while (!input.hasNext()) {
 								System.out.println("Wrong input");
 								input.next();
 							}
-							phoneNo = input.next();
+							address = input.nextLine();
+							guest.setAddress(address);
+							newOption = 0;
+							break;
+						case 6:
+
+							do {
+								System.out.print("Enter new phone number: ");
+								while (!input.hasNext()) {
+									System.out.println("Wrong input");
+									input.next();
+								}
+								phoneNo = input.next();
+								input.nextLine();
+								if (!phoneNo.matches(RegexValidation.phoneNumberRegex))
+									System.out.println("Wrong phone number format");
+							} while (!phoneNo.matches(RegexValidation.phoneNumberRegex));
+							guest.setPhoneNo(phoneNo);
+							newOption = 0;
+							break;
+						case 7:
+
+							do {
+								System.out.print("Enter new credit card number: ");
+
+								while (!input.hasNext()) {
+									System.out.println("Wrong input");
+									input.next();
+								}
+								creditCardNo = input.nextLine();
+								creditCardNo = creditCardNo.replaceAll(RegexValidation.whiteSpaceRegex, "");
+								if (!creditCardNo.matches(RegexValidation.creditCardRegex))
+									System.out.println("Wrong credit card number format");
+							} while (!creditCardNo.matches(RegexValidation.creditCardRegex));
+							guest.setCreditCardNo(creditCardNo);
+							newOption = 0;
+							break;
+						case 8:
+							result = GuestController.updateGuestList(guest);
+							if (result == true) {
+								System.out.println("<< Guest updated successfully.");
+							} else {
+								System.out.println("Error...");
+							}
+							break;
+						case 9:
+							System.out.println("<< Back");
+							break;
+						default:
+							System.out.println("Invalid option");
+							System.out.print("Re-enter your option: ");
+							while (!input.hasNextInt()) {
+								System.out.println("Please enter a number");
+								System.out.print("Option:");
+								input.next();
+							}
+							newOption = input.nextInt();
 							input.nextLine();
-							if (!phoneNo.matches(RegexValidation.phoneNumberRegex))
-								System.out.println("Wrong phone number format");
-						} while (!phoneNo.matches(RegexValidation.phoneNumberRegex));
-						guest.setPhoneNo(phoneNo);
-						break;
-					case 7:
-
-						do {
-							System.out.print("Enter new credit card number: ");
-
-							while (!input.hasNext()) {
-								System.out.println("Wrong input");
-								input.next();
-							}
-							creditCardNo = input.nextLine();
-							creditCardNo = creditCardNo.replaceAll(RegexValidation.whiteSpaceRegex, "");
-							if (!creditCardNo.matches(RegexValidation.creditCardRegex))
-								System.out.println("Wrong credit card number format");
-						} while (!creditCardNo.matches(RegexValidation.creditCardRegex));
-						guest.setCreditCardNo(creditCardNo);
-						break;
-					case 8:
-						result = GuestController.updateGuestList(guest);
-						if (result == true) {
-							System.out.println("Guest updated successfully.");
-						} else {
-							System.out.println("Error...");
+							updateOption = newOption;
 						}
-						break;
-					case 9:
-						System.out.println("<< Back");
-						break;
-					default:
-						System.out.println("Invalid option");
-						System.out.print("Re-enter your option: ");
-						updateOption = input.nextInt();
-						input.nextLine();
-					}
+					} while (newOption >= 1 && newOption <= 7);
+
 				} while (updateOption < 8 || updateOption > 9);
 			}
 
 			else {
 				System.out.println("Guest does not exist");
-			}	
+				System.out.println("<< Back");
+			}
 		}
 	}
 
@@ -372,24 +397,29 @@ public class MainController {
 		String tableFormat = "%-10s %-30s %-20s %-20s %-10s %-15s %-50s %-25s %-20s \n";
 		List<Guest> guestList = GuestController.retrieveGuestList();
 
-		if(guestList.size() == 0) {
+		if (guestList.size() == 0) {
 			System.out.println("No guests in database");
-		}
-		else {
+			System.out.println("<< Back");
+		} else {
+			System.out.println("<< Search for Guest");
 			System.out.print("Enter the keyword: ");
 			while (!input.hasNext()) {
 				System.out.println("Wrong input");
 				input.next();
 			}
-			keyword = input.next();
+			keyword = input.nextLine();
 			guestList = GuestController.searchByKeyword(keyword);
 			if (guestList.size() == 0) {
 				System.out.println("No such guest with keyword " + keyword);
 			} else {
-				System.out.format(tableFormat, "S/No.", "Name", "Email","Country","Gender","Passport","Address","Phone Number","Credit Card Number");
+				System.out.println("<< Guest Details with keyword " + keyword);
+				System.out.format(tableFormat, "S/No.", "Name", "Email", "Country", "Gender", "Passport", "Address",
+						"Phone Number", "Credit Card Number");
 				for (i = 0; i < guestList.size(); i++) {
 					Guest guest = guestList.get(i);
-					System.out.format(tableFormat, i+1,guest.getName(),guest.getEmail(),guest.getCountry(),guest.getGender(),guest.getPassport(),guest.getAddress(),guest.getPhoneNo(),guest.getCreditCardNo());
+					System.out.format(tableFormat, i + 1, guest.getName(), guest.getEmail(), guest.getCountry(),
+							guest.getGender(), guest.getPassport(), guest.getAddress(), guest.getPhoneNo(),
+							guest.getCreditCardNo());
 				}
 			}
 		}
@@ -397,9 +427,9 @@ public class MainController {
 
 	/**
 	 * Prompts for passport of the guest. If the guest does not exists, it will
-	 * prompt to create a guest. Else it will prompt for more user input for
-	 * the necessary attributes to create Reservation object and update the reservation data
-	 * file.
+	 * prompt to create a guest. Else it will prompt for more user input for the
+	 * necessary attributes to create Reservation object and update the reservation
+	 * data file.
 	 */
 	public static void createReservation() {
 		String guestPassport, roomNo = null, status = null, checkin = null, checkout = null;
@@ -410,6 +440,7 @@ public class MainController {
 		Guest guest = null;
 		Room room;
 
+		System.out.println("<< Reservation Creation");
 		System.out.print("Passport Number: ");
 		while (!input.hasNext()) {
 			System.out.println("Wrong input");
@@ -442,10 +473,9 @@ public class MainController {
 						System.out.println("Invalid input");
 						System.out.print("Re-enter choice(Y/N): ");
 						choice = input.next().charAt(0);
+						input.nextLine();
 					}
-				} while (choice != 'n' && choice != 'N');
-				input.nextLine();
-
+				} while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n');
 			}
 
 		} while (guest == null);
@@ -490,22 +520,20 @@ public class MainController {
 			if (!checkout.matches(RegexValidation.dateRegex))
 				System.out.println("Wrong date format");
 		} while (!checkout.matches(RegexValidation.dateRegex));
-		checkin = checkin+ " 11:00:00";
-		checkout = checkout+" 09:00:00";
-		
+		checkin = checkin + " 11:00:00";
+		checkout = checkout + " 09:00:00";
+
 		if (null != checkin && checkin.trim().length() > 0 && null != checkout && checkout.trim().length() > 0) {
-			SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+			SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 			try {
 				checkInDate = myFormat.parse(checkin);
-				//checkInDate.setHours(11);
+				// checkInDate.setHours(11);
 				checkOutDate = myFormat.parse(checkout);
-				//checkOutDate.setHours(9);
+				// checkOutDate.setHours(9);
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 		}
-		System.out.println(checkInDate);
-
 		System.out.print("Number of Adults: ");
 		while (!input.hasNextInt()) {
 			System.out.println("Please enter a number");
@@ -537,7 +565,7 @@ public class MainController {
 					|| room.getStatus().equals(Constants.ROOM_STATUS_RESERVED))
 				reservation.setStatus(Constants.STATUS_WAITLIST);
 
-			System.out.println(reservation.toString());
+			System.out.println("<< Reservation Details:\n" + reservation.toString());
 			System.out.println("Choose option: ");
 			System.out.println("1. Confirm");
 			System.out.println("2. Cancel");
@@ -549,7 +577,7 @@ public class MainController {
 				case 1:
 					result = ReservationController.updateReservationList(reservation);
 					if (result == true) {
-						System.out.println("Reservation created successfully.");
+						System.out.println("<< Reservation created successfully.");
 					} else {
 						System.out.println("Error...");
 					}
@@ -583,12 +611,15 @@ public class MainController {
 		Date checkInDate = null;
 		int updateOption;
 		List<Reservation> reservationList = ReservationController.retrieveReservationList();
-		
-		if(reservationList.size() == 0) {
+
+		if (reservationList.size() == 0) {
 			System.out.println("No reservation in database");
+			System.out.println("<< Back");
+
 		}
-		
+
 		else {
+			System.out.println("<< Update Reservation Details");
 			System.out.println("Enter the reservation code: ");
 			while (!input.hasNext()) {
 				System.out.println("Wrong input");
@@ -602,7 +633,7 @@ public class MainController {
 			if (reservation != null) {
 
 				do {
-					System.out.println("Updated reservation details:\n" + reservation.toString());
+					System.out.println("<< Updated reservation details:\n" + reservation.toString());
 					System.out.println("Enter the option that you would like to update");
 					System.out.println("1. Room Number");
 					System.out.println("2. Check-in date");
@@ -645,8 +676,9 @@ public class MainController {
 							if (!checkin.matches(RegexValidation.dateRegex))
 								System.out.println("Wrong date format");
 						} while (!checkin.matches(RegexValidation.dateRegex));
+						checkin = checkin + " 11:00:00";
 						if (null != checkin && checkin.trim().length() > 0) {
-							SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+							SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 							try {
 								checkInDate = myFormat.parse(checkin);
 							} catch (ParseException e) {
@@ -655,7 +687,7 @@ public class MainController {
 							reservation.setCheckInDate(checkInDate);
 						}
 						break;
-					case 3:					
+					case 3:
 						do {
 							System.out.print("Enter new check-out Date (dd/mm/yyyy) Time: 9 AM: ");
 							while (!input.hasNext()) {
@@ -668,8 +700,9 @@ public class MainController {
 							if (!checkin.matches(RegexValidation.dateRegex))
 								System.out.println("Wrong date format");
 						} while (!checkin.matches(RegexValidation.dateRegex));
+						checkin = checkin + " 09:00:00";
 						if (null != checkin && checkin.trim().length() > 0) {
-							SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/YYYY hh:mm:ss");
+							SimpleDateFormat myFormat = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 							try {
 								checkInDate = myFormat.parse(checkin);
 							} catch (ParseException e) {
@@ -682,7 +715,7 @@ public class MainController {
 						System.out.print("Enter new no. of adults: ");
 						while (!input.hasNextInt()) {
 							System.out.println("Please enter a number");
-							input.hasNext();
+							input.next();
 						}
 						number = input.nextInt();
 						input.nextLine();
@@ -692,7 +725,7 @@ public class MainController {
 						System.out.println("Enter new no. of children: ");
 						while (!input.hasNextInt()) {
 							System.out.println("Please enter a number");
-							input.hasNext();
+							input.next();
 						}
 						number = input.nextInt();
 						input.nextLine();
@@ -704,9 +737,10 @@ public class MainController {
 						System.out.println("2.  In Waitlist");
 						System.out.println("3.  Checked-in");
 						System.out.println("4.  Checked-out");
+						System.out.print("Option");
 						while (!input.hasNextInt()) {
 							System.out.println("Please enter a number");
-							input.hasNext();
+							input.next();
 						}
 						status = input.nextInt();
 						input.nextLine();
@@ -734,7 +768,7 @@ public class MainController {
 						break;
 					case 7:
 						if (ReservationController.updateReservationList(reservation))
-							System.out.println("Reservation updated");
+							System.out.println("<< Reservation updated");
 						else
 							System.out.println("Error");
 						break;
@@ -752,43 +786,50 @@ public class MainController {
 
 			else {
 				System.out.println("Reservation does not exist");
+				System.out.println("<< Back");
+
 			}
 		}
 	}
 
 	/**
 	 * 
-	 * Prompts for reservation code, and removes reservation after confirmation from user if it exists.
+	 * Prompts for reservation code, and removes reservation after confirmation from
+	 * user if it exists.
 	 * 
 	 */
 	public static void removeReservation() {
 		String reservationCode;
 		Reservation reservation;
 		List<Reservation> reservationList = ReservationController.retrieveReservationList();
-		
-		if(reservationList.size() == 0) {
+
+		if (reservationList.size() == 0) {
 			System.out.println("No reservations in database");
-		}
-		else {
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Remove Reservation");
 			System.out.println("Enter the reservation code: ");
 			while (!input.hasNext()) {
 				System.out.println("Wrong input");
-				input.hasNext();
+				input.next();
 			}
 			reservationCode = input.next();
 			input.nextLine();
 			reservation = ReservationController.getReservationByCode(reservationCode);
 			if (reservation == null) {
 				System.out.println("Reservation " + reservationCode + " does not exist");
+				System.out.println("<< Back");
+
 			} else {
-				System.out.println(reservation.toString());
+				System.out.println("<< Reservation Details\n" + reservation.toString());
 				System.out.println("Choose option: ");
 				System.out.println("1. Confirm");
 				System.out.println("2. Cancel");
 				System.out.print("Option:");
 				while (!input.hasNextInt()) {
 					System.out.println("Please enter a number");
-					input.hasNext();
+					input.next();
 				}
 				option = input.nextInt();
 				input.nextLine();
@@ -797,7 +838,7 @@ public class MainController {
 					case 1:
 						result = ReservationController.removeReservation(reservation);
 						if (result == true) {
-							System.out.println("Reservation removed successfully.");
+							System.out.println("<< Reservation removed successfully.");
 						} else {
 							System.out.println("Error...");
 						}
@@ -827,39 +868,68 @@ public class MainController {
 	public static void printReservation() {
 		List<Reservation> reservationList;
 		reservationList = ReservationController.retrieveReservationList();
+		String tableFormat = "%-20s %-15s %-15s %-30s %-30s %-15s %-15s %-15s \n";
 		int size = reservationList.size();
-		if(size == 0) {
+		if (size == 0) {
 			System.out.println("No reservations in database");
-		}
-		else {
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Reservation Details");
+			System.out.format(tableFormat, "Reservation Code", "Guest Passport", "Room Number", "Check In Date",
+					"Check Out Date", "Status", "No. of Adults", "No. of Children");
+
 			for (i = 0; i < size; i++) {
-				System.out.println(reservationList.get(i).toString());
+				Reservation reservation = reservationList.get(i);
+				System.out.format(tableFormat, reservation.getReservationCode(), reservation.getGuestPassport(),
+						reservation.getRoomNo(), reservation.getCheckInDate().toString(),
+						reservation.getCheckOutDate().toString(), reservation.getStatus(), reservation.getNoAdults(),
+						reservation.getNoChildren());
+
 			}
 		}
 	}
 
 	/**
-	 * 
+	 * Prompts for room number. If the room does not exists, it will return back to
+	 * calling function. Else it will prompt for more user input for the necessary
+	 * attributes to create ROom object and update the Room data file.
 	 */
 	public static void createRoom() {
 
 		String roomNo, roomType = null, bedType = null, wifi = null, view = null, smoking = null, status = null;
 		Room room;
 
+		System.out.println("<< Room Creation");
 		System.out.println("Enter the room number: ");
+		while (!input.hasNext()) {
+			System.out.println("Wrong input");
+			input.next();
+		}
 		roomNo = input.next();
+		input.nextLine();
 		room = RoomController.getRoom(roomNo);
 		if (room != null) {
 			System.out.println("Room " + roomNo + " already exists.");
+			System.out.println("<< Back");
+
 		} else {
 
-			System.out.println("Choose room type: ");
-			System.out.println("1. Single");
-			System.out.println("2. Double");
-			System.out.println("3. Deluxe");
-			System.out.println("4. Vip Suite");
-			option = input.nextInt();
 			do {
+				System.out.println("Choose room type: ");
+				System.out.println("1. Single");
+				System.out.println("2. Double");
+				System.out.println("3. Deluxe");
+				System.out.println("4. Vip Suite");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 					roomType = Constants.ROOM_TYPE_SINGLE;
@@ -874,20 +944,25 @@ public class MainController {
 					roomType = Constants.ROOM_TYPE_VIP;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 4");
 				}
 
 			} while (option < 1 || option > 5);
 
-			System.out.println("Choose bed type: ");
-			System.out.println("1. Twin");
-			System.out.println("2. Double");
-			System.out.println("3. Queen");
-			System.out.println("4. King");
-			option = input.nextInt();
 			do {
+				System.out.println("Choose bed type: ");
+				System.out.println("1. Twin");
+				System.out.println("2. Double");
+				System.out.println("3. Queen");
+				System.out.println("4. King");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 					bedType = Constants.BED_TYPE_TWIN;
@@ -902,18 +977,24 @@ public class MainController {
 					bedType = Constants.BED_TYPE_KING;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 4");
+
 				}
 
 			} while (option < 1 || option > 5);
 
-			System.out.println("WI-FI: ");
-			System.out.println("1. Enabled");
-			System.out.println("2. Disabled");
-			option = input.nextInt();
 			do {
+				System.out.println("WI-FI: ");
+				System.out.println("1. Enabled");
+				System.out.println("2. Disabled");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.hasNextLine();
 				switch (option) {
 				case 1:
 					wifi = Constants.WIFI_ENABLED;
@@ -922,18 +1003,24 @@ public class MainController {
 					wifi = Constants.WIFI_DISABLED;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 2");
+
 				}
 
 			} while (option < 1 || option > 3);
 
-			System.out.println("Choose view: ");
-			System.out.println("1. Ocean View");
-			System.out.println("2. City View");
-			option = input.nextInt();
 			do {
+				System.out.println("Choose view: ");
+				System.out.println("1. Ocean View");
+				System.out.println("2. City View");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 					view = Constants.ROOM_VIEW_OCEAN;
@@ -942,18 +1029,24 @@ public class MainController {
 					view = Constants.ROOM_VIEW_CITY;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 2");
+
 				}
 
 			} while (option < 1 || option > 3);
 
-			System.out.println("Smoking");
-			System.out.println("1. Allowed");
-			System.out.println("2. Prohibited");
-			option = input.nextInt();
 			do {
+				System.out.println("Smoking: ");
+				System.out.println("1. Allowed");
+				System.out.println("2. Prohibited");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 					smoking = Constants.SMOKING_ALLOWED;
@@ -962,19 +1055,25 @@ public class MainController {
 					smoking = Constants.SMOKING_PROHIBITED;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 2");
+
 				}
 
 			} while (option < 1 || option > 2);
 
-			System.out.println("Choose status: ");
-			System.out.println("1. Vacant");
-			System.out.println("2. Occupied");
-			System.out.println("3. Under Maintainence");
-			option = input.nextInt();
 			do {
+				System.out.println("Choose status: ");
+				System.out.println("1. Vacant");
+				System.out.println("2. Occupied");
+				System.out.println("3. Under Maintainence");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 					status = Constants.ROOM_STATUS_VACANT;
@@ -986,25 +1085,32 @@ public class MainController {
 					status = Constants.ROOM_STATUS_UNDER_MAINTAINENCE;
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 3");
+
 				}
 
 			} while (option < 1 || option > 3);
-			room = new Room(roomNo, bedType, roomType, wifi, view, smoking, status);
-			System.out.println(room.toString());
-			System.out.println("Choose option: ");
-			System.out.println("1. Confirm");
-			System.out.println("2. Cancel");
-			option = input.nextInt();
+
 			do {
+				room = new Room(roomNo, bedType, roomType, wifi, view, smoking, status);
+				System.out.println("<< Room Details:\n" + room.toString());
+				System.out.println("Choose option: ");
+				System.out.println("1. Confirm");
+				System.out.println("2. Cancel");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number");
+					System.out.print("Option:");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
 				switch (option) {
 				case 1:
 
 					result = RoomController.updateRoomList(room);
 					if (result == true) {
-						System.out.println("Room created successfully.");
+						System.out.println("<< Room created successfully.");
 					} else {
 						System.out.println("Error...");
 					}
@@ -1013,9 +1119,8 @@ public class MainController {
 					System.out.println("<< Back");
 					break;
 				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
+					System.out.println("Please enter a number from 1 to 2");
+
 				}
 
 			} while (option < 1 || option > 2);
@@ -1025,19 +1130,27 @@ public class MainController {
 	}
 
 	/**
-	 * 
+	 * Prompts for room number. If room does not exist, it will return back to
+	 * calling function. Else it will prompt the user which attributes to update.
 	 */
 	public static void updateRoom() {
 		String roomNo;
 		Room room;
 		int updateOption;
-		
-		if(ReservationController.retrieveReservationList() == null) {
-			System.out.println("No reservations in database");
-		}
-		else {
+
+		if (RoomController.retrieveRoomList() == null) {
+			System.out.println("No rooms in database");
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Update Room Details");
 			System.out.println("Enter the room number: ");
+			while (!input.hasNext()) {
+				System.out.println("Wrong input");
+				input.next();
+			}
 			roomNo = input.next();
+			input.nextLine();
 
 			room = RoomController.getRoom(roomNo);
 
@@ -1057,23 +1170,27 @@ public class MainController {
 					System.out.print("Option: ");
 					while (!input.hasNextInt()) {
 						System.out.println("Please enter a number!");
-						input.nextInt();
+						System.out.print("Option:");
+						input.next();
 					}
 					updateOption = input.nextInt();
-
+					input.nextLine();
 					switch (updateOption) {
 					case 1:
-						System.out.println("Choose room type: ");
-						System.out.println("1. Single");
-						System.out.println("2. Double");
-						System.out.println("3. Deluxe");
-						System.out.println("4. Vip Suite");
-						option = input.nextInt();
-						if (option < 1)
-							System.out.println("Option < 1");
-						else if (option > 4)
-							System.out.println("Option > 4");
 						do {
+							System.out.println("Choose room type: ");
+							System.out.println("1. Single");
+							System.out.println("2. Double");
+							System.out.println("3. Deluxe");
+							System.out.println("4. Vip Suite");
+							System.out.print("Option:");
+							while (!input.hasNextInt()) {
+								System.out.println("Please enter a number");
+								System.out.print("Option:");
+								input.next();
+							}
+							option = input.nextInt();
+							input.nextLine();
 							switch (option) {
 							case 1:
 								room.setRoomType(Constants.ROOM_TYPE_SINGLE);
@@ -1088,22 +1205,28 @@ public class MainController {
 								room.setRoomType(Constants.ROOM_TYPE_VIP);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 4");
+
 							}
 
 						} while (option < 1 || option > 4);
 
 						break;
 					case 2:
-						System.out.println("Choose bed type: ");
-						System.out.println("1. Twin");
-						System.out.println("2. Double");
-						System.out.println("3. Queen");
-						System.out.println("4. King");
-						option = input.nextInt();
 						do {
+							System.out.println("Choose bed type: ");
+							System.out.println("1. Twin");
+							System.out.println("2. Double");
+							System.out.println("3. Queen");
+							System.out.println("4. King");
+							System.out.print("Option:");
+							while (!input.hasNextInt()) {
+								System.out.println("Please enter a number");
+								System.out.print("Option:");
+								input.next();
+							}
+							option = input.nextInt();
+							input.nextLine();
 							switch (option) {
 							case 1:
 								room.setBedType(Constants.BED_TYPE_TWIN);
@@ -1118,19 +1241,24 @@ public class MainController {
 								room.setBedType(Constants.BED_TYPE_KING);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 4");
 							}
 
 						} while (option < 1 || option > 4);
 						break;
 					case 3:
+						do {
 						System.out.println("WI-FI: ");
 						System.out.println("1. Enabled");
 						System.out.println("2. Disabled");
+						System.out.print("Option:");
+						while (!input.hasNextInt()) {
+							System.out.println("Please enter a number");
+							System.out.print("Option:");
+							input.next();
+						}
 						option = input.nextInt();
-						do {
+						input.nextLine();
 							switch (option) {
 							case 1:
 								room.setWifi(Constants.WIFI_ENABLED);
@@ -1139,20 +1267,25 @@ public class MainController {
 								room.setWifi(Constants.WIFI_DISABLED);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 2");
 							}
 
 						} while (option < 1 || option > 2);
 
 						break;
 					case 4:
+						do {
 						System.out.println("Choose view: ");
 						System.out.println("1. Ocean View");
 						System.out.println("2. City View");
+						System.out.print("Option:");
+						while (!input.hasNextInt()) {
+							System.out.println("Please enter a number");
+							System.out.print("Option:");
+							input.next();
+						}
 						option = input.nextInt();
-						do {
+						input.nextLine();
 							switch (option) {
 							case 1:
 								room.setView(Constants.ROOM_VIEW_OCEAN);
@@ -1161,19 +1294,24 @@ public class MainController {
 								room.setView(Constants.ROOM_VIEW_CITY);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 2");
 							}
 
 						} while (option < 1 || option > 2);
 						break;
 					case 5:
+						do {
 						System.out.println("Smoking");
 						System.out.println("1. Allowed");
 						System.out.println("2. Prohibited");
+						System.out.print("Option:");
+						while (!input.hasNextInt()) {
+							System.out.println("Please enter a number");
+							System.out.print("Option:");
+							input.next();
+						}
 						option = input.nextInt();
-						do {
+						input.nextLine();
 							switch (option) {
 							case 1:
 								room.setSmoking(Constants.SMOKING_ALLOWED);
@@ -1182,21 +1320,26 @@ public class MainController {
 								room.setSmoking(Constants.SMOKING_PROHIBITED);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 2");
+
 							}
 
 						} while (option < 1 || option > 2);
 						break;
 					case 6:
-
-						System.out.println("Choose status: ");
-						System.out.println("1. Vacant");
-						System.out.println("2. Occupied");
-						System.out.println("3. Under Maintainence");
-						option = input.nextInt();
 						do {
+							System.out.println("Choose status: ");
+							System.out.println("1. Vacant");
+							System.out.println("2. Occupied");
+							System.out.println("3. Under Maintainence");
+							System.out.print("Option:");
+							while (!input.hasNextInt()) {
+								System.out.println("Please enter a number");
+								System.out.print("Option:");
+								input.next();
+							}
+							option = input.nextInt();
+							input.nextLine();
 							switch (option) {
 							case 1:
 								room.setStatus(Constants.ROOM_STATUS_VACANT);
@@ -1208,16 +1351,14 @@ public class MainController {
 								room.setStatus(Constants.ROOM_STATUS_UNDER_MAINTAINENCE);
 								break;
 							default:
-								System.out.println("Invalid option");
-								System.out.print("Re-enter your option: ");
-								option = input.nextInt();
+								System.out.println("Please enter a number from 1 to 3");
 							}
 
 						} while (option < 1 || option > 3);
 						break;
 					case 7:
 						if (RoomController.updateRoomList(room))
-							System.out.println("Room updated");
+							System.out.println("<< Room updated");
 						else
 							System.out.println("Error");
 						break;
@@ -1225,40 +1366,51 @@ public class MainController {
 						System.out.println("<< Back");
 						break;
 					default:
-						System.out.println("Invalid option");
-						System.out.print("Re-enter your option: ");
-						updateOption = input.nextInt();
+						System.out.println("Please enter a number from 1 to 8");
 					}
 				} while (updateOption < 7 || updateOption > 8);
 			}
 
 			else {
 				System.out.println("Room does not exist");
+				System.out.println("<< Back");
+
 			}
 		}
 	}
 
 	/**
 	 * 
+	 * Prompts for room number and shows the status of the room if it exists.
+	 * 
 	 */
 	public static void checkRoomAvailability() {
 		String roomNo;
 		Room room;
-		
-		if(RoomController.retrieveRoomList() == null) {
+
+		if (RoomController.retrieveRoomList() == null) {
 			System.out.println("No room in database");
-		}
-		else {
+			System.out.println("<< Back");
+
+		} else {
 			System.out.println("Enter room number: ");
+			while (!input.hasNext()) {
+				System.out.println("Wrong input");
+				input.next();
+			}
 			roomNo = input.next();
+			input.nextLine();
 			room = RoomController.getRoom(roomNo);
 
 			if (room != null) {
-				System.out.println("Room " + room.getRoomNo() + " is " + room.getStatus());
+				System.out.println("<< Room " + room.getRoomNo() + " is " + room.getStatus());
 			}
 
-			else
+			else {
 				System.out.println("Room not found");
+				System.out.println("<< Back");
+			}
+
 		}
 
 	}
@@ -1271,6 +1423,7 @@ public class MainController {
 	 */
 	public static void printReportByRoomType() {
 
+		System.out.println("<< Report by room type:");
 		RoomController.printReport(Constants.PRINT_REPORT_BY_ROOM_TYPE);
 
 	}
@@ -1282,15 +1435,15 @@ public class MainController {
 	 */
 	public static void printReportByAvailability() {
 
+		System.out.println("<< Report by availability");
 		RoomController.printReport(Constants.PRINT_REPORT_BY_STATUS);
 	}
 
 	/**
 	 * 
-	 * Prompts for item name. If the item already exists, it will
-	 * return back to calling function. Else it will prompt for more user input for
-	 * the necessary attributes to create Item object and update the item data
-	 * file.
+	 * Prompts for item name. If the item already exists, it will return back to
+	 * calling function. Else it will prompt for more user input for the necessary
+	 * attributes to create Item object and update the item data file.
 	 * 
 	 */
 	public static void createMenuItem() {
@@ -1298,24 +1451,25 @@ public class MainController {
 		double price = 0;
 		Item item;
 
+		System.out.println("<< Menu Item Creation");
 		System.out.println("Enter the item name: ");
 		while (!input.hasNext()) {
 			System.out.println("Wrong input");
 			input.next();
 		}
-		itemName = input.next();
-		input.nextLine();
+		itemName = input.nextLine();
 		item = ItemController.getItemFromName(itemName);
 		if (item != null) {
 			System.out.println(itemName + " already exists.");
+			System.out.println("<< Back");
+
 		} else {
 			System.out.println("Enter description: ");
 			while (!input.hasNext()) {
 				System.out.println("Wrong input");
 				input.next();
 			}
-			description = input.next();
-			input.nextLine();
+			description = input.nextLine();
 
 			System.out.println("Enter price: S$");
 			while (!input.hasNextDouble()) {
@@ -1327,7 +1481,7 @@ public class MainController {
 
 			item = new Item(itemName, description, price);
 
-			System.out.println(item.toString());
+			System.out.println("<< Menu Item Details:\n" + item.toString());
 			System.out.println("Choose option: ");
 			System.out.println("1. Confirm");
 			System.out.println("2. Cancel");
@@ -1343,129 +1497,7 @@ public class MainController {
 				case 1:
 					result = ItemController.updateItemList(item);
 					if (result == true) {
-						System.out.println("Item created successfully.");
-					} else {
-						System.out.println("Error...");
-					}
-					break;
-				case 2:
-					System.out.println("<< Back");
-					break;
-				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					option = input.nextInt();
-				}
-
-			} while (option < 1 || option > 2);
-
-		}
-	}
-
-	/**
-	 * 
-	 */
-	public static void updateMenuItem() {
-		String itemName, description;
-		double price;
-		Item item;
-
-		int updateOption;
-
-		System.out.println("Enter the item name: ");
-		itemName = input.next();
-		item = ItemController.getItemFromName(itemName);
-
-		if (item != null) {
-
-			do {
-				System.out.println("Updated menu item details:\n" + item.toString());
-				System.out.println("Enter the option that you would like to update");
-				System.out.println("1. Description");
-				System.out.println("2. Price");
-				System.out.println("3. Update");
-				System.out.println("4. Cancel");
-				System.out.print("Option: ");
-				while (!input.hasNextInt()) {
-					System.out.println("Please enter a number!");
-					input.nextInt();
-				}
-				updateOption = input.nextInt();
-
-				switch (updateOption) {
-				case 1:
-					System.out.print("Enter new description: ");
-					description = input.next();
-					item.setItemDescription(description);
-					break;
-				case 2:
-					System.out.print("Enter new price: ");
-					price = input.nextDouble();
-					item.setItemPrice(price);
-					break;
-				case 3:
-					result = ItemController.updateItemList(item);
-					if (result == true) {
-						System.out.println("Item updated successfully.");
-					} else {
-						System.out.println("Error...");
-					}
-				case 4:
-					System.out.println("<< Back");
-					break;
-				default:
-					System.out.println("Invalid option");
-					System.out.print("Re-enter your option: ");
-					updateOption = input.nextInt();
-				}
-			} while (updateOption < 3 || updateOption > 4);
-		}
-
-		else {
-			System.out.println("Menu item does not exist");
-		}
-
-	}
-
-	/**
-	 * 
-	 * Prompts for item name, and removes menu item after confirmation from user if it exists.
-	 * 
-	 */
-	public static void removeMenuItem() {
-		String itemName;
-		Item item;
-
-		System.out.print("Enter item name: ");
-		while (!input.hasNext()) {
-			System.out.println("Wrong input");
-			input.next();
-		}
-		itemName = input.next();
-		input.nextLine();
-		item = ItemController.getItemFromName(itemName);
-		if (item == null) {
-			System.out.println(itemName + " does not exists.");
-		} else {
-
-			System.out.println(item.toString());
-			System.out.println("Choose option: ");
-			System.out.println("1. Confirm");
-			System.out.println("2. Cancel");
-			System.out.print("Option:");
-			while (!input.hasNextInt()) {
-				System.out.println("Please enter a number!");
-				System.out.print("Option: ");
-				input.next();
-			}
-			option = input.nextInt();
-			input.nextLine();
-			do {
-				switch (option) {
-				case 1:
-					result = ItemController.removeItem(item);
-					if (result == true) {
-						System.out.println("Item removed successfully.");
+						System.out.println("<< Item created successfully.");
 					} else {
 						System.out.println("Error...");
 					}
@@ -1487,52 +1519,251 @@ public class MainController {
 
 	/**
 	 * 
+	 * Prompts for item name. If menu item does not exist, it will return back to
+	 * calling function. Else it will prompt the user which attributes to update.
+	 */
+	public static void updateMenuItem() {
+		String itemName, description;
+		double price;
+		Item item;
+
+		int updateOption;
+
+		if (ItemController.retrieveItemList() == null) {
+			System.out.println("No menu item in database");
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("Enter the item name: ");
+			while (!input.hasNext()) {
+				System.out.println("Wrong input");
+				input.next();
+			}
+			itemName = input.nextLine();
+			item = ItemController.getItemFromName(itemName);
+
+			if (item != null) {
+
+				System.out.println("<< Update Menu Item");
+				do {
+					System.out.println("Updated menu item details:\n" + item.toString());
+					System.out.println("Enter the option that you would like to update");
+					System.out.println("1. Description");
+					System.out.println("2. Price");
+					System.out.println("3. Update");
+					System.out.println("4. Cancel");
+					System.out.print("Option: ");
+					while (!input.hasNextInt()) {
+						System.out.println("Please enter a number!");
+						input.next();
+					}
+					updateOption = input.nextInt();
+					input.nextLine();
+					switch (updateOption) {
+					case 1:
+						System.out.print("Enter new description: ");
+						while (!input.hasNext()) {
+							System.out.println("Wrong input");
+							input.next();
+						}
+						description = input.nextLine();
+						item.setItemDescription(description);
+						break;
+					case 2:
+						System.out.print("Enter new price: ");
+						while (!input.hasNextDouble()) {
+							System.out.println("Please enter a number!");
+							input.next();
+						}
+						price = input.nextDouble();
+						input.nextLine();
+						item.setItemPrice(price);
+						break;
+					case 3:
+						result = ItemController.updateItemList(item);
+						if (result == true) {
+							System.out.println("<< Menu item updated successfully.");
+						} else {
+							System.out.println("Error...");
+						}
+					case 4:
+						System.out.println("<< Back");
+						break;
+					default:
+						System.out.println("Invalid option");
+						System.out.print("Re-enter your option: ");
+						updateOption = input.nextInt();
+						input.nextLine();
+					}
+				} while (updateOption < 3 || updateOption > 4);
+			}
+
+			else {
+				System.out.println("Menu item does not exist");
+				System.out.println("<< Back");
+
+			}
+		}
+
+	}
+
+	/**
+	 * 
+	 * Prompts for item name, and removes menu item after confirmation from user if
+	 * it exists.
+	 * 
+	 */
+	public static void removeMenuItem() {
+		String itemName;
+		Item item;
+
+		if (ItemController.retrieveItemList() == null) {
+			System.out.println("No menu item in database");
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Remove Menu Item");
+			System.out.print("Enter item name: ");
+			while (!input.hasNext()) {
+				System.out.println("Wrong input");
+				input.next();
+			}
+			itemName = input.next();
+			input.nextLine();
+			item = ItemController.getItemFromName(itemName);
+			if (item == null) {
+				System.out.println(itemName + " does not exists.");
+				System.out.println("<< Back");
+
+			} else {
+
+				System.out.println(item.toString());
+				System.out.println("Choose option: ");
+				System.out.println("1. Confirm");
+				System.out.println("2. Cancel");
+				System.out.print("Option:");
+				while (!input.hasNextInt()) {
+					System.out.println("Please enter a number!");
+					System.out.print("Option: ");
+					input.next();
+				}
+				option = input.nextInt();
+				input.nextLine();
+				do {
+					switch (option) {
+					case 1:
+						result = ItemController.removeItem(item);
+						if (result == true) {
+							System.out.println("<< Item removed successfully.");
+						} else {
+							System.out.println("Error...");
+						}
+						break;
+					case 2:
+						System.out.println("<< Back");
+						break;
+					default:
+						System.out.println("Invalid option");
+						System.out.print("Re-enter your option: ");
+						option = input.nextInt();
+						input.nextLine();
+					}
+
+				} while (option < 1 || option > 2);
+
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * Prompts user for passport details to check in. Will update room status and
+	 * reservation status accordingly.
+	 * 
 	 */
 	public static void checkIn() {
 
-		String guestPassport, choice, roomNo;
+		String guestPassport, roomNo;
+		char choice;
+		System.out.println("<< Check-In");
 		System.out.println("Enter passport details: ");
+		while (!input.hasNext()) {
+			System.out.println("Wrong input");
+			input.next();
+		}
 		guestPassport = input.next();
+		input.nextLine();
 
 		Reservation reservation = ReservationController.getReservationByGuestPassport(guestPassport);
 
 		if (reservation != null) {
 
-			reservation.setStatus(Constants.STATUS_CHECKED_IN);
-
 			if (reservation.getStatus().equals(Constants.STATUS_CONFIRMED)) {
 				System.out.println("Proceed to check in!");
+				reservation.setStatus(Constants.STATUS_CHECKED_IN);
 				if (ReservationController.updateReservationList(reservation))
-					System.out.println("Room Number : " + reservation.getRoomNo());
+					System.out.println("<< Reservation Details:\n" + reservation.toString());
 			}
 
-			else if (reservation.getStatus().equals(Constants.STATUS_EXPIRED))
+			else if (reservation.getStatus().equals(Constants.STATUS_EXPIRED)) {
 				System.out.println("Sorry, your reservation has expired because you were late for more than 1 hour!");
+				if (ReservationController.removeReservation(reservation))
+					System.out.println("Reservation removed");
+				System.out.println("<< Back");
+				;
+			}
 
 			else if (reservation.getStatus().equals(Constants.STATUS_WAITLIST)) {
 				Room room = RoomController.getRoom(reservation.getRoomNo());
 				if (room.getStatus().equals(Constants.ROOM_STATUS_VACANT)) {
 					System.out.println("Your room is vacant, proceed to check in!");
+					reservation.setStatus(Constants.STATUS_CHECKED_IN);
 					if (ReservationController.updateReservationList(reservation))
-						System.out.println("Room Number : " + reservation.getRoomNo());
+						System.out.println("<< Reservation Details:\n" + reservation.toString());
 				}
 
 				else if (room.getStatus().equals(Constants.ROOM_STATUS_OCCUPIED)
 						|| room.getStatus().equals(Constants.ROOM_STATUS_UNDER_MAINTAINENCE)) {
 					System.out.println("Your room is currently occupied, would you like to change your room(Y/N)");
-					choice = input.next();
-
-					if (choice.equalsIgnoreCase("Y")) {
-						printReportByAvailability();
-						System.out.println("Enter room number: ");
-						roomNo = input.next();
-						reservation.setRoomNo(roomNo);
-						if (ReservationController.updateReservationList(reservation))
-							System.out.println("Room Number : " + reservation.getRoomNo());
+					while (!input.hasNext()) {
+						System.out.println("Wrong input");
+						input.next();
 					}
+					choice = input.next().charAt(0);
+					input.nextLine();
+					do {
+						switch (choice) {
+						case 'Y':
+						case 'y': {
 
-					else if (choice.equalsIgnoreCase("N"))
-						System.out.println("Have a nice day!");
+							printReportByAvailability();
+							System.out.println("Enter room number: ");
+							while (!input.hasNext()) {
+								System.out.println("Wrong input");
+								input.next();
+							}
+							roomNo = input.next();
+							input.nextLine();
+							reservation.setRoomNo(roomNo);
+							reservation.setStatus(Constants.STATUS_CHECKED_IN);
+							if (ReservationController.updateReservationList(reservation))
+								System.out.println("<< Reservation Details:\n" + reservation.toString());
+							break;
+						}
+
+						case 'N':
+						case 'n': {
+							System.out.println("<< Back");
+							break;
+						}
+
+						default:
+							System.out.println("Invalid input");
+							System.out.print("Re-enter input(Y/N): ");
+							choice = input.next().charAt(0);
+							input.nextLine();
+						}
+					} while (choice != 'Y' && choice != 'y' && choice != 'N' && choice != 'n');
 
 				}
 
@@ -1546,7 +1777,7 @@ public class MainController {
 				reservation.setStatus(Constants.STATUS_CHECKED_IN);
 
 				if (ReservationController.updateReservationList(reservation))
-					System.out.println("Room Number : " + reservation.getRoomNo());
+					System.out.println("<< Reservation Details:\n" + reservation.toString());
 			}
 		}
 
@@ -1554,10 +1785,10 @@ public class MainController {
 
 	/**
 	 * 
+	 * 
 	 */
-	public static void checkOut() {
+	public static void checkOut() { // need to do a lot of validation
 		String rmNo;
-		List<Reservation> reservationList;
 		Reservation reservation = null;
 		Payment payment;
 		String creditCardNo;
@@ -1621,16 +1852,17 @@ public class MainController {
 	}
 
 	/**
-	 * Prompts for room number of the guest. If the reservationn object does not exist,
-	 *  it will return back to calling function. Else it will prompt for more user input for
-	 * the necessary attributes to create Service object and update the service data
-	 * file. 
+	 * Prompts for room number of the guest. If the reservationn object does not
+	 * exist, it will return back to calling function. Else it will prompt for more
+	 * user input for the necessary attributes to create Service object and update
+	 * the service data file.
 	 */
 	public static void createRoomServiceOrder() {
 		String roomNo, remarks;
 		Reservation reservation;
 		List<Item> itemList = ItemController.retrieveItemList();
 
+		System.out.println("<< Room Service Creation");
 		System.out.println("Enter room number: ");
 		while (!input.hasNext()) {
 			System.out.println("Wrong input");
@@ -1639,8 +1871,8 @@ public class MainController {
 		roomNo = input.next();
 		input.nextLine();
 		reservation = (Reservation) ReservationController.getReservationByRoomNo(roomNo, Constants.STATUS_CHECKED_IN);
-		
-		if(reservation!=null) {
+
+		if (reservation != null) {
 			displayMenu();
 			int choice = 1;
 			do {
@@ -1662,8 +1894,8 @@ public class MainController {
 				input.nextLine();
 			} while (choice > 0 && choice < itemList.size());
 
-			Service service = new Service(roomNo, reservation.getReservationCode(), itemList.get(choice - 1).getItemName(),
-					new Date(), remarks, Constants.STATUS_CONFIRMED);
+			Service service = new Service(roomNo, reservation.getReservationCode(),
+					itemList.get(choice - 1).getItemName(), new Date(), remarks, Constants.STATUS_CONFIRMED);
 
 			System.out.println(service.toString());
 			System.out.println("Choose option: ");
@@ -1682,7 +1914,7 @@ public class MainController {
 				case 1:
 					result = ServiceController.updateServiceList(service);
 					if (result == true) {
-						System.out.println("Room service created successfully.");
+						System.out.println("<< Room service created successfully.");
 					} else {
 						System.out.println("Error...");
 					}
@@ -1699,14 +1931,18 @@ public class MainController {
 
 			} while (option < 1 || option > 2);
 
-		}
-		else {
+		} else {
 			System.out.println("No reservation has been checked in for that room");
+			System.out.println("<< Back");
+
 		}
-	
+
 	}
 
 	/**
+	 * Prompts for room number. If room does not exist, it will return back to
+	 * calling function. Else it will display a list of room service orders that the
+	 * room has made. Next it will prompt the user to input a serviceID to update.
 	 * 
 	 */
 	public static void updateRoomServiceOrder() {
@@ -1717,13 +1953,20 @@ public class MainController {
 		Reservation reservation;
 		Service service;
 		int updateOption;
-		
-		if(ServiceController.retrieveServiceList() == null) {
+
+		if (ServiceController.retrieveServiceList() == null) {
 			System.out.println("No service orders in database");
-		}
-		else {
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Update Room Service");
 			System.out.println("Enter room number: ");
+			while (!input.hasNextInt()) {
+				System.out.println("Wrong input");
+				input.next();
+			}
 			roomNo = input.next();
+			input.nextLine();
 
 			room = RoomController.getRoom(roomNo);
 
@@ -1742,7 +1985,12 @@ public class MainController {
 						}
 
 						System.out.println("Enter serviceID to update");
+						while (!input.hasNextInt()) {
+							System.out.println("Wrong input");
+							input.next();
+						}
 						serviceID = input.nextInt();
+						input.nextLine();
 						service = ServiceController.getServiceFromServiceID(serviceID);
 
 						do {
@@ -1756,19 +2004,29 @@ public class MainController {
 							System.out.print("Option: ");
 							while (!input.hasNextInt()) {
 								System.out.println("Please enter a number!");
-								input.nextInt();
+								System.out.print("Option: ");
+								input.next();
 							}
 							updateOption = input.nextInt();
+							input.nextLine();
 
 							switch (updateOption) {
 							case 1:
 								System.out.print("Enter new item name: ");
-								itemName = input.next();
+								while (!input.hasNextInt()) {
+									System.out.println("Wrong input");
+									input.next();
+								}
+								itemName = input.nextLine();
 								service.setItemID(itemName);
 								break;
 							case 2:
 								System.out.print("Enter new remarks: ");
-								remarks = input.next();
+								while (!input.hasNextInt()) {
+									System.out.println("Wrong input");
+									input.next();
+								}
+								remarks = input.nextLine();
 								service.setRemarks(remarks);
 								break;
 							case 3:
@@ -1776,7 +2034,14 @@ public class MainController {
 								System.out.println("1.	Confirmed");
 								System.out.println("2.  Preparing");
 								System.out.println("3.  Delivered");
+								System.out.print("Option: ");
+								while (!input.hasNextInt()) {
+									System.out.println("Please enter a number!");
+									System.out.print("Option: ");
+									input.next();
+								}
 								status = input.nextInt();
+								input.nextLine();
 
 								switch (status) {
 								case 1:
@@ -1790,12 +2055,15 @@ public class MainController {
 									break;
 								default:
 									System.out.println("Invalid option");
+									System.out.print("Re-enter your option: ");
+									status = input.nextInt();
+									input.nextLine();
 								}
 
 								break;
 							case 4:
 								if (ServiceController.updateServiceList(service))
-									System.out.println("Service updated");
+									System.out.println("<< Room Service updated");
 								else
 									System.out.println("Error");
 								break;
@@ -1806,39 +2074,49 @@ public class MainController {
 								System.out.println("Invalid option");
 								System.out.print("Re-enter your option: ");
 								updateOption = input.nextInt();
+								input.nextLine();
 							}
 						} while (updateOption < 4 || updateOption > 5);
 					}
 
-					else
+					else {
 						System.out.println("No room service orders has been made for that room");
+						System.out.println("<< Back");
+					}
 
 				}
 
-				else
+				else {
 					System.out.println("No reservation has been checked in for that room");
+					System.out.println("<< Back");
+
+				}
 			}
 
-			else
+			else {
 				System.out.println("Room does not exist");
+				System.out.println("<< Back");
+			}
 		}
 	}
 
 	/**
 	 * 
-	 * Prompts for room number and shows the list of service orders that has been ordered.
-	 * Prompts user for serviceID to remove one service order and removes service order
-	 * after confirmation from user
+	 * Prompts for room number and shows the list of service orders that has been
+	 * ordered. Prompts user for serviceID to remove one service order and removes
+	 * service order after confirmation from user
 	 * 
 	 */
 	public static void removeRoomServiceOrder() {
 		String roomNo;
 		int serviceID;
 
-		if(ServiceController.retrieveServiceList() == null) {
+		if (ServiceController.retrieveServiceList() == null) {
 			System.out.println("No service order in database");
-		}
-		else {
+			System.out.println("<< Back");
+
+		} else {
+			System.out.println("<< Remove Room Service");
 			System.out.println("Enter room number:");
 			while (!input.hasNext()) {
 				System.out.println("Wrong input");
@@ -1848,11 +2126,11 @@ public class MainController {
 			input.nextLine();
 
 			Reservation r = ReservationController.getReservationByRoomNo(roomNo, Constants.STATUS_CHECKED_IN);
-			
-			if(r!=null) {
+
+			if (r != null) {
 				List<Service> serviceList = ServiceController.getServicesFromReservationCode(r.getReservationCode());
-				
-				if(serviceList!=null) {
+
+				if (serviceList != null) {
 					for (i = 0; i < serviceList.size(); i++) {
 						System.out.println(serviceList.get(i).toString());
 					}
@@ -1865,13 +2143,16 @@ public class MainController {
 					serviceID = input.nextInt();
 					input.nextLine();
 
-					ServiceController.removeService(ServiceController.getServiceFromServiceID(serviceID));
+					result = ServiceController.removeService(ServiceController.getServiceFromServiceID(serviceID));
+					if(result)
+						System.out.println("<< Room service removed successfully");
+					else
+						System.out.println("Error..");
 				}
-				
+
 				else
 					System.out.println("No room service orders has been made for that room");
-			}
-			else
+			} else
 				System.out.println("No reservation has been checked in for that room");
 		}
 	}
@@ -1882,9 +2163,15 @@ public class MainController {
 	 * 
 	 */
 	public static void displayMenu() {
-		if(ItemController.retrieveItemList() == null) 
+
+		if (ItemController.retrieveItemList() == null) {
 			System.out.println("No item in menu");
-		else
-			System.out.println(ItemController.getMenu());
+			System.out.println("<< Back");
+		}
+
+		else {
+			System.out.println("<< Menu");
+			ItemController.getMenu();
+		}
 	}
 }
