@@ -1806,6 +1806,7 @@ public class MainController {
 
 				break;
 			case 2:
+				payment.setPaymentType(Constants.PAYMENT_TYPE_CREDITCARD);
 				do {
 					System.out.println("Pay via existing credit card number? (Y/N)");
 					while(!input.hasNext())
