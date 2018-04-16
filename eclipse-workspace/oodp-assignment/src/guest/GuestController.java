@@ -1,8 +1,8 @@
 package guest;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 import utils.Constants;
 import utils.Serialization;
 
@@ -24,6 +24,7 @@ public class GuestController {
 	/**
 	 * @return the list containing all guest objects
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Guest> retrieveGuestList() {
 
 		List<Guest> guestList = null;
@@ -45,7 +46,7 @@ public class GuestController {
 	 * 
 	 * guest list is being updated accordingly
 	 * 
-	 * @param guest
+	 * @param guest Guest object to be created or updated
 	 * @return true if guest is updated / created successfully
 	 * else @return false if updating or creating of guest is unsuccessful
 	 */
@@ -66,7 +67,7 @@ public class GuestController {
 				guestList.add(guest);
 		}
 		else {
-			guestList = new ArrayList();
+			guestList = new ArrayList<Guest>();
 			guestList.add(guest);
 		}
 		
@@ -76,9 +77,9 @@ public class GuestController {
 
 	/**
 	 * This method basically remove that particular guest that is being passed into the 
-	 * parameter from the guest list & data file
+	 * parameter from the guest list and data file
 	 * 
-	 * @param guest
+	 * @param guest Guest object to be removed
 	 * @return true if guest is removed successfully
 	 * else @return false if the removal is unsuccessful
 	 */
@@ -97,7 +98,7 @@ public class GuestController {
 	
 	/**
 	 * Search by passport only returns one Guest object as passport is a primary key
-	 * @param passport
+	 * @param passport Passport of Guest object
 	 * @return the guest object that contains the passport that is being passed in
 	 * else @return null if no such passport exist
 	 */
@@ -121,7 +122,7 @@ public class GuestController {
 	
 	/**
 	 * Search by entering keyword of name
-	 * @param keyword
+	 * @param keyword Keyword for search
 	 * @return the list of guest objects with names containing that keyword
 	 * else @return if no such name with keyword exist
 	 */
@@ -129,7 +130,7 @@ public class GuestController {
 		int i = 0;
 		
 		if(guestList != null) {
-			List<Guest> guestList2 = new ArrayList();
+			List<Guest> guestList2 = new ArrayList<Guest>();
 			for(i = 0; i < guestList.size(); i++) {
 				if(((String)(guestList.get(i).getName())).indexOf(keyword) != -1) {	
 					guestList2.add(guestList.get(i));

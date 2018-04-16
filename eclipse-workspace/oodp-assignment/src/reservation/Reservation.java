@@ -11,6 +11,7 @@ import java.util.Date;
  * @version 1.0
  * @since 2018-04-12
  */
+@SuppressWarnings("serial")
 public class Reservation implements Serializable {
 
 	/**

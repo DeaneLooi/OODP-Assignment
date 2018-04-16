@@ -1,8 +1,6 @@
 package payment;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -12,9 +10,9 @@ import reservation.ReservationController;
 import room.RoomController;
 import service.Service;
 import service.ServiceController;
-
 import utils.Constants;
 import utils.Prices;
+import utils.RegexValidation;
 import utils.Serialization;
 
 /**
@@ -37,6 +35,7 @@ public class PaymentController {
 	/**
 	 * @return the list containing all guest objects
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Payment> retrievePaymentList() {
 		List<Payment> paymentList = null;
 		paymentList = (List<Payment>) Serialization.readSerializedObject(Constants.PAYMENT_DATA);
@@ -58,7 +57,7 @@ public class PaymentController {
 	 * 
 	 * payment list is being updated accordingly
 	 * 
-	 * @param payment
+	 * @param payment Payment object to be created or updated
 	 * @return true if payment is updated / created successfully else @return false
 	 *         if updating or creating of payment is unsuccessful
 	 */
@@ -87,7 +86,7 @@ public class PaymentController {
 
 		else {
 			payment.setPaymentId("P10001");
-			paymentList = new ArrayList();
+			paymentList = new ArrayList<Payment>();
 			paymentList.add(payment);
 		}
 
@@ -97,9 +96,9 @@ public class PaymentController {
 
 	/**
 	 * This method basically remove that particular payment that is being passed
-	 * into the parameter from the payment list & data file
+	 * into the parameter from the payment list and data file
 	 * 
-	 * @param payment
+	 * @param payment Payment object to be removed
 	 * @return true if payment is removed successfully else @return false if the
 	 *         removal is unsuccessful
 	 */
@@ -119,8 +118,7 @@ public class PaymentController {
 	 * Search by payment id only returns one payment object as payment id is a
 	 * primary key
 	 * 
-	 * @param payment
-	 *            id
+	 * @param paymentId PaymentID 
 	 * @return the payment object that contains the payment id that is being passed
 	 *         in else @return null if no such payment id exist
 	 */
@@ -145,31 +143,34 @@ public class PaymentController {
 	 * This method basically compute the room charges based on room type, weekdays
 	 * and weekends
 	 * 
-	 * @param roomType
-	 * @param weekdays
-	 * @param weekends
-	 * @return room charges
+	 * @param roomType Room Type
+	 * @param weekdays No. of weekdays
+	 * @param weekends No. of weekends
+	 * @return room charges 
 	 */
 	public static double computeRoomChargesByRoomTypes(String roomType, int weekdays, int weekends) {
-		if (roomType == "Single") {
+		if (roomType.equals(Constants.ROOM_TYPE_SINGLE)) {
 			return (weekdays * Prices.SROOM_PRICE_WEEKDAY) + (weekends * Prices.SROOM_PRICE_WEEKEND);
-		} else if (roomType == "Double") {
+		} else if (roomType.equals(Constants.ROOM_TYPE_DOUBLE)) {
 			return (weekdays * Prices.DROOM_PRICE_WEEKDAY) + (weekends * Prices.DROOM_PRICE_WEEKEND);
-		} else if (roomType == "Deluxe") {
+		} else if (roomType.equals(Constants.ROOM_TYPE_DELUXE)) {
 			return (weekdays * Prices.DELROOM_PRICE_WEEKDAY) + (weekends * Prices.DELROOM_PRICE_WEEKEND);
-		} else {
+		} else if(roomType.equals(Constants.ROOM_TYPE_VIP)){
 			return (weekdays * Prices.VIPROOM_PRICE_WEEKDAY) + (weekends * Prices.VIPROOM_PRICE_WEEKEND);
 		}
+		else
+			return 0;
 	}
 
 	/**
 	 * This method calculate the days of stay (weekends) based on check in and check
 	 * out date
 	 * 
-	 * @param checkInDate
-	 * @param checkOutDate
+	 * @param checkInDate Check-in date
+	 * @param checkOutDate Check-out date
 	 * @return number of weekends
 	 */
+	@SuppressWarnings("deprecation")
 	public static int computeNoOfWeekends(Date checkInDate, Date checkOutDate) {
 		int checkindate = checkInDate.getDate();
 		int checkoutdate = checkOutDate.getDate();
@@ -189,7 +190,7 @@ public class PaymentController {
 	/**
 	 * This method prints the bill invoice for that payment object
 	 * 
-	 * @param payment
+	 * @param payment Payment object 
 	 */
 	public static void printBillInvoice(Payment payment) {
 		int i;
@@ -198,6 +199,7 @@ public class PaymentController {
 		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); 
 		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate();  
 		int weekends = computeNoOfWeekends(checkInDate, checkOutDate);
+		@SuppressWarnings("deprecation")
 		int weekdays = checkOutDate.getDate() - checkInDate.getDate() + 1 - weekends;
 		
 		// for print order items
@@ -220,14 +222,14 @@ public class PaymentController {
 		List<Service> OrderList = ServiceController.getServicesFromReservationCode(payment.getReservationCode());
 		System.out.println("Room Service Order Items");
 		System.out.println("------------------------");
-		String tableFormat = "%-10s %-30s %-10s\n";
-		System.out.format(tableFormat, "S/No.", "Name", "Price ($)");
+		
+		System.out.format(RegexValidation.tableServiceBill, "S/No.", "Name", "Price ($)");
 		for (i = 0; i < OrderList.size(); i++) {
 			Service s = OrderList.get(i);
 			itemName = s.getItemID();
 			Item item = ItemController.getItemFromName(itemName);
 			itemPrice = item.getItemPrice();
-			System.out.format(tableFormat, (i+1), itemName, itemPrice);
+			System.out.format(RegexValidation.tableServiceBill, (i+1), itemName, itemPrice);
 			totalItemPrice += itemPrice;
 		}
 		System.out.printf("Total for room service orders: $%.2f" , totalItemPrice);

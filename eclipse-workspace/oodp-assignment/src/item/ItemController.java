@@ -4,29 +4,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utils.Constants;
+import utils.RegexValidation;
 import utils.Serialization;
 
 /**
-* <h1>Menu Item Controller</h1>
-*
-* This controller class makes use of Item Entity class to do simple CRUD operations.
-*
-* @version 1.0
-* @since   2018-04-12
-*/
+ * <h1>Menu Item Controller</h1>
+ *
+ * This controller class makes use of Item Entity class to do simple CRUD
+ * operations.
+ *
+ * @version 1.0
+ * @since 2018-04-12
+ */
 public class ItemController {
 
 	/**
-	 * The list of Item Entity objects in the data file	
+	 * The list of Item Entity objects in the data file
 	 */
 	private static List<Item> itemList = retrieveItemList();
-	
-	
+
 	/**
 	 * Reads the item data file and returns it in a list format
 	 * 
 	 * @return Returns the list of Item Entity objects in the data file
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Item> retrieveItemList() {
 
 		itemList = (List<Item>) Serialization.readSerializedObject(Constants.ITEM_DATA);
@@ -34,7 +36,7 @@ public class ItemController {
 		if (itemList != null)
 			return itemList;
 		else {
-			//System.err.println("No data");
+			// System.err.println("No data");
 			return null;
 		}
 
@@ -44,13 +46,14 @@ public class ItemController {
 	 * 
 	 * Creates or updates the item object into the data file
 	 * 
-	 * @param item Item object to be created or updated
+	 * @param item
+	 *            Item object to be created or updated
 	 * @return Returns true if data file is updated, else returns false
 	 */
 	public static boolean updateItemList(Item item) {
 
 		if (itemList != null) {
-			
+
 			if (itemList.contains(item)) {
 				int i = 0;
 
@@ -71,9 +74,7 @@ public class ItemController {
 			itemList.add(item);
 		}
 
-		
-			return Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
-
+		return Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
 
 	}
 
@@ -83,14 +84,12 @@ public class ItemController {
 	 * 
 	 */
 	public static void getMenu() {
-		
-		String tableFormat = "%-10s %-20s %-10s %-40s\n";
 
-		System.out.format(tableFormat, "S/No.","Menu Item","Price","Description");
-		
+		System.out.format(RegexValidation.tableItem, "S/No.", "Menu Item", "Price", "Description");
+
 		for (int i = 0; i < itemList.size(); i++) {
 			Item item = itemList.get(i);
-			System.out.format(tableFormat,i+1,item.getItemName(),item.getItemPrice(),item.getItemDescription());
+			System.out.format(RegexValidation.tableItem, i + 1, item.getItemName(), item.getItemPrice(), item.getItemDescription());
 		}
 
 	}
@@ -99,15 +98,16 @@ public class ItemController {
 	 * 
 	 * Removes the item object from the data file
 	 * 
-	 * @param item Item object to be removed
-	 * @return Returns true if item object is removed from data file, else returns false
+	 * @param item
+	 *            Item object to be removed
+	 * @return Returns true if item object is removed from data file, else returns
+	 *         false
 	 */
 	public static boolean removeItem(Item item) {
 
-
 		if (itemList != null) {
 			if (itemList.remove(item)) {
-				
+
 				return Serialization.writeSerializedObject(Constants.ITEM_DATA, itemList);
 
 			} else
@@ -122,7 +122,8 @@ public class ItemController {
 	 * 
 	 * Returns item object using the primary key of Item Entity, itemName
 	 * 
-	 * @param itemName The primary key of item entity
+	 * @param itemName
+	 *            The primary key of item entity
 	 * @return Returns the item object from itemName
 	 */
 	public static Item getItemFromName(String itemName) {
@@ -132,20 +133,13 @@ public class ItemController {
 		int i = 0;
 
 		if (itemList != null) {
-			if (itemList.contains(checkName)) {
+			if (itemList.contains(checkName))
 				for (i = 0; i < itemList.size(); i++) {
 					if (checkName.equals(itemList.get(i)))
-						break;
+						return itemList.get(i);
 				}
-			}
-			
-			else
-				return null;
-
-			return itemList.get(i);
 		}
+		return null;
 
-		else
-			return null;
 	}
 }

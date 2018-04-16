@@ -1,6 +1,5 @@
 package room;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class RoomController {
 	/**
 	 * Iterate through List of room objects and retrieve the one with correct room number
 	 * 
-	 * @param roomNo
+	 * @param roomNo Room number to search
 	 * @return Room object
 	 */
 	public static Room getRoom(String roomNo) {
@@ -67,7 +66,7 @@ public class RoomController {
 	 * 
 	 * Create a new room object or update existing room details
 	 * 
-	 * @param room
+	 * @param room Room object to be created or updated
 	 * @return true if room data file is updated, otherwise return false
 	 */
 	public static boolean updateRoomList(Room room) {
@@ -94,7 +93,7 @@ public class RoomController {
 	 * 
 	 * Remove room object from room list and update the data file
 	 * 
-	 * @param room
+	 * @param room Room object to be removed
 	 * @return true if room object removal and room data file update are successful, otherwise return false
 	 */
 	public static boolean removeRoom(Room room) {
@@ -114,7 +113,7 @@ public class RoomController {
 	 * 
 	 * Print room report by room type or room status 
 	 * 
-	 * @param attr
+	 * @param attr Check to print by room type or status
 	 * @return true if list of room is not null, otherwise return false
 	 */
 	@SuppressWarnings("static-access")

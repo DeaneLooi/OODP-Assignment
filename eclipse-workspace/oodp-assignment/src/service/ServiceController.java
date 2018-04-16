@@ -1,11 +1,8 @@
 package service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import item.Item;
-import service.Service;
 import utils.Constants;
 import utils.Serialization;
 
@@ -29,6 +26,7 @@ public class ServiceController {
 	 * 
 	 * @return Returns the list of Room Service Entity objects in the data file
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Service> retrieveServiceList() {
 
 		serviceList = (List<Service>) Serialization.readSerializedObject(Constants.SERVICE_DATA);
@@ -73,7 +71,7 @@ public class ServiceController {
 
 		else {
 			service.setServiceID(1);
-			serviceList = new ArrayList();
+			serviceList = new ArrayList<Service>();
 			serviceList.add(service);
 		}
 
@@ -114,7 +112,7 @@ public class ServiceController {
 
 		if (serviceList != null) {
 
-			List<Service> reservationServices = new ArrayList();
+			List<Service> reservationServices = new ArrayList<Service>();
 
 			for (int i = 0; i < serviceList.size(); i++) {
 				if (reservationCode.equals((serviceList.get(i).getReservationCode())))
@@ -140,18 +138,13 @@ public class ServiceController {
 	public static Service getServiceFromServiceID(int serviceID) {
 		Service service = new Service();
 		service.setServiceID(serviceID);
-		int i;
+
 		if (serviceList != null) {
 			if (serviceList.contains(service))
-				for (i = 0; i < serviceList.size(); i++) {
+				for (int i = 0; i < serviceList.size(); i++) {
 					if (serviceList.get(i).equals(service))
-						break;
+						return serviceList.get(i);
 				}
-
-			else
-				return null;
-
-			return serviceList.get(i);
 
 		}
 

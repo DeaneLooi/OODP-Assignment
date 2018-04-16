@@ -3,15 +3,15 @@ package payment;
 import java.io.Serializable;
 
 /**
- * Payment Entity
- * Class that contains attributes, getters and setters
- * relating to payment data needed for our program
+ * Payment Entity Class that contains attributes, getters and setters relating
+ * to payment data needed for our program
  * 
  * @author Low Shu En
  * @version 1.0
  * @since 13/4/2017
  */
-public class Payment implements Serializable{
+@SuppressWarnings("serial")
+public class Payment implements Serializable {
 	/**
 	 * Primary key of the payment entity
 	 */
@@ -48,7 +48,7 @@ public class Payment implements Serializable{
 	 * Credit card number for this payment
 	 */
 	private String creditCard;
-	
+
 	/**
 	 * Default constructor
 	 */
@@ -56,12 +56,16 @@ public class Payment implements Serializable{
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
+
 	/**
 	 * Mandatory attributes required for creating every payment object
+	 * 
 	 * @param reservationCode
+	 *            Reservation Code
 	 * @param roomNo
-	 * @param guestName
+	 *            Room Number
+	 * @param guestPassport
+	 *            Guest Passport
 	 */
 	public Payment(String reservationCode, String roomNo, String guestPassport) {
 		super();
@@ -84,7 +88,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param paymentId
-	 * updates the payment id
+	 *            updates the payment id
 	 */
 	public void setPaymentId(String paymentId) {
 		this.paymentId = paymentId;
@@ -99,7 +103,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param reservationCode
-	 * updates the reservation code
+	 *            updates the reservation code
 	 */
 	public void setReservationCode(String reservationCode) {
 		this.reservationCode = reservationCode;
@@ -114,7 +118,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param roomNo
-	 * updates the room number
+	 *            updates the room number
 	 */
 	public void setRoomNo(String roomNo) {
 		this.roomNo = roomNo;
@@ -128,8 +132,8 @@ public class Payment implements Serializable{
 	}
 
 	/**
-	 * @param guestName
-	 * updates the guest name
+	 * @param guestPassport
+	 *            updates the guest passport
 	 */
 	public void setGuestPassport(String guestPassport) {
 		this.guestPassport = guestPassport;
@@ -144,7 +148,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param tax
-	 * updates the tax
+	 *            updates the tax
 	 */
 	public void setTax(double tax) {
 		this.tax = tax;
@@ -159,7 +163,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param discount
-	 * updates the discount
+	 *            updates the discount
 	 */
 	public void setDiscount(double discount) {
 		this.discount = discount;
@@ -174,7 +178,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param totalBill
-	 * updates the total bill
+	 *            updates the total bill
 	 */
 	public void setTotalBill(double totalBill) {
 		this.totalBill = totalBill;
@@ -189,7 +193,7 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param paymentType
-	 * updates the payment type
+	 *            updates the payment type
 	 */
 	public void setPaymentType(String paymentType) {
 		this.paymentType = paymentType;
@@ -204,34 +208,41 @@ public class Payment implements Serializable{
 
 	/**
 	 * @param creditCard
-	 * updates the credit card number
+	 *            updates the credit card number
 	 */
 	public void setCreditCard(String creditCard) {
 		this.creditCard = creditCard;
 	}
-	
+
 	/**
-	 * Compares 2 Payment objects &
-	 * @return true if guest entity is same else false
-	 * done by comparing the primary key - payment id
+	 * Compares 2 Payment objects and
+	 * 
+	 * @return true if guest entity is same else false done by comparing the primary
+	 *         key - payment id
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
-		if(obj instanceof Payment)
-			//return ((((Payment) obj).getReservationCode().equals(this.reservationCode))&&(((Payment) obj).getRoomNo().equals(this.roomNo))&&(((Payment) obj).getGuestName().equals(this.guestName)));
-			return ((Payment)obj).getPaymentId().equals(this.paymentId);
+		if (obj instanceof Payment)
+			// return ((((Payment)
+			// obj).getReservationCode().equals(this.reservationCode))&&(((Payment)
+			// obj).getRoomNo().equals(this.roomNo))&&(((Payment)
+			// obj).getGuestName().equals(this.guestName)));
+			return ((Payment) obj).getPaymentId().equals(this.paymentId);
 		else
 			return false;
 	}
 
 	/**
-	 * @return string of values for all payment attributes.
-	 * to be displayed to the user when needed
+	 * @return string of values for all payment attributes. to be displayed to the
+	 *         user when needed
 	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Payment ID: " + this.paymentId + "\nReservation No: " + this.reservationCode + "\nRoom No: " + this.roomNo + "\nGuest Passport " + this.guestPassport + "\nTax: " + this.tax + "\nDiscount: " + this.discount + "\nTotal Bill: " + this.totalBill + "\nPayment Type: " + this.paymentType + "\nCredit Card: " + this.creditCard;
+		return "Payment ID: " + this.paymentId + "\nReservation No: " + this.reservationCode + "\nRoom No: "
+				+ this.roomNo + "\nGuest Passport " + this.guestPassport + "\nTax: " + this.tax + "\nDiscount: "
+				+ this.discount + "\nTotal Bill: " + this.totalBill + "\nPayment Type: " + this.paymentType
+				+ "\nCredit Card: " + this.creditCard;
 	}
 }

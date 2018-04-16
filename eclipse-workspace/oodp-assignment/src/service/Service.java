@@ -11,10 +11,12 @@ import java.util.Date;
  * Contains Menu Item Entity object
  *
  */
+@SuppressWarnings("serial")
 public class Service implements Serializable {
 
 	/**
-	 * Primary Key of Room Service Entity<p>
+	 * Primary Key of Room Service Entity
+	 * <p>
 	 * ID
 	 */
 	private int serviceID;
@@ -52,14 +54,21 @@ public class Service implements Serializable {
 
 	/**
 	 * 
-	 * Creates a new Room Service Entity object with the roomNo, reservationCode, itemName, dateTime, remarks and status
+	 * Creates a new Room Service Entity object with the roomNo, reservationCode,
+	 * itemName, dateTime, remarks and status
 	 * 
 	 * @param roomNo
+	 *            Room Number
 	 * @param reservationCode
+	 *            Reservation Code
 	 * @param itemName
+	 *            Item Name
 	 * @param dateTime
+	 *            Date Time of creation
 	 * @param remarks
+	 *            Remarks
 	 * @param status
+	 *            Status
 	 */
 	public Service(String roomNo, String reservationCode, String itemName, Date dateTime, String remarks,
 			String status) {
@@ -74,15 +83,24 @@ public class Service implements Serializable {
 
 	/**
 	 * 
-	 * Creates a new Room Service Entity object with serviceID, roomNo, reservationCode, itemName, dateTime, remarks and status
+	 * Creates a new Room Service Entity object with serviceID, roomNo,
+	 * reservationCode, itemName, dateTime, remarks and status
 	 * 
 	 * @param serviceID
+	 *            ServiceID
 	 * @param roomNo
+	 *            Room Number
 	 * @param reservationCode
+	 *            Reservation Code
+	 * 
 	 * @param itemName
+	 *            Item Name
 	 * @param dateTime
+	 *            Date Time of creation
 	 * @param remarks
+	 *            Remarks
 	 * @param status
+	 *            Status
 	 */
 	public Service(int serviceID, String roomNo, String reservationCode, String itemName, Date dateTime, String remarks,
 			String status) {
@@ -134,23 +152,23 @@ public class Service implements Serializable {
 	}
 
 	/**
-	 * @param guestDetails
-	 *            the guestDetails to set
+	 * @param reservationCode
+	 *            the reservationCode to set
 	 */
 	public void setReservationCode(String reservationCode) {
 		this.reservationCode = reservationCode;
 	}
 
 	/**
-	 * @return the itemID
+	 * @return the itemName
 	 */
 	public String getItemID() {
 		return itemName;
 	}
 
 	/**
-	 * @param itemID
-	 *            the itemID to set
+	 * @param itemName
+	 *            the itemName to set
 	 */
 	public void setItemID(String itemName) {
 		this.itemName = itemName;
@@ -209,15 +227,16 @@ public class Service implements Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		// TODO Auto-generated method stub
 		return this.serviceID;
 	}
 
 	/**
 	 * Used to compare between two Room Service Entity objects
 	 * 
-	 * @param obj Object to compare with
-	 * @return Returns true if serviceID is the same between two objects, else returns false
+	 * @param obj
+	 *            Object to compare with
+	 * @return Returns true if serviceID is the same between two objects, else
+	 *         returns false
 	 */
 	@Override
 	public boolean equals(Object obj) {
