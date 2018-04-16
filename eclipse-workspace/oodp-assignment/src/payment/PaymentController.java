@@ -163,36 +163,27 @@ public class PaymentController {
 	}
 
 	/**
-	 * This method calculate the days of stay (week day) based on check in and check
+	 * This method calculate the days of stay (weekends) based on check in and check
 	 * out date
 	 * 
-	 * @param CheckInDate
-	 * @param CheckOutDate
-	 * @return
+	 * @param checkInDate
+	 * @param checkOutDate
+	 * @return number of weekends
 	 */
-	public static int computeNoOfWeekDays(Date CheckInDate, Date CheckOutDate) {
-		// take check in and check out dates from reservation class
-		Calendar startCal = Calendar.getInstance();
-		startCal.setTime(CheckInDate);
-
-		Calendar endCal = Calendar.getInstance();
-		endCal.setTime(CheckOutDate);
-
-		int workDays = 0;
-		if (startCal.getTimeInMillis() == endCal.getTimeInMillis()) {
-			return 0;
+	public static int computeNoOfWeekends(Date checkInDate, Date checkOutDate) {
+		int checkindate = checkInDate.getDate();
+		int checkoutdate = checkOutDate.getDate();
+		int weekend = 0;
+		
+		Date startDate = checkInDate;
+		for(int i=0; i<= checkoutdate-checkindate;i++)
+		{
+			if(startDate.getDay() == 0 || startDate.getDay() == 6) {
+				weekend++;
+				startDate.setDate(startDate.getDate()+1);
+			}	
 		}
-
-		do {
-			// excluding start date
-			startCal.add(Calendar.DAY_OF_MONTH, 1);
-			if (startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
-					&& startCal.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
-				++workDays;
-			}
-		} while (startCal.getTimeInMillis() < endCal.getTimeInMillis()); // excluding end date
-
-		return workDays;
+		return weekend;
 	}
 
 	/**
@@ -205,9 +196,9 @@ public class PaymentController {
 		
 		// for breakdown of days
 		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); 
-		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate(); 
-		int weekdays = computeNoOfWeekDays(checkInDate, checkOutDate);
-		int weekends = checkOutDate.compareTo(checkInDate) - weekdays;
+		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate();  
+		int weekends = computeNoOfWeekends(checkInDate, checkOutDate);
+		int weekdays = checkOutDate.getDate() - checkInDate.getDate() + 1 - weekends;
 		
 		// for print order items
 		String itemName;
@@ -229,26 +220,27 @@ public class PaymentController {
 		
 		System.out.println("Breakdown of Days of Stay");
 		System.out.println("-------------------------");
-		System.out.println("No. of weekdays: " + weekdays + "days");
-		System.out.println("No. of weekends/ public holidays: " + weekends + "days");
+		System.out.println("No. of weekdays: " + weekdays + " days");
+		System.out.println("No. of weekends/ public holidays: " + weekends + " days");
 
 		List<Service> OrderList = ServiceController.getServicesFromReservationCode(payment.getReservationCode());
 		System.out.println("Room Service Order Items");
 		System.out.println("------------------------");
-		System.out.println("S/No. \t Name \t Price");
+		String tableFormat = "%-10s %-30s %-10s\n";
+		System.out.format(tableFormat, "S/No.", "Name", "Price ($)");
 		for (i = 0; i < OrderList.size(); i++) {
 			Service s = OrderList.get(i);
 			itemName = s.getItemID();
 			Item item = ItemController.getItemFromName(itemName);
 			itemPrice = item.getItemPrice();
-			System.out.println((i + 1) + ".\t" + itemName + "\t" + itemPrice);
+			System.out.format(tableFormat, (i+1), itemName, itemPrice);
 			totalItemPrice += itemPrice;
 		}
-		System.out.println("Total for room service orders: " + totalItemPrice);
+		System.out.printf("Total for room service orders: $%.2f" , totalItemPrice);
 		
-		System.out.println("Room Charges: $" + roomCharges);
-		System.out.println("Discounts: $" + payment.getDiscount());
-		System.out.println("Tax: $" + payment.getTax());
-		System.out.println("Total Amount: $" + payment.getTotalBill());
+		System.out.printf("\nRoom Charges: $%.2f" , roomCharges);
+		System.out.printf("\nDiscounts: $%.2f" , payment.getDiscount());
+		System.out.printf("\nTax: $%.2f" , payment.getTax());
+		System.out.printf("\nTotal Amount: $%.2f" , payment.getTotalBill());
 	}
 }
