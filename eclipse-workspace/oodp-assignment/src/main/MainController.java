@@ -1786,8 +1786,11 @@ public class MainController {
 	}
 
 	/**
-	 * 
-	 * 
+	 * Prompts user for room number to check out.
+	 * Print bill invoice & ask for payment via cash or credit card
+	 * For credit card will prompt user on whether to use existing credit card number
+	 * or a new credit card number
+	 * Update reservation & room status accordingly
 	 */
 	public static void checkOut() {
 		String rmNo;
