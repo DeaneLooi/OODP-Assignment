@@ -208,12 +208,6 @@ public class PaymentController {
 		String roomNo = payment.getRoomNo();
 		String roomType = RoomController.getRoom(roomNo).getRoomType();
 		double roomCharges = computeRoomChargesByRoomTypes(roomType, weekdays, weekends);
-		
-		// for updating and computing bill 
-		payment.setDiscount(Prices.DISCOUNT * (roomCharges + totalItemPrice));
-		payment.setTax(Prices.TAX * (roomCharges + totalItemPrice - payment.getDiscount()));
-		payment.setTotalBill(payment.getTax() + roomCharges + totalItemPrice - payment.getDiscount());
-		updatePaymentList(payment);
 
 		System.out.println("Bill Invoice");
 		System.out.println("============");
@@ -238,6 +232,12 @@ public class PaymentController {
 		}
 		System.out.printf("Total for room service orders: $%.2f" , totalItemPrice);
 		
+		// for updating and computing bill 
+		payment.setDiscount(Prices.DISCOUNT * (roomCharges + totalItemPrice));
+		payment.setTax(Prices.TAX * (roomCharges + totalItemPrice - payment.getDiscount()));
+		payment.setTotalBill(payment.getTax() + roomCharges + totalItemPrice - payment.getDiscount());
+		updatePaymentList(payment);
+				
 		System.out.printf("\nRoom Charges: $%.2f" , roomCharges);
 		System.out.printf("\nDiscounts: $%.2f" , payment.getDiscount());
 		System.out.printf("\nTax: $%.2f" , payment.getTax());
