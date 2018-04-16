@@ -3,15 +3,15 @@ package guest;
 import java.io.Serializable;
 
 /**
- * Guest Entity
- * Class that contains attributes, getters and setters
- * relating to guest data needed for our program
+ * Guest Entity Class that contains attributes, getters and setters relating to
+ * guest data needed for our program
  * 
  * @author Low Shu En
  * @version 1.0
  * @since 13/4/2017
  */
-public class Guest implements Serializable{
+@SuppressWarnings("serial")
+public class Guest implements Serializable {
 	/**
 	 * Name of guest (need not need to be unique)
 	 */
@@ -54,14 +54,23 @@ public class Guest implements Serializable{
 
 	/**
 	 * Mandatory attributes required for creating every guest object
+	 * 
 	 * @param name
+	 *            Name of guest
 	 * @param email
+	 *            Email of guest
 	 * @param country
+	 *            Country of guest
 	 * @param gender
+	 *            Gender of guest
 	 * @param passport
+	 *            Passport of guest
 	 * @param address
+	 *            Address of guest
 	 * @param phoneNo
+	 *            Phone number of guest
 	 * @param creditCardNo
+	 *            Credit card number of guest
 	 */
 	public Guest(String name, String email, String country, String gender, String passport, String address,
 			String phoneNo, String creditCardNo) {
@@ -85,7 +94,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param name
-	 * updates the name of guest
+	 *            updates the name of guest
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -100,7 +109,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param email
-	 * updates the email of guest
+	 *            updates the email of guest
 	 */
 	public void setEmail(String email) {
 		this.email = email;
@@ -115,7 +124,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param country
-	 * updates the country of guest
+	 *            updates the country of guest
 	 */
 	public void setCountry(String country) {
 		this.country = country;
@@ -130,7 +139,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param gender
-	 * updates the gender of the guest
+	 *            updates the gender of the guest
 	 */
 	public void setGender(String gender) {
 		this.gender = gender;
@@ -145,7 +154,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param passport
-	 * updates the passport of the guest
+	 *            updates the passport of the guest
 	 */
 	public void setPassport(String passport) {
 		this.passport = passport;
@@ -160,7 +169,7 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param address
-	 * updates the residential address of guest
+	 *            updates the residential address of guest
 	 */
 	public void setAddress(String address) {
 		this.address = address;
@@ -175,12 +184,12 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param phoneNo
-	 * updates guest phone number
+	 *            updates guest phone number
 	 */
 	public void setPhoneNo(String phoneNo) {
 		this.phoneNo = phoneNo;
 	}
-	
+
 	/**
 	 * @return guest credit card number
 	 */
@@ -190,31 +199,33 @@ public class Guest implements Serializable{
 
 	/**
 	 * @param creditCardNo
-	 * updates guest credit card number
+	 *            updates guest credit card number
 	 */
 	public void setCreditCardNo(String creditCardNo) {
 		this.creditCardNo = creditCardNo;
 	}
-	
 
 	/**
-	 * Compares 2 Guest objects &
-	 * @return true if guest entity is same else false
-	 * done by comparing the primary key - passport
+	 * Compares 2 Guest objects and
+	 * 
+	 * @return true if guest entity is same else false done by comparing the primary
+	 *         key - passport
 	 */
 	@Override
 	public boolean equals(Object obj) {
 		// TODO Auto-generated method stub
 		return (obj instanceof Guest) ? (((Guest) obj).getPassport().equalsIgnoreCase(this.passport)) : false;
 	}
-	
+
 	/**
-	 * @return string of values for all guest attributes.
-	 * to be displayed to the user when needed (e.g.: searchGuest)
+	 * @return string of values for all guest attributes. to be displayed to the
+	 *         user when needed (e.g.: searchGuest)
 	 */
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\nGender: " + this.gender + "\nPassport: " + this.passport + "\nAddress: " + this.address + "\nPhone No: " + this.phoneNo + "\nCredit Card No: " + this.creditCardNo;
+		return "Name: " + this.name + "\nEmail: " + this.email + "\nCountry: " + this.country + "\nGender: "
+				+ this.gender + "\nPassport: " + this.passport + "\nAddress: " + this.address + "\nPhone No: "
+				+ this.phoneNo + "\nCredit Card No: " + this.creditCardNo;
 	}
 }

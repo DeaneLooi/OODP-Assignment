@@ -49,6 +49,7 @@ public class ReservationTimer extends TimerTask {
 	 * If the currentDate is 1 hour or more away from the reservedDate, the
 	 * reservation will be expired.
 	 */
+	@SuppressWarnings("deprecation")
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
@@ -59,7 +60,7 @@ public class ReservationTimer extends TimerTask {
 			Reservation reservation = reservations.get(i);
 			if (reservation != null) {
 
-				reservedDate = reservation.getCheckInDate();
+				reservedDate = (Date) reservation.getCheckInDate().clone();
 				reservedDate.setHours(reservedDate.getHours() + 1);
 
 				if (reservedDate.compareTo(currentDate) > 0) {

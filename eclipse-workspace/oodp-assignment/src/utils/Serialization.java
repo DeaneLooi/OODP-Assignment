@@ -49,7 +49,7 @@ public class Serialization {
 	 * 
 	 * @param fileName File name of data file, a constant
 	 * @param list List of Entity object, retrieved from readSerializedObject(fileName)
-	 * @return
+	 * @return Returns true if successful, else returns false
 	 */
 	public static boolean writeSerializedObject(String fileName, List<?> list) {
 

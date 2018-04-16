@@ -13,6 +13,7 @@ import java.io.Serializable;
 * @since   2018-04-12
 */
 
+@SuppressWarnings("serial")
 public class Item implements Serializable {
 
 	/**
@@ -123,7 +124,7 @@ public class Item implements Serializable {
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
-		return  this.itemName + "\nPrice: " + this.itemPrice+"   Description: "+this.itemDescription;
+		return  "Menu Item: "+this.itemName + "\nPrice: $" + this.itemPrice+"\nDescription: "+this.itemDescription;
 	}
 
 }

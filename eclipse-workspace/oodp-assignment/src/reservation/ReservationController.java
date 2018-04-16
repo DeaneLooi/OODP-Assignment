@@ -11,7 +11,8 @@ import utils.Serialization;
 /**
  * <h1>Reservation Controller</h1>
  *
- * This controller class makes use of Reservation Entity class to do simple CRUD operations.
+ * This controller class makes use of Reservation Entity class to do simple CRUD
+ * operations.
  *
  * @version 1.0
  * @since 2018-04-12
@@ -28,6 +29,7 @@ public class ReservationController {
 	 * 
 	 * @return Returns the list of Reservation Entity objects in the data file
 	 */
+	@SuppressWarnings("unchecked")
 	public static List<Reservation> retrieveReservationList() {
 
 		reservationList = (List<Reservation>) Serialization.readSerializedObject(Constants.RESERVATION_DATA);
@@ -35,7 +37,7 @@ public class ReservationController {
 		if (reservationList != null)
 			return reservationList;
 		else {
-			//System.out.println("No data");
+			// System.out.println("No data");
 			return null;
 		}
 
@@ -43,9 +45,10 @@ public class ReservationController {
 
 	/**
 	 * 
-	 *  Creates or updates the reservation object into the data file
+	 * Creates or updates the reservation object into the data file
 	 * 
 	 * @param reservation
+	 *            Reservation object to be created or updated
 	 * @return Returns true if data file is updated, else returns false
 	 */
 	public static boolean updateReservationList(Reservation reservation) {
@@ -74,36 +77,47 @@ public class ReservationController {
 
 		else {
 			reservation.setReservationCode("R10001");
-			reservationList = new ArrayList();
+			reservationList = new ArrayList<Reservation>();
 			reservationList.add(reservation);
 		}
 
-		return (updateRoom(reservation) && Serialization.writeSerializedObject(Constants.RESERVATION_DATA, reservationList));
+		return (updateRoom(reservation)
+				&& Serialization.writeSerializedObject(Constants.RESERVATION_DATA, reservationList));
 
 	}
-	
+
 	/**
 	 * 
-	 * Checks the status of the reservation object and updated the room status accordingly
+	 * Checks the status of the reservation object and updated the room status
+	 * accordingly
 	 * 
-	 * @param status Status of the reservation
+	 * @param reservation
+	 *            Reservation object to update room status
 	 * @return Returns true if room is updated, else returns false
 	 */
 	public static boolean updateRoom(Reservation reservation) {
-		
+
 		Room room = RoomController.getRoom(reservation.getRoomNo());
 		boolean check = true;
-		if(reservation.getStatus().equals(Constants.STATUS_CONFIRMED))
+		if (reservation.getStatus().equals(Constants.STATUS_CONFIRMED))
+			room.setStatus(Constants.ROOM_STATUS_RESERVED);
+		else if (reservation.getStatus().equals(Constants.STATUS_CHECKED_IN))
+			room.setStatus(Constants.ROOM_STATUS_OCCUPIED);
+		else if (reservation.getStatus().equals(Constants.STATUS_CHECKED_OUT)) {
+			room.setStatus(Constants.ROOM_STATUS_VACANT);
+			check = removeReservation(reservation);
+		} else if (reservation.getStatus().equals(Constants.STATUS_EXPIRED))
+			room.setStatus(Constants.ROOM_STATUS_VACANT);
+		else if (reservation.getStatus().equals(Constants.STATUS_WAITLIST)) {
+			if (room.getStatus().equals(Constants.ROOM_STATUS_VACANT))
+				;
+			reservation.setStatus(Constants.STATUS_CONFIRMED);
+			if (updateReservationList(reservation))
 				room.setStatus(Constants.ROOM_STATUS_RESERVED);
-		else if(reservation.getStatus().equals(Constants.STATUS_CHECKED_IN))
-				room.setStatus(Constants.ROOM_STATUS_OCCUPIED);
-		else if(reservation.getStatus().equals(Constants.STATUS_CHECKED_OUT)) {
-				room.setStatus(Constants.ROOM_STATUS_VACANT);
-				check = removeReservation(reservation);
 		}
-		if(check)
+		if (check)
 			return RoomController.updateRoomList(room);
-		else 
+		else
 			return false;
 	}
 
@@ -111,8 +125,10 @@ public class ReservationController {
 	 * 
 	 * Removes the reservation object from the data file
 	 * 
-	 * @param reservation Reservation object to be removed
-	 * @return Returns true if reservation object is removed form data file, else returns false
+	 * @param reservation
+	 *            Reservation object to be removed
+	 * @return Returns true if reservation object is removed form data file, else
+	 *         returns false
 	 */
 	public static boolean removeReservation(Reservation reservation) {
 
@@ -131,9 +147,11 @@ public class ReservationController {
 
 	/**
 	 * 
-	 * Returns reservation object using the primary key of Reservation Entity, reservationCode
+	 * Returns reservation object using the primary key of Reservation Entity,
+	 * reservationCode
 	 * 
-	 * @param reservationCode The primary key of Reservation Entity
+	 * @param reservationCode
+	 *            The primary key of Reservation Entity
 	 * @return Returns the reservation object from reservationCode
 	 */
 	public static Reservation getReservationByCode(String reservationCode) {
@@ -165,14 +183,15 @@ public class ReservationController {
 	 * 
 	 * Returns list of reservation objects using roomNo
 	 * 
-	 * @param roomNo Room number to search reservations
+	 * @param roomNo
+	 *            Room number to search reservations
 	 * @return Returns a list of reservation objects from roomNo
 	 */
 	public static List<Reservation> getReservationByRoomNo(String roomNo) {
 
 		if (reservationList != null) {
 
-			List<Reservation> reservations = new ArrayList();
+			List<Reservation> reservations = new ArrayList<Reservation>();
 
 			for (int i = 0; i < reservationList.size(); i++) {
 				if (roomNo.equals((reservationList.get(i).getRoomNo())))
@@ -190,28 +209,23 @@ public class ReservationController {
 
 	/**
 	 * 
-	 * Returns reservation object using roomNo and status of the room which will only return one object if status is "Checked In"
+	 * Returns reservation object using roomNo and status of the room which will
+	 * only return one object if status is "Checked In"
 	 * 
-	 * @param roomNo Room number of reservation
-	 * @param status Status of reservation
+	 * @param roomNo
+	 *            Room number of reservation
+	 * @param status
+	 *            Status of reservation
 	 * @return Returns reservation object from roomNo and status
 	 */
 	public static Reservation getReservationByRoomNo(String roomNo, String status) {
 
-		int i = 0;
-
 		if (reservationList != null) {
-			for (i = 0; i < reservationList.size(); i++) {
+			for (int i = 0; i < reservationList.size(); i++) {
 				if (reservationList.get(i).getRoomNo().equals(roomNo)
 						&& reservationList.get(i).getStatus().equals(status))
-					break;
+					return reservationList.get(i);
 			}
-
-
-			if(reservationList.get(i)!=null)
-				return reservationList.get(i);
-			else
-				return null;
 		}
 
 		return null;
@@ -222,25 +236,20 @@ public class ReservationController {
 	 * 
 	 * Returns reservation object using guestPassport
 	 * 
-	 * @param guestPassport Guest passport 
+	 * @param guestPassport
+	 *            Guest passport
 	 * @return Returns reservation object from guestPassport
 	 */
 	public static Reservation getReservationByGuestPassport(String guestPassport) {
 
-		int i = 0;
-
 		if (reservationList != null) {
 
-			for (i = 0; i < reservationList.size(); i++) {
+			for (int i = 0; i < reservationList.size(); i++) {
 				if (reservationList.get(i).getGuestPassport().equalsIgnoreCase(guestPassport))
-					break;
+					return reservationList.get(i);
 			}
-
-			return reservationList.get(i);
 		}
-
-		else
-			return null;
+		return null;
 
 	}
 
