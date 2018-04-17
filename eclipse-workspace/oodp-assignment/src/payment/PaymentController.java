@@ -3,6 +3,7 @@ package payment;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import item.Item;
 import item.ItemController;
@@ -166,23 +167,22 @@ public class PaymentController {
 	 * This method calculate the days of stay (weekends) based on check in and check
 	 * out date
 	 * 
-	 * @param checkInDate Check-in date
-	 * @param checkOutDate Check-out date
+	 * @param checkInDate (Check-in date)
+	 * @param checkOutDate (Check-out date)
+	 * @param diff (difference between check in and check out dates)
 	 * @return number of weekends
 	 */
 	@SuppressWarnings("deprecation")
-	public static int computeNoOfWeekends(Date checkInDate, Date checkOutDate) {
-		int checkindate = checkInDate.getDate();
-		int checkoutdate = checkOutDate.getDate();
+	public static int computeNoOfWeekends(Date checkInDate, Date checkOutDate, long diff) {
+		Date startDate = checkInDate;
 		int weekend = 0;
 		
-		Date startDate = checkInDate;
-		for(int i=0; i<= checkoutdate-checkindate;i++)
+		for(int i=0; i<= diff;i++)
 		{
 			if(startDate.getDay() == 0 || startDate.getDay() == 6) {
 				weekend++;
-				startDate.setDate(startDate.getDate()+1);
-			}	
+			}
+			startDate.setDate(startDate.getDate()+1);
 		}
 		return weekend;
 	}
@@ -198,9 +198,10 @@ public class PaymentController {
 		// for breakdown of days
 		Date checkInDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckInDate(); 
 		Date checkOutDate = ReservationController.getReservationByCode(payment.getReservationCode()).getCheckOutDate();  
-		int weekends = computeNoOfWeekends(checkInDate, checkOutDate);
-		@SuppressWarnings("deprecation")
-		int weekdays = checkOutDate.getDate() - checkInDate.getDate() + 1 - weekends;
+		long diffInMillies = Math.abs(checkOutDate.getTime() - checkInDate.getTime());
+		long diff = TimeUnit.DAYS.convert(diffInMillies, TimeUnit.MILLISECONDS) + 1; // difference between 2 days inclusive of start date exclusive of end date
+		int weekends = computeNoOfWeekends(checkInDate, checkOutDate, diff);
+		int weekdays = (int)diff - weekends;
 		
 		// for print order items
 		String itemName;
