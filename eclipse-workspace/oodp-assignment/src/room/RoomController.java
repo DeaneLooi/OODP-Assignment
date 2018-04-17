@@ -215,7 +215,8 @@ public class RoomController {
 
 			return true;
 		} else {
-			//System.out.println("No data.");
+			System.out.println("No rooms in database");
+			System.out.println("<< Back");
 			return false;
 		}
 	}
