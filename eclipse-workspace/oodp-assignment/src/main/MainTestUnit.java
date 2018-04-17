@@ -8,6 +8,7 @@ import guest.Guest;
 import guest.GuestController;
 import room.Room;
 import room.RoomController;
+import utils.Constants;
 
 class MainTestUnit {
 
@@ -19,11 +20,12 @@ class MainTestUnit {
 		//MainController.checkRoomAvailability();
 		//MainController.printReportByRoomType();
 		//MainController.printReportByAvailability();
-/*		List<Room> room = RoomController.retrieveRoomList();
+		List<Room> room = RoomController.retrieveRoomList();
 		for(int i=0; i< room.size();i++) {
-			System.out.println(room.size());
-			System.out.println(room.get(i).toString());
-		}*/
+			Room r = room.get(i);
+			r.setStatus(Constants.ROOM_STATUS_VACANT);
+			RoomController.updateRoomList(r);
+		}
 		
 		
 	}
@@ -35,13 +37,9 @@ class MainTestUnit {
 		//MainController.createGuest();
 		//MainController.updateGuest();
 		//MainController.searchGuest();
-		Guest guest = new Guest();
-		List<Guest>guestList = GuestController.retrieveGuestList();
-		for(int i=0; i<guestList.size();i++) {
-			
-			System.out.println("Guest passport is <"+guestList.get(i).getPassport()+">");
-			System.out.println("Guest name is <"+guestList.get(i).getName()+">");
-		}
+		Guest guest = GuestController.getGuestByPassport("S91241872B");
+		GuestController.removeGuest(guest);
+
 	}
 	
 	@Test

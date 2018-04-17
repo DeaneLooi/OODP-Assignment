@@ -523,7 +523,7 @@ public class MainController {
 		System.out.print("Number of Adults: ");
 		while (!input.hasNextInt()) {
 			System.out.println("Please enter a number");
-			input.hasNext();
+			input.next();
 		}
 		noAdults = input.nextInt();
 		input.nextLine();
@@ -531,7 +531,7 @@ public class MainController {
 		System.out.print("Number of Children: ");
 		while (!input.hasNextInt()) {
 			System.out.println("Please enter a number");
-			input.hasNext();
+			input.next();
 		}
 		noChildren = input.nextInt();
 		input.nextLine();
@@ -546,9 +546,7 @@ public class MainController {
 				reservation.setStatus(Constants.STATUS_CONFIRMED);
 			}
 
-			else if (room.getStatus().equals(Constants.ROOM_STATUS_OCCUPIED)
-					|| room.getStatus().equals(Constants.ROOM_STATUS_UNDER_MAINTAINENCE)
-					|| room.getStatus().equals(Constants.ROOM_STATUS_RESERVED))
+			else
 				reservation.setStatus(Constants.STATUS_WAITLIST);
 
 			System.out.println("<< Reservation Details:\n" + reservation.toString());
@@ -924,7 +922,7 @@ public class MainController {
 					System.out.println("Please enter a number from 1 to 4");
 				}
 
-			} while (option < 1 || option > 5);
+			} while (option < 1 || option > 4);
 
 			do {
 				System.out.println("Choose bed type: ");
@@ -958,7 +956,7 @@ public class MainController {
 
 				}
 
-			} while (option < 1 || option > 5);
+			} while (option < 1 || option > 4);
 
 			do {
 				System.out.println("WI-FI: ");
@@ -984,7 +982,7 @@ public class MainController {
 
 				}
 
-			} while (option < 1 || option > 3);
+			} while (option < 1 || option > 2);
 
 			do {
 				System.out.println("Choose view: ");
@@ -1010,7 +1008,7 @@ public class MainController {
 
 				}
 
-			} while (option < 1 || option > 3);
+			} while (option < 1 || option > 2);
 
 			do {
 				System.out.println("Smoking: ");
@@ -1815,7 +1813,7 @@ public class MainController {
 			System.out.print("Option: ");
 			while (!input.hasNextInt()) {
 				System.out.println("Please enter a number!");
-				input.nextInt();
+				input.next();
 			}
 			option = input.nextInt();
 			input.nextLine();

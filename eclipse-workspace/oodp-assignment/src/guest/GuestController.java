@@ -132,7 +132,7 @@ public class GuestController {
 		if(guestList != null) {
 			List<Guest> guestList2 = new ArrayList<Guest>();
 			for(i = 0; i < guestList.size(); i++) {
-				if(((String)(guestList.get(i).getName())).indexOf(keyword) != -1) {	
+				if(((String)(guestList.get(i).getName().toLowerCase())).indexOf(keyword.toLowerCase()) != -1) {	
 					guestList2.add(guestList.get(i));
 				}
 			}

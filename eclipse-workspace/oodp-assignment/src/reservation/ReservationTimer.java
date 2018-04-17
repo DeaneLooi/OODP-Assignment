@@ -54,6 +54,8 @@ public class ReservationTimer extends TimerTask {
 	public void run() {
 		// TODO Auto-generated method stub
 		reservations = ReservationController.retrieveReservationList();
+		if(reservations==null)
+			return;
 		this.currentDate = new Date();
 
 		for (int i = 0; i < reservations.size(); i++) {

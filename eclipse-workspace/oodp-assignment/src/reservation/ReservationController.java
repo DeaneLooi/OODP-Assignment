@@ -109,11 +109,11 @@ public class ReservationController {
 		} else if (reservation.getStatus().equals(Constants.STATUS_EXPIRED))
 			room.setStatus(Constants.ROOM_STATUS_VACANT);
 		else if (reservation.getStatus().equals(Constants.STATUS_WAITLIST)) {
-			if (room.getStatus().equals(Constants.ROOM_STATUS_VACANT))
-				;
-			reservation.setStatus(Constants.STATUS_CONFIRMED);
-			if (updateReservationList(reservation))
-				room.setStatus(Constants.ROOM_STATUS_RESERVED);
+			if (room.getStatus().equals(Constants.ROOM_STATUS_VACANT)) {
+				reservation.setStatus(Constants.STATUS_CONFIRMED);
+				if (updateReservationList(reservation))
+					room.setStatus(Constants.ROOM_STATUS_RESERVED);
+			}
 		}
 		if (check)
 			return RoomController.updateRoomList(room);
