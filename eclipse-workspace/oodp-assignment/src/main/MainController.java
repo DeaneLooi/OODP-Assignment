@@ -457,8 +457,15 @@ public class MainController {
 			}
 
 		} while (guest == null);
+		
+		reservation = ReservationController.getReservationByGuestPassport(guestPassport);
 
-		printReportByAvailability();
+		if(reservation!=null) {
+			System.out.println("Guest already has existing reservation");
+			System.out.println("<< Back");
+			return;
+		}
+		printReportByRoomType();
 
 		System.out.print("Room Number: ");
 		while (!input.hasNext()) {
@@ -470,6 +477,7 @@ public class MainController {
 
 		if (RoomController.getRoom(roomNo) == null) {
 			System.out.println("Room does not exist.");
+			System.out.println("<< Back");
 			return;
 		}
 
@@ -1706,6 +1714,20 @@ public class MainController {
 							}
 							roomNo = input.next();
 							input.nextLine();
+							if(RoomController.getRoom(roomNo)!=null) {
+								if(!RoomController.getRoom(roomNo).getStatus().equals(Constants.ROOM_STATUS_VACANT)) {
+									System.out.println("Room is not vacant");
+									System.out.println("<< Back");
+									return;
+								}
+							}
+							else
+							{
+								System.out.println("Room does not exist");;
+								System.out.println("<< Back");
+								return;
+							}
+							
 							reservation.setRoomNo(roomNo);
 							reservation.setStatus(Constants.STATUS_CHECKED_IN);
 							if (ReservationController.updateReservationList(reservation))
